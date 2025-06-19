@@ -77,7 +77,7 @@ const HeaderS2 = (props) => {
                                                                 </div>
                                                                 <div className="homemenu-content text-center">
                                                                     <h4 className="homemenu-title">
-                                                                        Home 01
+                                                                        Inicio 01
                                                                     </h4>
                                                                 </div>
                                                             </div>

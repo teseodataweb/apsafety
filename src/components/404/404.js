@@ -12,8 +12,8 @@ const Error = (props) => {
             <div className="container">
                 <div className="error-content text-center">
                     <h2 className="wow fadeInUp" data-wow-delay=".3s">404</h2>
-                    <h3 className="wow fadeInUp split-text right" data-wow-delay=".5s">We’re Sorry Page Not Found</h3>
-                    <Link onClick={ClickHandler} to="/home" className="theme-btn"> Back to home</Link>
+                    <h3 className="wow fadeInUp split-text right" data-wow-delay=".5s">Lo sentimos, Página no encontrada</h3>
+                    <Link onClick={ClickHandler} to="/home" className="theme-btn"> Volver a Inicio</Link>
                 </div>
             </div>
         </section>

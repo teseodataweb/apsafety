@@ -32,7 +32,7 @@ const WorksSection = (props) => {
                         <div className="col-lg-6">
                             <div className="about-feature-content">
                                 <div className="section-title">
-                                    <h6 className="wow fadeInUp">More about us</h6>
+                                    <h6 className="wow fadeInUp">Más sobre Nosotros</h6>
                                     <h2 className="wow fadeInUp" data-wow-delay=".3s">
                                         How Print-On-Demand
                                         <span><img src={Ws5} alt="img" />Drop Shipping</span> Works

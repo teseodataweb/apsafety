@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom'
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import HeaderTopbar from '../HeaderTopbar/HeaderTopbar';
-import Logo from '../../img/logo/black-logo.svg';
+import Logo from '../../img/apsafetylogo.png';
 import Home1 from '../../img/header/home-1.jpg';
 import Home2 from '../../img/header/home-2.jpg';
 import Home3 from '../../img/header/home-3.jpg';
 import SearchComponent from './search';
 import MobileMenu from '../MobileMenu/MobileMenu';
+
 
 
 const Header = (props) => {
@@ -53,7 +54,7 @@ const Header = (props) => {
                             <div className="header-left">
                                 <div className="logo">
                                     <Link onClick={ClickHandler} to="/" className="header-logo">
-                                        <img src={Logo} alt="logo-img" />
+                                        <img src={Logo} alt="logo-img" width={70} />
                                     </Link>
                                 </div>
                             </div>
@@ -63,7 +64,7 @@ const Header = (props) => {
                                         <ul>
                                             <li className="has-dropdown active menu-thumb">
                                                 <Link onClick={ClickHandler} to="/home">
-                                                    Home
+                                                    Inicio
                                                 </Link>
                                                 <ul className="submenu has-homemenu">
                                                     <li>
@@ -79,7 +80,7 @@ const Header = (props) => {
                                                                 </div>
                                                                 <div className="homemenu-content text-center">
                                                                     <h4 className="homemenu-title">
-                                                                        Home 01
+                                                                        Inicio 01
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -113,18 +114,19 @@ const Header = (props) => {
                                                                     </h4>
                                                                 </div>
                                                             </div>
+                                                            
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li className="has-dropdown active d-xl-none">
                                                 <Link onClick={ClickHandler} to="/team" className="border-none">
-                                                    Home
+                                                    Inicio
                                                 </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/home">Home 01</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/home-2">Home 02</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/home-3">Home 03</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home">Inicio</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home-2">Inicio 2</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home-3">Inicio 3</Link></li>
                                                 </ul>
                                             </li>
                                             <li>
@@ -169,6 +171,16 @@ const Header = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog Details</Link></li>
                                                 </ul>
                                             </li>
+
+
+ <li>
+                                         <li>
+                                                <Link onClick={ClickHandler} to="/Login">Acceder</Link>
+                                            </li>
+                                            </li>
+
+
+
                                             <li>
                                                 <Link onClick={ClickHandler} to="/contact">Contact Us</Link>
                                             </li>
