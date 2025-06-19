@@ -73,7 +73,7 @@ para Entornos Exigentes
                             {/* Aquí se ha reemplazado la imagen por el video y se ha agregado autoplay */}
                             <div className="wow fadeInUp" data-wow-delay=".6s">
                                 <iframe 
-                                  width="980" 
+                                  width="880" 
                                     height="600"
                                     src="https://www.youtube.com/embed/ZJos8SKiWTs?autoplay=1&si=Auuv4J64wUURTSvT" 
                                     title="YouTube video player" 
