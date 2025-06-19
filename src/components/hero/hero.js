@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Bg from '../../img/hero/hero-bg.jpg'
-import Shape1 from '../../img/hero/circle-2.png'
-import Shape2 from '../../img/hero/vector.png'
-import Shape3 from '../../img/hero/circle.png'
-import Shape4 from '../../img/hero/arrow-up.png'
-import Shape5 from '../../img/Scroll_Down.png'
-import Shape6 from '../../img/hero/bar.png'
-import hero2 from '../../img/hero/information.png'
+// import Bg from '../../img/hero/hero-bg.jpg'
+// import Shape1 from '../../img/hero/circle-2.png'
+// import Shape2 from '../../img/hero/vector.png'
+// import Shape3 from '../../img/hero/circle.png'
+// import Shape4 from '../../img/hero/arrow-up.png'
+// import Shape5 from '../../img/Scroll_Down.png'
+// import Shape6 from '../../img/hero/bar.png'
+// import hero2 from '../../img/hero/information.png'
 
 const hero = () => {
     const ClickHandler = () => {
@@ -16,9 +16,9 @@ const hero = () => {
 
     return (
         <section className="hero-section hero-1 fix bg-cover" 
-        // style={{ backgroundImage: `url(${Bg})` }} 
+         style={{ backgroundColor: "#fff" }} 
         >
-            <div className="circle-shape">
+            {/* <div className="circle-shape">
                 <img src={Shape1} alt="img" />
             </div>
             <div className="vector-shape float-bob-x">
@@ -32,7 +32,7 @@ const hero = () => {
             </div>
             <div id="scrollDown" className="scroll-down">
                 <img src={Shape5} alt="img" />
-            </div>
+            </div> */}
             <div className="container">
                 <div className="row g-4 align-items-center">
                     <div className="col-lg-6">
@@ -44,7 +44,8 @@ AP Safety
    {/* <span>Art & Sticker <img src={Shape6} alt="img" /></span>.. */}
                             </h1>
                             <p className="wow fadeInUp" data-wow-delay=".5s">
-                                Beautiful, customizable template, with a ton of web blocks <br />
+                                Beautiful, customizable template, with a <br/>
+                                ton of web blocks <br />
                                 to create an amazing website that looks
                             </p>
                             <ul className="list wow fadeInUp" data-wow-delay=".7s">
@@ -75,9 +76,9 @@ AP Safety
                                     allowFullScreen>
                                 </iframe>
                             </div>
-                            <div className="information-shape float-bob-x">
+                            {/* <div className="information-shape float-bob-x">
                                 <img src={hero2} alt="img" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

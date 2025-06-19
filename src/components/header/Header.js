@@ -46,7 +46,7 @@ const Header = (props) => {
 
     return (
         <header className={props.hclass}>
-            <HeaderTopbar />
+            {/* <HeaderTopbar /> */}
             <div id="header-sticky" className={isSticky ? 'sticky' : 'header-1'}>
                 <div className="container-fluid">
                     <div className="mega-menu-wrapper">
@@ -170,7 +170,7 @@ const Header = (props) => {
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
-                                                    Blog
+                                                    Contenido
                                                 </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/news">Blog</Link></li>
@@ -188,7 +188,7 @@ const Header = (props) => {
 
 
                                             <li>
-                                                <Link onClick={ClickHandler} to="/contact">Contacto</Link>
+                                                <Link onClick={ClickHandler} to="/contact">Atención al cliente</Link>
                                             </li>
                                         </ul>
                                     </nav>

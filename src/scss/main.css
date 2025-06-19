@@ -14,7 +14,7 @@ Version: 1.0.0
   --black: #000;
   --white: #fff;
   --theme: #008A1F;
-  --theme2: #735CFC;
+  --theme2: #02cb13;
   --header: #0D1224;
   --text: #6E707A;
   --border: #D4DCFF;
@@ -350,7 +350,7 @@ span {
   background-color: #F6D17C;
 }
 .about-wrapper .about-content .icon-box-items .icon-items h6 {
-  font-family: "Satoshi", sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 .about-wrapper .about-content .icon-box-items span {
   font-weight: 400;
