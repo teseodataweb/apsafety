@@ -54,7 +54,7 @@ const Header = (props) => {
                             <div className="header-left">
                                 <div className="logo">
                                     <Link onClick={ClickHandler} to="/" className="header-logo">
-                                        <img src={Logo} alt="logo-img" width={70} />
+                                        <img src={Logo} alt="logo-img" width={80} />
                                     </Link>
                                 </div>
                             </div>
@@ -130,7 +130,13 @@ const Header = (props) => {
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/about">About Us</Link>
+                                                <Link onClick={ClickHandler} to="/about">Nosotros</Link>
+                                                                                                <ul className="submenu">
+                                                    <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Distribuidores</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
+
+                                                </ul>
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
@@ -153,13 +159,13 @@ const Header = (props) => {
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
-                                                    Shop
+                                                    Productos
                                                 </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/shop">Shop Page</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Shop Details</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/shop-cart">Shop Cart</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/checkout">Checkout</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/shop">Productos</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
+                                                    {/* <li><Link onClick={ClickHandler} to="/shop-cart">Shop Cart</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/checkout">Checkout</Link></li> */}
                                                 </ul>
                                             </li>
                                             <li>
@@ -182,7 +188,7 @@ const Header = (props) => {
 
 
                                             <li>
-                                                <Link onClick={ClickHandler} to="/contact">Contact Us</Link>
+                                                <Link onClick={ClickHandler} to="/contact">Contacto</Link>
                                             </li>
                                         </ul>
                                     </nav>
