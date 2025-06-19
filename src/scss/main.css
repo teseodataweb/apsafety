@@ -31,6 +31,7 @@ Version: 1.0.0
   vertical-align: middle;
   display: inline-block;
   border: none;
+  
   text-transform: capitalize;
   text-align: center;
   background-color: var(--black);
@@ -1114,7 +1115,8 @@ span {
 }
 .contact-area .contact-form-items .form-clt .icon {
   position: absolute;
-  top: 18px;
+  top: 20px;
+    padding: 0px 10px;
   left: 0;
 }
 @media (max-width: 575px) {
@@ -1129,7 +1131,8 @@ span {
   width: 100%;
   outline: none;
   border: none;
-  padding: 20px 30px;
+  
+  padding: 20px 40px;
   color: var(--text);
   background-color: transparent;
   text-transform: capitalize;
@@ -1154,10 +1157,13 @@ span {
 }
 .contact-area .contact-form-items .theme-btn {
   border-radius: 0;
-  background-color: #600EE4;
+  margin: 0 auto;
+  background-color: #008A1F;
 }
 .contact-area .contact-form-items .theme-btn i {
   margin-left: 0;
+  margin: 0 auto;
+
   margin-right: 10px;
 }
 .contact-area .contact-form-items .theme-btn::before {

@@ -4,9 +4,9 @@ import Services from "../../api/Services";
 
 import Bgimg from '../../img/footer/footer-bg-2.jpg'
 import Shape1 from '../../img/footer/line-shape.png'
-import Shape2 from '../../img/footer/star.png'
-import Shape3 from '../../img/mail.png'
-import Logo from '../../img/logo/white-logo.svg'
+// import Shape2 from '../../img/footer/star.png'
+// import Shape3 from '../../img/mail.png'
+import Logo from '../../img/apsafetylogo.png'
 
 
 const ClickHandler = () => {
@@ -15,15 +15,21 @@ const ClickHandler = () => {
 
 const FooterS3 = () => {
     return (
-        <footer className="footer-section style-2 bg-cover" style={{ backgroundImage: `url(${Bgimg})` }}>
+        <footer className="footer-section style-2 bg-cover" 
+        // style={{ backgroundImage: `url(${Bgimg})` }}
+
+
+        style={{ backgroundColor: "#00300a" }}
+
+        >
             <div className="line-shape float-bob-y">
                 <img src={Shape1} alt="img" />
             </div>
-            <div className="star-shape float-bob-y">
+            {/* <div className="star-shape float-bob-y">
                 <img src={Shape2} alt="img" />
-            </div>
+            </div> */}
             <div className="container">
-                <div className="footer-newsletter-wrapper style-2">
+                {/* <div className="footer-newsletter-wrapper style-2">
                     <div className="newsletter-items wow fadeInUp" data-wow-delay=".3s">
                         <div className="icon">
                             <img src={Shape3} alt="img" />
@@ -39,14 +45,14 @@ const FooterS3 = () => {
                             <i className="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
-                </div>
+                </div> */}
                 <div className="footer-widgets-wrapper style-2">
                     <div className="row">
                         <div className="col-xl-3 col-sm-6 col-md-6 col-lg-4 wow fadeInUp" data-wow-delay=".2s">
                             <div className="single-footer-widget">
                                 <div className="widget-head">
                                     <Link onClick={ClickHandler} to="/home">
-                                        <img src={Logo} alt="logo-img" />
+                                        <img src={Logo} alt="logo-img" width={80} />
                                     </Link>
                                 </div>
                                 <div className="footer-content">
