@@ -7,10 +7,7 @@ import Shape3 from '../../img/hero/circle.png'
 import Shape4 from '../../img/hero/arrow-up.png'
 import Shape5 from '../../img/Scroll_Down.png'
 import Shape6 from '../../img/hero/bar.png'
-import hero1 from '../../img/hero/hero-1.png'
 import hero2 from '../../img/hero/information.png'
-
-
 
 const hero = () => {
     const ClickHandler = () => {
@@ -18,7 +15,9 @@ const hero = () => {
     }
 
     return (
-        <section className="hero-section hero-1 fix bg-cover" style={{ backgroundImage: `url(${Bg})` }} >
+        <section className="hero-section hero-1 fix bg-cover" 
+        // style={{ backgroundImage: `url(${Bg})` }} 
+        >
             <div className="circle-shape">
                 <img src={Shape1} alt="img" />
             </div>
@@ -40,8 +39,9 @@ const hero = () => {
                         <div className="hero-content">
                             <h6 className="wow fadeInUp">Digital printing Service</h6>
                             <h1 className="wow fadeInUp" data-wow-delay=".3s">
-                                Produce Printing,
-                                <span>Art & Sticker <img src={Shape6} alt="img" /></span>..
+AP Safety                             
+
+   {/* <span>Art & Sticker <img src={Shape6} alt="img" /></span>.. */}
                             </h1>
                             <p className="wow fadeInUp" data-wow-delay=".5s">
                                 Beautiful, customizable template, with a ton of web blocks <br />
@@ -62,7 +62,19 @@ const hero = () => {
                     </div>
                     <div className="col-lg-6 wow fadeInUp" data-wow-delay=".4s">
                         <div className="hero-thumb">
-                            <img src={hero1} alt="hero-img" />
+                            {/* Aquí se ha reemplazado la imagen por el video y se ha agregado autoplay */}
+                            <div className="wow fadeInUp" data-wow-delay=".6s">
+                                <iframe 
+                                  width="980" 
+                                    height="600"
+                                    src="https://www.youtube.com/embed/ZJos8SKiWTs?autoplay=1&si=Auuv4J64wUURTSvT" 
+                                    title="YouTube video player" 
+                                    frameBorder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerPolicy="strict-origin-when-cross-origin" 
+                                    allowFullScreen>
+                                </iframe>
+                            </div>
                             <div className="information-shape float-bob-x">
                                 <img src={hero2} alt="img" />
                             </div>

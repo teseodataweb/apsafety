@@ -114,7 +114,7 @@ const Header = (props) => {
                                                                     </h4>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -138,7 +138,7 @@ const Header = (props) => {
 
                                                 </ul>
                                             </li>
-                                            <li>
+                                            {/* <li>
                                                 <Link onClick={ClickHandler} to="#">
                                                     Services
                                                 </Link>
@@ -156,7 +156,7 @@ const Header = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/project-details/3d-Genareted-Cate">Project Details</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/404">404 Page</Link></li>
                                                 </ul>
-                                            </li>
+                                            </li> */}
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
                                                     Productos
@@ -179,11 +179,11 @@ const Header = (props) => {
                                             </li>
 
 
- <li>
-                                         <li>
+ {/* <li>
+                                          <li>
                                                 <Link onClick={ClickHandler} to="/Login">Acceder</Link>
-                                            </li>
-                                            </li>
+                                            </li> 
+                                            </li> */}
 
 
 
