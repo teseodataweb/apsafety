@@ -37,9 +37,11 @@ const hero = () => {
                 <div className="row g-4 align-items-center">
                     <div className="col-lg-6">
                         <div className="hero-content">
-                            <h6 className="wow fadeInUp">Digital printing Service</h6>
+                            <h6 className="wow fadeInUp">AP Safety</h6>
                             <h1 className="wow fadeInUp" data-wow-delay=".3s">
-AP Safety                             
+Equipos de Protección <br />
+Certificados <br />
+para Entornos Exigentes                            
 
    {/* <span>Art & Sticker <img src={Shape6} alt="img" /></span>.. */}
                             </h1>
