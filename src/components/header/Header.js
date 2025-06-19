@@ -173,8 +173,10 @@ const Header = (props) => {
                                                     Contenido
                                                 </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/news">Blog</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog Details</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/news">Videos</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Noticias</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog AP</Link></li>
+
                                                 </ul>
                                             </li>
 
@@ -189,6 +191,13 @@ const Header = (props) => {
 
                                             <li>
                                                 <Link onClick={ClickHandler} to="/contact">Atención al cliente</Link>
+                                                <ul className='submenu' >
+                                                    <li><Link onClick={ClickHandler} to="#">Contacto</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="#">Asesoría Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="#">Quejas</Link></li>
+                                                    </ul>
+
+
                                             </li>
                                         </ul>
                                     </nav>
