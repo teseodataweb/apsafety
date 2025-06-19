@@ -46,9 +46,14 @@ para Entornos Exigentes
    {/* <span>Art & Sticker <img src={Shape6} alt="img" /></span>.. */}
                             </h1>
                             <p className="wow fadeInUp" data-wow-delay=".5s">
-                                Beautiful, customizable template, with a <br/>
-                                ton of web blocks <br />
-                                to create an amazing website that looks
+                               Desde respiradores N95 <br />
+
+                               hasta cascos personalizados: <br />
+
+                               soluciones industriales <br />
+
+                                con entregas rápidas a toda la República. <br/>
+                            
                             </p>
                             <ul className="list wow fadeInUp" data-wow-delay=".7s">
                                 <li>
