@@ -93,7 +93,7 @@ const Loginpage = () => {
 
 
 
-                                        <h3 className="wow fadeInUp" data-wow-delay=".3s">Iniciar Sesión</h3>
+                                        <h3 className="wow fadeInUp"    data-wow-delay=".3s">Iniciar Sesión</h3>
                                         {/* <p className="wow fadeInUp" data-wow-delay=".5s">Your email address will not be published. Required fields are marked *</p> */}
                                     </div>
                                     
