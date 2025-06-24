@@ -1,7 +1,8 @@
+// login.js
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import auth from './firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import auth  from './firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth'; 
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -33,15 +34,21 @@ const Login = () => {
         setErrorMsg('');
         if (simpleValidator.current.allValid()) {
             try {
-                await signInWithEmailAndPassword(auth, formData.email, formData.password);
-               console.log('Signed in successfully');
+                // Aquí pasamos correctamente la instancia 'auth'
+                const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+                console.log('Conexión a Firebase Authentication exitosa');
+                console.log('Usuario autenticado:', userCredential.user);
                 alert('¡Inicio de sesión exitoso!');
             } catch (error) {
-
+                console.error('Error de autenticación:', error);
                 let msg = 'Error al iniciar sesión.';
 
+                // Manejo de errores según el código de error
                 if (error.code === 'auth/wrong-password') msg = 'Contraseña incorrecta.';
-                else if (error.code === 'auth/invalid-email') msg = 'Correo inválido.';
+                else if (error.code === 'auth/invalid-email') msg = 'Correo electrónico inválido.';
+                else if (error.code === 'auth/user-not-found') msg = 'No se encontró el usuario.';
+                else if (error.code === 'auth/too-many-requests') msg = 'Demasiadas solicitudes. Intenta más tarde.';
+                else if (error.code === 'auth/operation-not-allowed') msg = 'El inicio de sesión con correo electrónico y contraseña no está habilitado.';
                 setErrorMsg(msg);
             }
         } else {
@@ -120,4 +127,5 @@ const Login = () => {
         </form>
     );
 };
+
 export default Login;
