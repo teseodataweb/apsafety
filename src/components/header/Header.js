@@ -8,6 +8,7 @@ import Home1 from '../../img/header/home-1.jpg';
 import Home2 from '../../img/header/home-2.jpg';
 import Home3 from '../../img/header/home-3.jpg';
 import SearchComponent from './search';
+
 import MobileMenu from '../MobileMenu/MobileMenu';
 
 
@@ -186,19 +187,15 @@ const Header = (props) => {
                                                 <Link onClick={ClickHandler} to="/Login">Acceder</Link>
                                             </li> 
                                             </li> */}
-
-
-
-                                            <li>
-                                                <Link onClick={ClickHandler} to="/contact">Atención al cliente</Link>
-                                                <ul className='submenu' >
-                                                    <li><Link onClick={ClickHandler} to="#">Contacto</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="#">Asesoría Técnica</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="#">Quejas</Link></li>
+                                            <li className="has-dropdown">
+                                                <Link onClick={ClickHandler} to="#">Atención al cliente</Link>
+                                                <ul className="submenu">
+                                                    <li><Link onClick={ClickHandler} to="/contacto">Contacto</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                     </ul>
+                                                    </li>
 
-
-                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
