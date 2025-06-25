@@ -1,10 +1,15 @@
 // login.js
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import auth  from './firebase';
+import { useNavigate } from 'react-router-dom';
+
+// login.js
+import auth from './firebase'; // ✅ ya no necesitas las llaves
 import { signInWithEmailAndPassword } from 'firebase/auth'; 
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -34,28 +39,33 @@ const Login = () => {
         setErrorMsg('');
         if (simpleValidator.current.allValid()) {
             try {
-                // Aquí pasamos correctamente la instancia 'auth'
-                const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+                const sanitizedEmail = formData.email.trim().toLowerCase();
+                const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, formData.password);
                 console.log('Conexión a Firebase Authentication exitosa');
                 console.log('Usuario autenticado:', userCredential.user);
                 alert('¡Inicio de sesión exitoso!');
+                console.log("Navegando a home...");
+navigate('/');
             } catch (error) {
                 console.error('Error de autenticación:', error);
                 let msg = 'Error al iniciar sesión.';
-
-                // Manejo de errores según el código de error
                 if (error.code === 'auth/wrong-password') msg = 'Contraseña incorrecta.';
                 else if (error.code === 'auth/invalid-email') msg = 'Correo electrónico inválido.';
                 else if (error.code === 'auth/user-not-found') msg = 'No se encontró el usuario.';
                 else if (error.code === 'auth/too-many-requests') msg = 'Demasiadas solicitudes. Intenta más tarde.';
                 else if (error.code === 'auth/operation-not-allowed') msg = 'El inicio de sesión con correo electrónico y contraseña no está habilitado.';
+                
                 setErrorMsg(msg);
+    
+                // 🧼 Restaurar campos para mostrar placeholders
+                setFormData({ email: '', password: '' });
             }
         } else {
             simpleValidator.current.showMessages();
             setFormData({ ...formData });
         }
     };
+    
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -64,14 +74,19 @@ const Login = () => {
             <div className="row g-4">
                 <div className="col-lg-12">
                     <div className="form-clt">
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Correo electrónico*"
-                            value={formData.email}
-                            onChange={handleChange}
-                        />
+                    <input
+  type="email"
+  name="email"
+  id="email"
+  placeholder="Correo electrónico*"
+  value={formData.email}
+  onChange={handleChange}
+  autoComplete="email"
+  autoCapitalize="none"
+  spellCheck="false"
+  style={{ textTransform: 'lowercase' }} // solo visual, no funcional
+/>
+
                         <div className="icon">
                             <i className="fal fa-user"></i>
                         </div>

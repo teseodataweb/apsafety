@@ -1,8 +1,7 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";  // Importamos solo lo necesario
+import { getAuth } from "firebase/auth";
 
-// Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDlZQ3tAGMfO3iq_O5Lvw6DPvUxfhdpQ5M",
   authDomain: "apsafety-3eb5b.firebaseapp.com",
@@ -13,11 +12,7 @@ const firebaseConfig = {
   measurementId: "G-XT6QRQ0QVN"
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
-
-// Obtener instancia de Auth para manejar la autenticación
 const auth = getAuth(app);
 
-// Exportar la instancia de auth
-export { auth };
+export default auth; // ✅ esto permite que importes como default
