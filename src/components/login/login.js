@@ -1,11 +1,10 @@
-// login.js
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
-
-// login.js
-import auth from './firebase'; // ✅ ya no necesitas las llaves
-import { signInWithEmailAndPassword } from 'firebase/auth'; 
+import auth from './firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { db } from './firebase'; // Importamos db con llaves
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -40,12 +39,31 @@ const Login = () => {
         if (simpleValidator.current.allValid()) {
             try {
                 const sanitizedEmail = formData.email.trim().toLowerCase();
+                // 1. Autenticación con Firebase Auth
                 const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, formData.password);
-                console.log('Conexión a Firebase Authentication exitosa');
-                console.log('Usuario autenticado:', userCredential.user);
-                alert('¡Inicio de sesión exitoso!');
-                console.log("Navegando a home...");
-navigate('../Admin');
+                
+                // 2. Consulta a Firestore para obtener userType
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("email", "==", sanitizedEmail));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    throw new Error('Usuario no encontrado en la base de datos');
+                }
+                
+                // Obtener el tipo de usuario del primer documento coincidente
+                const userDoc = querySnapshot.docs[0];
+                const userType = userDoc.data().userType;
+                
+                // 3. Redirección según userType
+                if (userType === 'admin') {
+                    navigate('../admin');
+                } else if (userType === 'secundario') {
+                    navigate('../AggUsser');
+                } else {
+                    throw new Error('Tipo de usuario no válido');
+                }
+                
             } catch (error) {
                 console.error('Error de autenticación:', error);
                 let msg = 'Error al iniciar sesión.';
@@ -53,11 +71,11 @@ navigate('../Admin');
                 else if (error.code === 'auth/invalid-email') msg = 'Correo electrónico inválido.';
                 else if (error.code === 'auth/user-not-found') msg = 'No se encontró el usuario.';
                 else if (error.code === 'auth/too-many-requests') msg = 'Demasiadas solicitudes. Intenta más tarde.';
-                else if (error.code === 'auth/operation-not-allowed') msg = 'El inicio de sesión con correo electrónico y contraseña no está habilitado.';
+                else if (error.code === 'auth/operation-not-allowed') msg = 'El inicio de sesión no está habilitado.';
+                else if (error.message === 'Usuario no encontrado en la base de datos') msg = 'Usuario no registrado en el sistema.';
+                else if (error.message === 'Tipo de usuario no válido') msg = 'El tipo de usuario no es válido.';
                 
                 setErrorMsg(msg);
-    
-                // 🧼 Restaurar campos para mostrar placeholders
                 setFormData({ email: '', password: '' });
             }
         } else {
@@ -65,7 +83,6 @@ navigate('../Admin');
             setFormData({ ...formData });
         }
     };
-    
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -74,19 +91,18 @@ navigate('../Admin');
             <div className="row g-4">
                 <div className="col-lg-12">
                     <div className="form-clt">
-                    <input
-  type="email"
-  name="email"
-  id="email"
-  placeholder="Correo electrónico*"
-  value={formData.email}
-  onChange={handleChange}
-  autoComplete="email"
-  autoCapitalize="none"
-  spellCheck="false"
-  style={{ textTransform: 'lowercase' }} // solo visual, no funcional
-/>
-
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Correo electrónico*"
+                            value={formData.email}
+                            onChange={handleChange}
+                            autoComplete="email"
+                            autoCapitalize="none"
+                            spellCheck="false"
+                            style={{ textTransform: 'lowercase' }}
+                        />
                         <div className="icon">
                             <i className="fal fa-user"></i>
                         </div>

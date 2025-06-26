@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore'; 
+import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import auth from '../../components/login/firebase';
-import { db } from '../../components/login/firebase';
+import { db } from '../../components/login/firebase'; // Importamos db con llaves
 
 const AggUssers = () => {
     const [formData, setFormData] = useState({
@@ -50,23 +50,23 @@ const AggUssers = () => {
         e.preventDefault();
         if (validator.allValid()) {
             try {
-                // 1. Crear usuario en Firebase Authentication
+                // 1. Crear usuario en Authentication
                 const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-                const user = userCredential.user;
-
-                // 2. Guardar datos adicionales en Firestore
+                
+                // 2. Guardar datos en Firestore
                 const nextAdminId = await getNextAdminId();
-                const userDocRef = doc(db, "users", nextAdminId); // Referencia al nuevo documento "adminN"
+                const userDocRef = doc(db, "users", nextAdminId);
 
                 await setDoc(userDocRef, {
                     name: formData.name,
                     userType: formData.userType,
-                    email: formData.email, // Opcional: también puedes guardar el email aquí si lo necesitas
+                    email: formData.email,
                 });
 
-                alert('Usuario creado y datos guardados exitosamente.');
+                alert('Usuario creado exitosamente.');
                 navigate('/admin');
 
+                // Resetear formulario
                 setFormData({
                     name: '',
                     userType: '',
@@ -78,7 +78,7 @@ const AggUssers = () => {
 
             } catch (error) {
                 console.error("Error al crear el usuario:", error);
-                alert(`Error al crear el usuario: ${error.message}`);
+                alert(`Error: ${error.message}`);
             }
         } else {
             validator.showMessages();
@@ -118,7 +118,7 @@ const AggUssers = () => {
                         >
                             <option value="">Seleccionar tipo de usuario</option>
                             <option value="admin">Administrador Principal</option>
-                            <option value="secondary">Administrador Secundario</option>
+                            <option value="secundario">Administrador Secundario</option>
                         </select>
                         {validator.message('userType', formData.userType, 'required')}
                     </div>
@@ -157,7 +157,7 @@ const AggUssers = () => {
                         <button type="submit" className="theme-btn">
                             Agregar usuario
                         </button>
-                        <button type="button" className="theme-btn" onClick={handleCancel}>
+ <button type="button" className="theme-btn" onClick={handleCancel}>
                             Cancelar
                         </button>
                     </div>
