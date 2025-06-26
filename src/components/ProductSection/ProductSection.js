@@ -1,21 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import ProdactShape from '../../img/product/shape-1.png'
+import React from 'react';
+import ProdactShape from '../../img/product/shape-1.png';
 import { Link } from 'react-router-dom';
 
-const ProductSection = ({ products, addToCartProduct }) => {
-
-    const ClickHandler = () => {
-        window.scrollTo(10, 0);
+const categorias = [
+    {
+        icono: '🦺',
+        titulo: 'Cascos de seguridad certificados',
+        descripcion: 'Protección craneal con certificaciones NOM y ANSI Z89.',
+    },
+    {
+        icono: '😷',
+        titulo: 'Mascarillas N95 y respiradores reutilizables',
+        descripcion: 'Filtración avanzada para ambientes industriales y sanitarios.',
+    },
+    {
+        icono: '👂',
+        titulo: 'Tapones auditivos y barriquejos',
+        descripcion: 'Reducción de ruido extremo en entornos de alto riesgo.',
+    },
+    {
+        icono: '🧤',
+        titulo: 'Guantes anticorte, aluminizados y dieléctricos',
+        descripcion: 'Protección para manos en trabajos eléctricos, térmicos o mecánicos.',
+    },
+    {
+        icono: '👁️',
+        titulo: 'Protección visual y facial',
+        descripcion: 'Lentes, visores y caretas con certificación ANSI Z87.',
     }
+];
 
-    const [activeTab, setActiveTab] = useState('Tab2');
-    const openTab = (TabName) => {
-        setActiveTab(TabName);
-    }
-    useEffect(() => {
-        openTab('Tab2');
-    }, []);
-
+const ProductSection = () => {
     return (
         <section className="product-section section-padding pt-0">
             <div className="shape-image">
@@ -23,209 +38,25 @@ const ProductSection = ({ products, addToCartProduct }) => {
             </div>
             <div className="container">
                 <div className="section-title text-center">
-                    <h6>Digital printing Service</h6>
-                    <h2>Explore Features Product</h2>
+                    <h2>Soluciones de Protección para Cada Riesgo</h2>
                 </div>
-                <div className="product-header mt-4 mt-md-0">
-                    <ul className="nav">
-                        <li className="nav-item" >
-                            <button className={`nav-link ${activeTab === 'Tab1' ? 'active' : ''}`} onClick={() => openTab('Tab1')}>
-                                Business Cards
-                            </button>
-                        </li>
-                        <li className="nav-item" >
-                            <button className={`nav-link ${activeTab === 'Tab2' ? 'active' : ''}`} onClick={() => openTab('Tab2')}>
-                                Books & Prints
-                            </button>
-                        </li>
-                        <li className="nav-item" >
-                            <button className={`nav-link ${activeTab === 'Tab3' ? 'active' : ''}`} onClick={() => openTab('Tab3')}>
-                                T-shirt & Cloths
-                            </button>
-                        </li>
-                        <li className="nav-item" >
-                            <button className={`nav-link ${activeTab === 'Tab4' ? 'active' : ''}`} onClick={() => openTab('Tab4')}>
-                                Invitation Card
-                            </button>
-                        </li>
-                    </ul>
+                <div className="row">
+                    {categorias.map((cat, index) => (
+                        <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
+                            <div className="product-box-items text-center">
+                                <div className="product-image no-hover">
+                                    <div className="icon-display" style={{ fontSize: '3rem' }}>{cat.icono}</div>
+                                </div>
+                                <div className="product-content">
+                                    <h5>{cat.titulo}</h5>
+                                    <p>{cat.descripcion}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div className="tab-content">
-                    <div id="Tab1" style={{ display: activeTab === 'Tab1' ? 'block' : 'none' }} >
-                        <div className="row">
-                            {products.length > 0 &&
-                                products.slice(0, 8).map((product, pitem) => (
-                                    <div className="col-xl-3 col-lg-4 col-md-6" key={pitem}>
-                                        <div className="product-box-items">
-                                            <div className="product-image">
-                                                <img src={product.proImg} alt="img" />
-                                                <ul className="product-icon d-grid align-items-center">
-                                                    <li>
-                                                        <button
-                                                            onClick={() => addToCartProduct(product)}><i className="fa-sharp fa-regular fa-eye"></i></button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa-regular fa-star"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}><i className="fa-regular fa-arrow-up-arrow-down"></i></Link>
-                                                    </li>
-                                                </ul>
-                                                <div className="shop-btn">
-                                                    <button
-                                                        onClick={() => addToCartProduct(product)} className="theme-btn">Add To Cart</button>
-                                                </div>
-                                            </div>
-                                            <div className="product-content">
-                                                <div className="star">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="color-2 fa-solid fa-star"></i>
-                                                </div>
-                                                <h6><Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}>{product.title}</Link></h6>
-                                                <span>{product.price}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
-                    <div id="Tab2" style={{ display: activeTab === 'Tab2' ? 'block' : 'none' }}>
-                        <div className="row">
-                            {products.length > 0 &&
-                                products.slice(0, 8).map((product, pitem) => (
-                                    <div className="col-xl-3 col-lg-4 col-md-6" key={pitem}>
-                                        <div className="product-box-items">
-                                            <div className="product-image">
-                                                <img src={product.proImg} alt="img" />
-                                                <ul className="product-icon d-grid align-items-center">
-                                                    <li>
-                                                        <button
-                                                            onClick={() => addToCartProduct(product)}><i className="fa-sharp fa-regular fa-eye"></i></button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa-regular fa-star"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}><i className="fa-regular fa-arrow-up-arrow-down"></i></Link>
-                                                    </li>
-                                                </ul>
-                                                <div className="shop-btn">
-                                                    <button
-                                                        onClick={() => addToCartProduct(product)} className="theme-btn">Add To Cart</button>
-                                                </div>
-                                            </div>
-                                            <div className="product-content">
-                                                <div className="star">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="color-2 fa-solid fa-star"></i>
-                                                </div>
-                                                <h6><Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}>{product.title}</Link></h6>
-                                                <span>{product.price}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
-                    <div id="Tab3" style={{ display: activeTab === 'Tab3' ? 'block' : 'none' }}>
-                        <div className="row">
-                            {products.length > 0 &&
-                                products.slice(0, 8).map((product, pitem) => (
-                                    <div className="col-xl-3 col-lg-4 col-md-6" key={pitem}>
-                                        <div className="product-box-items">
-                                            <div className="product-image">
-                                                <img src={product.proImg} alt="img" />
-                                                <ul className="product-icon d-grid align-items-center">
-                                                    <li>
-                                                        <button
-                                                            onClick={() => addToCartProduct(product)}><i className="fa-sharp fa-regular fa-eye"></i></button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa-regular fa-star"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}><i className="fa-regular fa-arrow-up-arrow-down"></i></Link>
-                                                    </li>
-                                                </ul>
-                                                <div className="shop-btn">
-                                                    <button
-                                                        onClick={() => addToCartProduct(product)} className="theme-btn">Add To Cart</button>
-                                                </div>
-                                            </div>
-                                            <div className="product-content">
-                                                <div className="star">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="color-2 fa-solid fa-star"></i>
-                                                </div>
-                                                <h6><Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}>{product.title}</Link></h6>
-                                                <span>{product.price}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
-                    <div id="Tab4" style={{ display: activeTab === 'Tab4' ? 'block' : 'none' }}>
-                        <div className="row">
-                            {products.length > 0 &&
-                                products.slice(0, 8).map((product, pitem) => (
-                                    <div className="col-xl-3 col-lg-4 col-md-6" key={pitem}>
-                                        <div className="product-box-items">
-                                            <div className="product-image">
-                                                <img src={product.proImg} alt="img" />
-                                                <ul className="product-icon d-grid align-items-center">
-                                                    <li>
-                                                        <button
-                                                            onClick={() => addToCartProduct(product)}><i className="fa-sharp fa-regular fa-eye"></i></button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <i className="fa-regular fa-star"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}><i className="fa-regular fa-arrow-up-arrow-down"></i></Link>
-                                                    </li>
-                                                </ul>
-                                                <div className="shop-btn">
-                                                    <button
-                                                        onClick={() => addToCartProduct(product)} className="theme-btn">Add To Cart</button>
-                                                </div>
-                                            </div>
-                                            <div className="product-content">
-                                                <div className="star">
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="fa-solid fa-star"></i>
-                                                    <i className="color-2 fa-solid fa-star"></i>
-                                                </div>
-                                                <h6><Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}>{product.title}</Link></h6>
-                                                <span>{product.price}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
-                </div>
-                <div className="shop-button text-center mt-5 " >
-                    <Link onClick={ClickHandler} to="/shop" className="theme-btn">View all Product</Link>
+                <div className="shop-button text-center mt-5">
+                    <Link to="/shop" className="theme-btn">Ver todos los productos</Link>
                 </div>
             </div>
         </section>

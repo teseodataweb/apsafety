@@ -1,0 +1,12 @@
+.mycustom-marque {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.marquee-img {
+  max-width: 80%;
+  height: auto;
+}
