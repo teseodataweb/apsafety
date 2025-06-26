@@ -45,7 +45,7 @@ const Login = () => {
                 console.log('Usuario autenticado:', userCredential.user);
                 alert('¡Inicio de sesión exitoso!');
                 console.log("Navegando a home...");
-navigate('/');
+navigate('../Admin');
             } catch (error) {
                 console.error('Error de autenticación:', error);
                 let msg = 'Error al iniciar sesión.';

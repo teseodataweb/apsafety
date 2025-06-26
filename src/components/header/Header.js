@@ -11,10 +11,7 @@ import SearchComponent from './search';
 
 import MobileMenu from '../MobileMenu/MobileMenu';
 
-
-
 const Header = (props) => {
-
 
     const SubmitHandler = (e) => {
         e.preventDefault()

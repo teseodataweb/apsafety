@@ -3,20 +3,16 @@ import Swiper from 'swiper';
 import 'swiper/swiper-bundle.min.css';
 import { Link } from 'react-router-dom'
 import Services from "../../api/Services";
-
-import Shape from '../../img/service/shape.png'
-import Shape2 from '../../img/line.png'
-
-
+// import Shape from '../../img/service/shape.png'
+// import Shape2 from '../../img/line.png'
 const ClickHandler = () => {
     window.scrollTo(10, 0);
 }
-
-const ServiceSection = (props) => {
+const Admin = (props) => {
     useEffect(() => {
         const serviceSlider = new Swiper('.service-slider', {
             spaceBetween: 30,
-            speed: 2000,
+            speed: 3000,
             loop: true,
             autoplay: {
                 delay: 1000,
@@ -53,22 +49,21 @@ const ServiceSection = (props) => {
         });
     }, []);
 
-
     return (
         <section className={"" + props.hclass} style={{ backgroundImage: `url(${props.Bg})` }}>
             <div className="shape-image">
-                <img src={Shape} alt="img" />
+                {/* <img src={Shape} alt="img" /> */}
             </div>
             <div className="container">
                 <div className="section-title-area">
                     <div className="section-title">
-                        <h6 className="wow fadeInUp">Usuarios</h6>
+                        {/* <h6 className="wow fadeInUp">Usuarios</h6> */}
                         <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                            Create Stunning Print for<br />
-                            <span> Your Business <img src={Shape2} alt="img" /></span>
+                            Usuarios<br />
+                            {/* <span> Your Business <img src={Shape2} alt="img" /></span> */}
                         </h2>
                     </div>
-                    <Link onClick={ClickHandler} to="/service" className="theme-btn wow fadeInUp" data-wow-delay=".5s">See all Services</Link>
+                    <Link onClick={ClickHandler} to="/formUsser" className="theme-btn wow fadeInUp" data-wow-delay=".5s">Agregar Usuario</Link>
                 </div>
             </div>
             <div className="service-wrapper">
@@ -85,7 +80,12 @@ const ServiceSection = (props) => {
                                         <img src={service.sImg} alt="img" />
                                     </div>
                                     <div className="service-btn">
-                                        <Link onClick={ClickHandler} to={`/service-details/${service.slug}`} className="link-btn">Read Out More <i className="fa-solid fa-arrow-right"></i></Link>
+                                        <Link onClick={ClickHandler} to={`/service-details/${service.slug}`} className="link-btn">Editar Datos <i className="fa-solid fa-arrow-right"></i></Link>
+                                        
+                                    </div>
+                                                                        <div className="service-btn">
+                                        <Link onClick={ClickHandler} to={`/service-details/${service.slug}`} className="link-btn">Eliminar Usuario<i className="fa-solid fa-arrow-right"></i></Link>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -98,4 +98,4 @@ const ServiceSection = (props) => {
     );
 }
 
-export default ServiceSection;
+export default Admin;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import Homepage from '../HomePage/HomePage'
-
 import HomePage2 from '../HomePage2/HomePage2';
 import HomePage3 from '../HomePage3/HomePage3';
 import AboutPage from '../AboutPage/AboutPage';
+// import UssersPage from '../UssersPage/UssersPage';
 import LoginPage from '../LoginPage/LoginPage';
 import ServicePage from '../ServicePage/ServicePage';
 import ServiceSinglePage from '../ServiceSinglePage/ServiceSinglePage';
@@ -22,6 +22,8 @@ import ErrorPage from '../ErrorPage/ErrorPage';
 import Contacto from '../../components/AtencionCliente/Contacto';
 import AsesoriaTecnica from '../../components/AtencionCliente/AsesoriaTecnica';
 import Quejas from '../../components/AtencionCliente/Quejas';
+import AdminPage from '../Admin/AdminPage';
+import FormUsser from '../../components/AggUssers/FormUsser';
 
 
 
@@ -37,6 +39,8 @@ const AllRoute = () => {
           <Route path="home-3" element={<HomePage3 />} />
           <Route path="about" element={<AboutPage />} />
           <Route path='login' element={<LoginPage/> } />
+          <Route path='admin' element={<AdminPage/> } />
+          <Route path='formUsser' element={<FormUsser/> } />
           <Route path="service" element={<ServicePage />} />
           <Route path="service-details/:slug" element={<ServiceSinglePage />} />
           <Route path="project" element={<ProjectPage />} />
