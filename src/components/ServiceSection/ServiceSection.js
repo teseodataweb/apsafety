@@ -12,6 +12,7 @@ const ServiceSection= () => {
                     <p className="section-description">
                         Conoce nuestra tienda virtual y accede a productos disponibles con entrega inmediata.
                     </p>
+ 
                 </div>
 
                 <div className="tienda-cards">

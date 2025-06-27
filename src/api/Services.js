@@ -43,9 +43,9 @@ const Services = [
       Id: '01',
       sImg: simg1,
       sSImg: sSimg1,
-      title: 't-shirt printing',
-      slug: 't-shirt-printing',
-      description: 'Take a trivial example which of us ever…',
+      title: 'Irving Alvarez Bautista',
+      slug: 'Administrador principal',
+      description: 'Administrador Principal',
    },
    {
       Id: '02',
