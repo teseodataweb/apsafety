@@ -1,17 +1,30 @@
 import React from 'react';
-import './MarqueeSection.css';
 import MS1 from '../../img/descarga1.png';
 
 const MarqueeSection = (props) => {
-    return (
-        <div className={"" + props.hclass}>
-            <div className="mycustom-marque">
-                <div className="scrolling-wrap">
-                    <img src={MS1} alt="marquee" className="marquee-img" />
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <div className={props.hclass || ''} style={{ width: '100%', padding: '40px 0', backgroundColor: '#fff' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          overflow: 'hidden',
+          width: '90%',
+        }}
+      >
+        <img
+          src={MS1}
+          alt="marquee"
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+            display: 'block',
+          }}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default MarqueeSection;

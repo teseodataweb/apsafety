@@ -4,27 +4,27 @@ import { Link } from 'react-router-dom';
 
 const categorias = [
     {
-        icono: '🦺',
+        icono: '',
         titulo: 'Cascos de seguridad certificados',
         descripcion: 'Protección craneal con certificaciones NOM y ANSI Z89.',
     },
     {
-        icono: '😷',
+        icono: '',
         titulo: 'Mascarillas N95 y respiradores reutilizables',
         descripcion: 'Filtración avanzada para ambientes industriales y sanitarios.',
     },
     {
-        icono: '👂',
+        icono: '',
         titulo: 'Tapones auditivos y barriquejos',
         descripcion: 'Reducción de ruido extremo en entornos de alto riesgo.',
     },
     {
-        icono: '🧤',
+        icono: '',
         titulo: 'Guantes anticorte, aluminizados y dieléctricos',
         descripcion: 'Protección para manos en trabajos eléctricos, térmicos o mecánicos.',
     },
     {
-        icono: '👁️',
+        icono: '',
         titulo: 'Protección visual y facial',
         descripcion: 'Lentes, visores y caretas con certificación ANSI Z87.',
     }

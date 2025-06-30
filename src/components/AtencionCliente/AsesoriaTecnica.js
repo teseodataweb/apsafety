@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Navbar from '../../components/Navbar/Navbar'
 import InfIcon2 from '../../img/icon/12.svg';
 import InfIcon3 from '../../img/icon/13.svg';
 import ContactForm from '../ContactFrom/ContactForm';
@@ -8,7 +9,7 @@ import './AsesoriaTecnica.css';
 const AsesoriaTecnica = () => {
     return (
         <div className="asesoria-tecnica-page">
-            {/* Sección de información de contacto */}
+                        <Navbar hclass={'header-section'} />
             <section className="contact-info-section fix section-padding section-bg-2">
                 <div className="container">
                     <div className="row g-4 justify-content-center">
@@ -128,7 +129,6 @@ const AsesoriaTecnica = () => {
                 </div>
             </section>
 
-            {/* Sección del formulario simplificada */}
             <section className="contact-section section-padding pt-0 section-bg-2">
                 <div className="container">
                     <div className="row justify-content-center">

@@ -1,6 +1,5 @@
 import React from 'react';
 
-/* image  */
 import Abimg1 from '../../img/about/dot-1.png'
 import Abimg2 from '../../img/about/dot-2.png'
 import Abimg3 from '../../img/about/circle.png'
@@ -9,11 +8,7 @@ import Abimg5 from '../../img/about/shape.png'
 import Abimg6 from '../../img/about/descarga.png'
 import Abimg7 from '../../img/about/descarga (1).png'
 import Abimg8 from '../../img/about/descarga (2).png'
-import Abimg9 from '../../img/line.png'
-import Abimg10 from '../../img/icon/01.svg'
-import Abimg11 from '../../img/about/author.png'
-import Abimg12 from '../../img/about/line.png'
-import Abimg13 from '../../img/icon/02.svg'
+
 import { Link } from 'react-router-dom';
 import './About.css';
 
@@ -71,8 +66,29 @@ const about = () => {
                                 </p>
                                   <p>En AP SAFETY entendemos los riesgos. Por eso, fabricamos y distribuimos EPP con
                                      normas NOM-STPS, ANSI y ISO, con entregas en 72 horas a zonas remotas.</p>
+                                     
                             </div>
+                            
                         </div>
+                        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+                            <Link
+                            to="/service" onClick={ClickHandler}
+                            style={{
+                                backgroundColor: '#0a0a0a',
+                                color: '#fff',
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                textDecoration: 'none',
+                                fontWeight: 'bold',
+                                fontSize: '1.1rem',
+                                display: 'inline-block',
+                                transition: 'background-color 0.3s ease',
+                            }}
+                            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#1a1a1a')}
+                            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#0a0a0a')}>
+                                Nosotros
+                                </Link>
+                                </div>
                     </div>
                 </div>
             </div>

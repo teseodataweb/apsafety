@@ -1,36 +1,51 @@
 import React from 'react'
-import CountUp from 'react-countup';
+
 const FunFact = (props) => {
 
     return (
-        <section className={"" + props.hclass}>
+        <section className={"" + props.hclass} style={{ textAlign: 'center' }}>
             <div className="container">
-                <div className="counter-text text-center">
+                <div className="counter-text" style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     <h2 className="wow fadeInUp">Calidad Verificada para Ambientes de Alto Riesgo</h2>
                 </div>
-                <div className="row">
-                    <div className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                        <div className="counter-items">
+                <div
+                  className="row"
+                  style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}
+                >
+                    <div
+                      className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
+                      data-wow-delay=".2s"
+                      style={{ flex: '0 1 300px', maxWidth: '300px' }}
+                    >
+                        <div className="counter-items" style={{ textAlign: 'center' }}>
                             <div className="counter-title">
                                 <h2>NOM-STPS</h2>
                             </div>
-                            <p className="text-center">Normas Oficiales Mexicanas</p>
+                            <p>Normas Oficiales Mexicanas</p>
                         </div>
                     </div>
-                    <div className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                        <div className="counter-items">
+                    <div
+                      className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
+                      data-wow-delay=".4s"
+                      style={{ flex: '0 1 300px', maxWidth: '300px' }}
+                    >
+                        <div className="counter-items" style={{ textAlign: 'center' }}>
                             <div className="counter-title bg-2">
                                 <h2>ANSI Z87, Z89</h2>
                             </div>
-                            <p className="text-center">Estándares estadounidenses de seguridad visual y de casco</p>
+                            <p>Estándares estadounidenses de seguridad visual y de casco</p>
                         </div>
                     </div>
-                    <div className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".6s">
-                        <div className="counter-items">
+                    <div
+                      className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
+                      data-wow-delay=".6s"
+                      style={{ flex: '0 1 300px', maxWidth: '300px' }}
+                    >
+                        <div className="counter-items" style={{ textAlign: 'center' }}>
                             <div className="counter-title bg-3">
                                 <h2>ISO - 11612</h2>
                             </div>
-                            <p className="text-center">Resistencia térmica para ropa de protección</p>
+                            <p>Resistencia térmica para ropa de protección</p>
                         </div>
                     </div>
                 </div>
@@ -38,6 +53,5 @@ const FunFact = (props) => {
         </section>
     )
 }
-
 
 export default FunFact;

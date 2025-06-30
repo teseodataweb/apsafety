@@ -35,7 +35,7 @@ const ProductSinglePage =(props) => {
     return(
         <Fragment>
             <NavbarS2 hclass={'header-section-2 style-two'} />
-            <PageTitle pageTitle={'Digital printing Service'} pagesub={'Product Single'}/> 
+            <PageTitle pagesub={'Información Técnica y Documentación Oficial'}/> 
             <section className="product-details-section section-padding section-bg-2">
                 <div className="container">
                     <div className="product-details-wrapper">

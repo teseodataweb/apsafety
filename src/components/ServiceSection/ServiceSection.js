@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './tienda.css';
 import TiendaImg1 from '../../img/descarga.png'; 
 import TiendaImg2 from '../../img/descarga (1).png';       
+
 const ServiceSection= () => {
     return (
         <section className="tienda-section section-padding">
@@ -23,7 +24,7 @@ const ServiceSection= () => {
                         className="tienda-card"
                     >
                         <img src={TiendaImg1} alt="Tienda Virtual" />
-                        <p>Tienda Virtual</p>
+                         <p>Tienda en linea</p>
                     </a>
 
                     <a
