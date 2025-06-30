@@ -1,0 +1,13 @@
+.feature-box-items .icon {
+  text-align: center;
+  padding: 20px;
+}
+
+.feature-box-items .icon img {
+  width: 100%;
+  max-width: 900px; /* Aumenta este valor según lo que necesites */
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}

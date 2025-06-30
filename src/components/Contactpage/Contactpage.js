@@ -6,7 +6,7 @@ import ContactForm from '../ContactFrom/ContactForm';
 // import ContactForm from '../ContactFrom/ContactForm'
 
 
-const Contactpage = () => {
+const Asesoria = () => {
 
     return (
         <div>
@@ -95,4 +95,4 @@ const Contactpage = () => {
 
 }
 
-export default Contactpage;
+export default Asesoria ;

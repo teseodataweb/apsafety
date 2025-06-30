@@ -19,9 +19,7 @@ import BlogPage from '../BlogPage/BlogPage'
 import BlogDetails from '../BlogDetails/BlogDetails'
 import ContactPage from '../ContactPage/ContactPage';
 import ErrorPage from '../ErrorPage/ErrorPage';
-import Contacto from '../../components/AtencionCliente/Contacto';
 import AsesoriaTecnica from '../../components/AtencionCliente/AsesoriaTecnica';
-import Quejas from '../../components/AtencionCliente/Quejas';
 import AdminPage from '../Admin/AdminPage';
 import FormUsser from '../../components/AggUssers/FormUsser';
 import FormProducto from '../../components/AggProductos/FormProducto';
@@ -53,9 +51,8 @@ const AllRoute = () => {
           <Route path='blog-single/:slug' element={<BlogDetails />} />
           <Route path='contact' element={<ContactPage />} />
           <Route path='404' element={<ErrorPage />} />
-          <Route path="/contacto" element={<Contacto />} />
           <Route path="/asesoria-tecnica" element={<AsesoriaTecnica />} />
-          <Route path="/quejas" element={<Quejas />} />
+
         </Routes>
       </BrowserRouter>
     </div>
