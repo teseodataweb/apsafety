@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom'
-import AggUssers from './AggUssers';
-import NavbarAdmin from '../../components/NavbarAdmin/NavbarAdmin';
-import Footer from '../../components/footer/Footer'
-const FormUsser = (props) => {
+import AggProducto from './AggProducto';
+import NavbarS2 from '../../components/NavbarS2/NavbarS2';
+import Footer from '../footer/Footer';
+const FormProducto = (props) => {
     return (
-<Fragment > 
-        <NavbarAdmin hclass={'header-section-2 style-two'} />
+<Fragment>
+        <NavbarS2 hclass={'header-section-2 style-two'} />
             <div className="container">
                 <div className="news-details-wrapper">
                     <div className="row g-5">
@@ -24,16 +24,14 @@ const FormUsser = (props) => {
                             <div className="comments-area">  
                             </div>
                             <div className="comment-form-wrap pt-5">
-                                <h3>Agregar Usuario</h3>
-                                <AggUssers />
+                                <h3>Agregar Producto</h3>
+                                <AggProducto />
                             </div>
-                        </div>
-                        
+                        </div>      
                     </div>
                 </div>
             </div>
-            <Footer />
-            </Fragment>   
-            )}
-
-export default FormUsser;
+    <Footer />
+</Fragment>  
+)}
+export default FormProducto;

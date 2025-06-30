@@ -1,6 +1,6 @@
 import React from "react";
-import Header from '../header/Header';
-export default function Navbar(props) {
+import HeaderAdmin from '../headeradmin/HeaderAdmin.js';
+export default function NavbarAdmin(props) {
   const [scroll, setScroll] = React.useState(0);
   const handleScroll = () => setScroll(document.documentElement.scrollTop);
   React.useEffect(() => {
@@ -10,6 +10,7 @@ export default function Navbar(props) {
   const className = scroll > 80 ? "fixed-navbar active" : "fixed-navbar";
   return (
     <div className={className}>
-        <Header hclass={props.hclass} Logo={props.Logo} topbarClass={props.topbarClass} />
+        <HeaderAdmin hclass={props.hclass} Logo={props.Logo} topbarClass={props.topbarClass} />
     </div>
-  ); }
+  ); 
+}

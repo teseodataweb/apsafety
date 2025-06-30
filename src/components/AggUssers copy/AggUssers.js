@@ -3,8 +3,9 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
-import auth from '../../components/login/firebase';
-import { db } from '../../components/login/firebase';
+import auth from '../login/firebase';
+import { db } from '../login/firebase';
+
 const AggUssers = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -23,7 +24,8 @@ const AggUssers = () => {
       const { name, userType, email } = location.state.user;
       setFormData({ name, userType, email, password: '' });
       validator.hideMessages();
-      forceUpdate(1);}
+      forceUpdate(1);
+    }
   }, [location.state, isEditing, validator]);
   useEffect(() => {
     (async () => {
@@ -31,13 +33,16 @@ const AggUssers = () => {
         const usersCollection = collection(db, "users");
         const snapshot = await getDocs(usersCollection);
         setCanAdd(snapshot.size < 5);
-      }})();
+      }
+    })();
   }, [isEditing]);
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     validator.showMessageFor(name);
-    forceUpdate(1);};
+    forceUpdate(1);
+  };
   const handleSubmit = async e => {
     e.preventDefault();
     if (!canAdd && !isEditing) return;
@@ -56,12 +61,14 @@ const AggUssers = () => {
             name: formData.name,
             userType: formData.userType,
           },
-          { merge: true });
+          { merge: true }
+        );
       } else {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           formData.email,
-          formData.password);
+          formData.password
+        );
         const user = userCredential.user;
         const userDocRef = doc(db, "users", user.uid);
         await setDoc(userDocRef, {
@@ -69,7 +76,8 @@ const AggUssers = () => {
           name: formData.name,
           userType: formData.userType,
           email: formData.email,
-        });}
+        });
+      }
       setFormData({ name: '', userType: '', email: '', password: '' });
       validator.hideMessages();
       forceUpdate(1);
@@ -77,7 +85,8 @@ const AggUssers = () => {
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         const shouldUpdate = alert(
-          'El correo electrónico ya está en uso, por favor intenta con otro');
+          'El correo electrónico ya está en uso, por favor intenta con otro'
+        );
         if (shouldUpdate) {
           try {
             const usersCollection = collection(db, "users");
@@ -89,7 +98,8 @@ const AggUssers = () => {
               if (data.email === formData.email) {
                 existingDocId = docSnap.id;
                 existingData = data;
-              }});
+              }
+            });
             if (existingDocId) {
               await setDoc(
                 doc(db, "users", existingDocId),
@@ -98,17 +108,22 @@ const AggUssers = () => {
                   name: formData.name,
                   userType: formData.userType,
                 },
-                { merge: true });
+                { merge: true }
+              );
               navigate('/admin');
             }
           } catch (firestoreError) {
             console.error("Error al actualizar en Firestore:", firestoreError);
-          }}
+          }
+        }
       } else {
         console.error("Error al crear/editar usuario:", error);
-      }}};
+      }
+    }
+  };
   const handleCancel = () => {
-    navigate('/admin');};
+    navigate('/admin');
+  };
   return (
     <form id="contact-form" onSubmit={handleSubmit}>
       <div className="row g-4">
@@ -120,10 +135,12 @@ const AggUssers = () => {
               id="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Nombre de usuario"/>
+              placeholder="Nombre de usuario"
+            />
             {validator.message('name', formData.name, 'required|alpha_space')}
           </div>
         </div>
+
         <div className="col-lg-6">
           <div className="form-clt">
             <select
@@ -131,7 +148,8 @@ const AggUssers = () => {
               id="userType"
               value={formData.userType}
               onChange={handleChange}
-              className="form-control">
+              className="form-control"
+            >
               <option value="">Seleccionar tipo de usuario</option>
               <option value="admin">Administrador Principal</option>
               <option value="secundario">Administrador Secundario</option>
@@ -139,6 +157,7 @@ const AggUssers = () => {
             {validator.message('userType', formData.userType, 'required')}
           </div>
         </div>
+
         <div className="col-lg-6">
           <div className="form-clt">
             <input

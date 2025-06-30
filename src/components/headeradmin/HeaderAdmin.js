@@ -6,8 +6,7 @@ import Logo from '../../img/apsafetylogo.png';
 import Home1 from '../../img/header/home-1.jpg';
 import Home2 from '../../img/header/home-2.jpg';
 import Home3 from '../../img/header/home-3.jpg';
-import MobileMenu from '../MobileMenu/MobileMenu';
-const HeaderS2 = (props) => {
+const HeaderAdmin = (props) => {
     const SubmitHandler = (e) => {
         e.preventDefault()}
     const ClickHandler = () => {
@@ -22,20 +21,20 @@ const HeaderS2 = (props) => {
                 setIsSticky(false);
             }};
         window.addEventListener('scroll', handleScroll);
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };}, []);
     return (
         <header className={props.hclass}>
-            {/* <HeaderTopbarS2 /> */}
-            <div id="header-sticky" className={isSticky ? 'header-1 style-2 sticky' : 'header-1 style-2'}>
+            <div id="header-sticky" className={isSticky ? 'sticky' : 'header-1'}>
                 <div className="container-fluid">
                     <div className="mega-menu-wrapper">
                         <div className="header-main">
                             <div className="header-left">
                                 <div className="logo">
                                     <Link onClick={ClickHandler} to="/" className="header-logo">
-                                        <img src={Logo} alt="logo-img"  width={80} />
+                                        <img src={Logo} alt="logo-img" width={80} />
                                     </Link>
                                 </div>
                             </div>
@@ -116,6 +115,7 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Distribuidores</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
+
                                                 </ul>
                                             </li>
                                             <li>
@@ -141,24 +141,11 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                     </ul>
                                                     </li>
-                                                    <li>
-                                                <Link onClick={ClickHandler} to="/admin">
-                                                    Administrar Usuarios
-                                                </Link>
-                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
-                            <div className="header-right d-flex justify-content-end align-items-center">
-                                <div className="header-button">
-                                    <Link onClick={ClickHandler} to="/formProducto" className="theme-btn">Agregar Producto</Link>
-                                </div>
-                                <div className="header__hamburger d-xl-none my-auto">
-                                    <div className="sidebar__toggle">
-                                        <MobileMenu />
-                                    </div>
-                                </div>
+                            <div className="header-right d-flex justify-content-end align-items-center">   
                             </div>
                         </div>
                     </div>
@@ -170,4 +157,4 @@ const mapStateToProps = (state) => {
     return {
         carts: state.cartList.cart,
     };};
-export default connect(mapStateToProps, { removeFromCart })(HeaderS2);
+export default connect(mapStateToProps, { removeFromCart })(HeaderAdmin);

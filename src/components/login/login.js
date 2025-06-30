@@ -41,8 +41,6 @@ const Login = () => {
                 const sanitizedEmail = formData.email.trim().toLowerCase();
                 // 1. Autenticación con Firebase Auth
                 const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, formData.password);
-                
-                // 2. Consulta a Firestore para obtener userType
                 const usersRef = collection(db, "users");
                 const q = query(usersRef, where("email", "==", sanitizedEmail));
                 const querySnapshot = await getDocs(q);
@@ -50,8 +48,7 @@ const Login = () => {
                 if (querySnapshot.empty) {
                     throw new Error('Usuario no encontrado en la base de datos');
                 }
-                
-                // Obtener el tipo de usuario del primer documento coincidente
+
                 const userDoc = querySnapshot.docs[0];
                 const userType = userDoc.data().userType;
                 
@@ -59,7 +56,7 @@ const Login = () => {
                 if (userType === 'admin') {
                     navigate('../admin');
                 } else if (userType === 'secundario') {
-                    navigate('../AggUsser');
+                    navigate('/formUsser');
                 } else {
                     throw new Error('Tipo de usuario no válido');
                 }

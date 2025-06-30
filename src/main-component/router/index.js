@@ -4,13 +4,13 @@ import Homepage from '../HomePage/HomePage'
 import HomePage2 from '../HomePage2/HomePage2';
 import HomePage3 from '../HomePage3/HomePage3';
 import AboutPage from '../AboutPage/AboutPage';
-// import UssersPage from '../UssersPage/UssersPage';
 import LoginPage from '../LoginPage/LoginPage';
 import ServicePage from '../ServicePage/ServicePage';
 import ServiceSinglePage from '../ServiceSinglePage/ServiceSinglePage';
 import ProjectPage from '../ProjectPage/ProjectPage';
 import ProjectSinglePage from '../ProjectSinglePage/ProjectSinglePage';
 import ShopPage from '../ShopPage'
+import ProductosPage from '../ProductosPage'
 import ShopSinglePage from '../ShopSinglePage';
 import CartPage from '../CartPage';
 import CheckoutPage from '../CheckoutPage';
@@ -24,11 +24,8 @@ import AsesoriaTecnica from '../../components/AtencionCliente/AsesoriaTecnica';
 import Quejas from '../../components/AtencionCliente/Quejas';
 import AdminPage from '../Admin/AdminPage';
 import FormUsser from '../../components/AggUssers/FormUsser';
-
-
-
+import FormProducto from '../../components/AggProductos/FormProducto';
 const AllRoute = () => {
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -41,11 +38,13 @@ const AllRoute = () => {
           <Route path='login' element={<LoginPage/> } />
           <Route path='admin' element={<AdminPage/> } />
           <Route path='formUsser' element={<FormUsser/> } />
+          <Route path='formProducto' element={<FormProducto/> } />
           <Route path="service" element={<ServicePage />} />
           <Route path="service-details/:slug" element={<ServiceSinglePage />} />
           <Route path="project" element={<ProjectPage />} />
           <Route path="project-details/:slug" element={<ProjectSinglePage />} />
           <Route path="shop" element={<ShopPage />} />
+          <Route path="productos" element={<ProductosPage />} />
           <Route path='shop-details/:slug' element={<ShopSinglePage />} />
           <Route path='shop-cart' element={<CartPage />} />
           <Route path='checkout' element={<CheckoutPage />} />
@@ -59,9 +58,7 @@ const AllRoute = () => {
           <Route path="/quejas" element={<Quejas />} />
         </Routes>
       </BrowserRouter>
-
     </div>
   );
 }
-
 export default AllRoute;

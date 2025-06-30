@@ -1,31 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Services from "../../api/Services";
-
-import Fi1 from '../../img/footer/dot.png'
 import Fi2 from '../../img/footer/footer-shape-1.png'
-import Fi3 from '../../img/footer/footer-shape-2.png'
 import Logo from '../../img/logo/black-logo.svg'
 import Fi4 from '../../img/QRcode.png'
 import Fi5 from '../../img/apple.png'
 import Fi6 from '../../img/play-store.png'
 import Fi7 from '../../img/card.png'
-
 const ClickHandler = () => {
     window.scrollTo(10, 0);
 }
-
 const Footer = () => {
     return (
-        <footer className="footer-section">
+        <footer className="footer-section" style={{backgroundColor: "#fff"}}>
             <div className="dot-shape">
-                <img src={Fi1} alt="img" />
             </div>
             <div className="footer-shape-1">
                 <img src={Fi2} alt="img" />
             </div>
             <div className="footer-shape-2">
-                <img src={Fi3} alt="img" />
             </div>
             <div className="container">
                 <div className="footer-widgets-wrapper">
@@ -68,8 +61,6 @@ const Footer = () => {
                                         </Link>
                                     </li>
                                     ))} 
-                                   
-                                 
                                 </ul>
                             </div>
                         </div>
@@ -160,5 +151,4 @@ const Footer = () => {
         </footer>
     );
 };
-
 export default Footer;
