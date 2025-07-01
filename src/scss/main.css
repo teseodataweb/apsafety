@@ -1127,7 +1127,7 @@ span {
 .contact-area .contact-form-items .form-clt .icon i {
   color: var(--header);
 }
-.contact-area .contact-form-items .form-clt input {
+.contact-area .contact-form-items .form-clt input select {
   width: 100%;
   outline: none;
   border: none;
@@ -1140,7 +1140,7 @@ span {
   border-bottom: 1px solid var(--text);
 }
 @media (max-width: 575px) {
-  .contact-area .contact-form-items .form-clt input {
+  .contact-area .contact-form-items .form-clt input select{
     padding: 15px 20px;
   }
 }
@@ -2199,12 +2199,12 @@ span {
   font-size: 37px;
   color: var(--white);
 }
-.footer-newsletter-wrapper .newsletter-input {
+.footer-newsletter-wrapper .newsletter-input, select {
   max-width: 550px;
   position: relative;
   width: 100%;
 }
-.footer-newsletter-wrapper .newsletter-input input {
+.footer-newsletter-wrapper .newsletter-input input, select  {
   width: 100%;
   border-radius: 100px;
   background-color: var(--white);
@@ -4877,7 +4877,7 @@ span {
   width: 100%;
   position: relative;
 }
-.main-sidebar .single-sidebar-widget .search_widget form input {
+.main-sidebar .single-sidebar-widget .search_widget form input, select {
   background-color: var(--white);
   font-size: 15px;
   width: 100%;

@@ -98,29 +98,48 @@ const AggProducto = () => {
             {validator.message('descripcion', formData.descripcion, 'required')}
           </div>
         </div>
-        <div className="col-lg-6">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="unidadMedida"
-              value={formData.unidadMedida}
-              onChange={handleChange}
-              placeholder="Unidad de medida"
-            />
-            {validator.message('unidadMedida', formData.unidadMedida, 'required')}
-          </div>
-        </div>
-        <div className="col-lg-6">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="clasificacion"
-              value={formData.clasificacion}
-              onChange={handleChange}
-              placeholder="Clasificación"/>
-            {validator.message('clasificacion', formData.clasificacion, 'required')}
-          </div>
-        </div>
+       <div className="col-lg-6">
+  <div className="form-clt">
+    <select
+      name="unidadMedida"
+      value={formData.unidadMedida}
+      onChange={handleChange}
+      placeholder="Unidad de medida"
+    >
+      <option value="">Selecciona una unidad de medida</option>
+      <option value="Metro">Metro</option>
+      <option value="Metro cuadrado">Metro cuadrado</option>
+      <option value="Metro cúbico">Metro cúbico</option>
+      <option value="Kilogramo">Kilogramo</option>
+      <option value="Litro">Litro</option>
+      <option value="Segundo">Segundo</option>
+      <option value="Grado">Grado</option>
+    </select>
+    {validator.message('unidadMedida', formData.unidadMedida, 'required')}
+  </div>
+</div>
+
+      <div className="col-lg-6">
+  <div className="form-clt">
+    <select
+      name="clasificacion"
+      value={formData.clasificacion}
+      onChange={handleChange}
+      placeholder="Clasificación"
+    >
+      <option value="">Selecciona una clasificación</option>
+      <option value="Productos">Productos</option>
+      <option value="Protección respiratoria">Protección respiratoria</option>
+      <option value="Protección personal">Protección personal</option>
+      <option value="Detección de gas">Detección de gas</option>
+      <option value="Productos retail">Productos retail</option>
+      <option value="Productos POP">Productos POP</option>
+    </select>
+    {validator.message('clasificacion', formData.clasificacion, 'required')}
+  </div>
+</div>
+
+
         <div className="col-lg-6">
           <div className="form-clt">
             <input
@@ -128,7 +147,7 @@ const AggProducto = () => {
               name="ventajas"
               value={formData.ventajas}
               onChange={handleChange}
-              placeholder="Ventajas"/>
+              placeholder="Ventajas (ligero, alta resistencia, etc)"/>
             {validator.message('ventajas', formData.ventajas, 'required')}
           </div>
         </div>
@@ -172,7 +191,7 @@ const AggProducto = () => {
               name="fichaTecnicaUrl"
               value={formData.fichaTecnicaUrl}
               onChange={handleChange}
-              placeholder="Ficha técnica (URL)"
+              placeholder="Ficha técnica"
             />
             {validator.message('fichaTecnicaUrl', formData.fichaTecnicaUrl, 'required|url')}
           </div>
@@ -184,7 +203,7 @@ const AggProducto = () => {
               name="imagenPrincipalUrl"
               value={formData.imagenPrincipalUrl}
               onChange={handleChange}
-              placeholder="Imagen principal (URL)"/>
+              placeholder="Imagen principal"/>
             {validator.message('imagenPrincipalUrl', formData.imagenPrincipalUrl, 'required|url')}
           </div>
         </div>
