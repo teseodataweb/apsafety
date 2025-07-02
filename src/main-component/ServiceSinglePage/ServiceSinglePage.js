@@ -1,166 +1,270 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import NavbarS2 from '../../components/NavbarS2/NavbarS2';
-import PageTitle from '../../components/pagetitle/PageTitle'
-import { useParams } from 'react-router-dom'
-import VideoModal from '../../components/ModalVideo/VideoModal';
-import Services from '../../api/Services';
-import ServiceSidebar from './sidebar'
-
-
+import PageTitle from '../../components/pagetitle/PageTitle';
 import FooterS3 from '../../components/footerS3/FooterS3';
+import InfIcon1 from '../../img/icon/location.png';
+import InfIcon2 from '../../img/icon/12.svg';
+import InfIcon3 from '../../img/icon/13.svg';
+import LabImage from '../../img/AP.Safetty.png';
+import FiltracionImg from '../../img/AP.Safetty.png';
+import AjusteImg from '../../img/apsafety.png';
+import ResistenciaImg from '../../img/AP.Safetty.png';
+import FlamabilidadImg from '../../img/AP.Safetty.png';
+import CatalogoImg from '../../img/descarga (8).png';
 
-import Video from '../../img/service/details-2.jpg'
+const ServiceSinglePage = () => {
+  const { slug } = useParams();
 
-import InfIcon1 from '../../img/icon/location.png'
-import InfIcon2 from '../../img/icon/12.svg'
-import InfIcon3 from '../../img/icon/13.svg'
+  const serviceDetails = {
+    title: 'Laboratorio de Pruebas Certificadas',
+    sSImg: LabImage,
+  };
 
-const ServiceSinglePage = (props) => {
-    const { slug } = useParams()
+  const [hover, setHover] = useState(false);
 
-    const serviceDetails = Services.find(item => item.slug === slug)
+  const btnStyle = {
+    display: 'inline-block',
+    backgroundColor: hover ? '#222' : '#000',
+    color: '#fff',
+    padding: '12px 30px',
+    borderRadius: '8px',
+    textDecoration: 'none',
+    fontWeight: 600,
+    fontSize: '1.1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  };
+  const catalogoLink = 'https://drive.google.com/file/d/1P6Wq2vFjvqcY8q5EMs9-BgUWjwbBm_kq/view';
+  const videoLinks = [
+  'https://www.youtube.com/embed/MsEPAIP0m9I',
+  'https://www.youtube.com/embed/-paqvItAnP8',
+  'https://www.youtube.com/embed/AhskAfFNtUw',
+  'https://www.youtube.com/embed/d89FvbG1bfU',
+];
 
-    const ClickHandler = () => {
-        window.scrollTo(10, 0);
-    }
-    return (
-        <Fragment>
-            <NavbarS2 hclass={'header-section-2 style-two'} />
-            <PageTitle pageTitle={'Laboratorio de Pruebas Certificadas para Equipos de Protección Personal'} pagesub={serviceDetails.title} />
-            <section className="service-details-section fix section-padding section-bg-2">
-                <div className="container">
-                    <div className="service-details-wrapper">
-                        <div className="row g-5">
-                            <div className="col-lg-4 order-2 order-md-1">
-                                <ServiceSidebar />
-                            </div>
-                            <div className="col-lg-8 order-1 order-md-2">
-                                <div className="service-details-image">
-                                    <img src={serviceDetails.sSImg} alt="img" />
-                                </div>
-                                <div className="service-details-content">
-                                    <p className="mt-3">
-                                       En AP SAFETY, contamos con un laboratorio de pruebas acreditado por la Entidad Mexicana de Acreditación (EMA), 
-                                       especializado en evaluar la eficacia y seguridad de equipos de protección personal (EPP). Nuestro compromiso
-                                        es garantizar que cada producto cumpla con las normativas nacionales e internacionales más exigentes.
-                                    </p>
-                                    <h2 className="mt-5 split-text right">Servicios de Pruebas de Laboratorio</h2>
-                                    <h3 className="mt-5 split-text right">Pruebas de Eficiencia de Filtración</h3>
-                                    <p className="mt-3">
-                                        Evaluamos la capacidad de los filtros para retener partículas nocivas, 
-                                        asegurando que los respiradores cumplan con los estándares de eficiencia requeridos.
-                                    </p>
-                                    <p className="mt-3">
-                                        Realizamos pruebas para verificar el ajuste adecuado de los equipos de protección respiratoria, 
-                                        garantizando una protección efectiva para el usuario.
-                                    </p>
-                                    <p className="mt-3">
-                                        Medimos la resistencia al flujo de aire durante la inhalación y exhalación, asegurando la comodidad 
-                                        y seguridad del usuario durante el uso prolongado del EPP.
-                                    </p>
-                                    <p className="mt-3">
-                                        Evaluamos la resistencia de los materiales del EPP al fuego, garantizando su desempeño en ambientes
-                                         con riesgos de incendio.
-                                    </p>
-                                    <div className="service-details-video">
-                                        <div className="row g-4 align-items-center">
-                                            <div className="col-lg-8">
-                                                <div className="video-image">
-                                                    <img src={Video} alt="img" />
-                                                    <div className="video-box">
-                                                        <VideoModal/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-15">
-                                                <div className="details-video-content">
-                                                    <h2 className="mb-3 split-text right">Beneficios de Nuestro Laboratorio</h2>
-                                                    <ul>
-                                                        <li>
-                                                            <i className="fa-solid fa-circle-check"></i>
-                                                            Acreditación por la EMA, asegurando la validez y reconocimiento de nuestras pruebas.
-                                                        </li>
-                                                        <li>
-                                                            <i className="fa-solid fa-circle-check"></i>
-                                                            Equipos de última generación para pruebas precisas y confiables.
-                                                        </li>
-                                                        <li>
-                                                            <i className="fa-solid fa-circle-check"></i>
-                                                            Personal altamente capacitado y comprometido con la calidad.
-                                                        </li>
-                                                        <li>
-                                                            <i className="fa-solid fa-circle-check"></i>
-                                                            Cumplimiento con normativas como NOM-STPS, ANSI e ISO.
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                         <section className="contact-info-section fix section-padding section-bg-2">
-                <div className="container">
-                    <div className="row g-4">
-                        <div className="col-lg-6col-md-6 wow fadeInUp" data-wow-delay=".3s">
-                            <div className="contact-info-items text-center">
-                                <div className="icon">
-                                    <img src={InfIcon1} alt="icon-img" />
-                                </div>
-                                <div className="content">
-                                    <h3>Ubicación</h3>
-                                    <p>
-                                        Nuestro laboratorio se encuentra en la Reserva Industrial de las 11 Hectáreas,  <br />
-                                        Lote 4, Manzana 3, C.P. 43998, Tepeapulco Centro, Hidalgo, México.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
-                            <div className="contact-info-items active text-center">
-                                <div className="icon">
-                                      <img src={InfIcon2} alt="icon-img" />
-                                </div>
-                                <div className="content">
-                                    <h3>Numero de Telefono</h3>
-                                    <p>
-                                        +52 5611262476
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
-                            <div className="contact-info-items text-center">
-                                <div className="icon">
-                                       <img src={InfIcon3} alt="icon-img" />
-                                </div>
-                                <div className="content">
-                                    <h3>Correo Electronico</h3>
-                                    <p>
-                                        ap_testinglab@outlook.com
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <Fragment>
+      <NavbarS2 hclass={'header-section-2 style-two'} />
+      <PageTitle
+        pageTitle={'Laboratorio de Pruebas Certificadas para Equipos de Protección Personal'}
+        pagesub={serviceDetails.title}
+      />
+
+      <section style={{ padding: '60px 0', backgroundColor: '#f9f9f9' }}>
+        <div className="container">
+          <div className="row align-items-center">
+
+            <div className="col-lg-6 mb-4 mb-lg-0">
+              <img
+                src={serviceDetails.sSImg}
+                alt="Laboratorio AP Safety"
+                style={{ width: '100%', height: 'auto', borderRadius: '12px' }}
+              />
+            </div>
+
+            <div className="col-lg-6">
+              <h2 className="mb-4">Servicios de Pruebas de Laboratorio</h2>
+              <p>
+                En <strong>AP SAFETY</strong>, contamos con un laboratorio de pruebas acreditado por la{' '}
+                Entidad Mexicana de Acreditación (EMA), especializado en evaluar la eficacia y seguridad{' '}
+                de equipos de protección personal (EPP).
+              </p>
+              <p>
+                Nuestro compromiso es garantizar que cada producto cumpla con las normativas nacionales e{' '}
+                internacionales más exigentes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="service-details-section fix section-padding section-bg-2">
+        <div className="container">
+          <div className="service-details-wrapper">
+            <h2 className="mb-5 text-center">Tipos de Pruebas de Laboratorio</h2>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '40px',
+                textAlign: 'center',
+              }}
+            >
+              {/* Prueba 1 */}
+              <div>
+                <img
+                  src={FiltracionImg}
+                  alt="Filtración"
+                  style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
+                />
+                <h4>Pruebas de Eficiencia de Filtración</h4>
+                <p>
+                  Evaluamos la capacidad de los filtros para retener partículas nocivas, asegurando que los respiradores cumplan con los estándares de eficiencia requeridos.
+                </p>
+              </div>
+
+              {/* Prueba 2 */}
+              <div>
+                <img
+                  src={AjusteImg}
+                  alt="Ajuste"
+                  style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
+                />
+                <h4>Pruebas de Ajuste Cualitativo y Cuantitativo</h4>
+                <p>
+                  Verificamos el ajuste adecuado de los equipos de protección respiratoria, garantizando una protección efectiva para el usuario.
+                </p>
+              </div>
+
+              {/* Prueba 3 */}
+              <div>
+                <img
+                  src={ResistenciaImg}
+                  alt="Resistencia"
+                  style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
+                />
+                <h4>Pruebas de Resistencia a la Inhalación y Exhalación</h4>
+                <p>
+                  Medimos la resistencia al flujo de aire durante la inhalación y exhalación para asegurar la comodidad y seguridad del usuario.
+                </p>
+              </div>
+
+              {/* Prueba 4 */}
+              <div>
+                <img
+                  src={FlamabilidadImg}
+                  alt="Flamabilidad"
+                  style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
+                />
+                <h4>Pruebas de Flamabilidad</h4>
+                <p>
+                  Evaluamos la resistencia al fuego de los materiales de los equipos de protección para prevenir riesgos en entornos peligrosos.
+                </p>
+              </div>
+            </div>
+
+
+ 
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 2fr))',
+                gap: '20px',
+                marginTop: '2rem',
+                justifyItems: 'center',
+              }}
+            >
+             {videoLinks.map((link, index) => (
+                <iframe
+                key={index}
+                width="100%"
+                height="280"
+                src={link}
+                title={`Video ${index + 1}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                style={{ borderRadius: '8px' }}
+                ></iframe>
+                ))}
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '2rem',
+                marginTop: '3rem',
+                flexWrap: 'wrap',
+                maxWidth: '900px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              <div style={{ flex: '1 1 400px', textAlign: 'center' }}>
+                <h2 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '1rem' }}>
+                  Beneficios de Nuestro Laboratorio
+                </h2>
+                <ul style={{ listStyle: 'none', paddingLeft: 0, fontSize: '1.1rem', lineHeight: '1.6', margin: 0 }}>
+                  <li>✅ Acreditación por la EMA, asegurando la validez y reconocimiento de nuestras pruebas.</li>
+                  <li>✅ Equipos de última generación para pruebas precisas y confiables.</li>
+                  <li>✅ Personal altamente capacitado y comprometido con la calidad.</li>
+                  <li>✅ Cumplimiento con normativas como NOM-STPS, ANSI e ISO.</li>
+                </ul>
+              </div>
+
+              <div style={{ flex: '0 0 500x', textAlign: 'center' }}>
+                <a
+                  href={catalogoLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Descargar Catálogo"
+                  style={{ cursor: 'pointer', display: 'inline-block' }}
+                >
+                  <img
+                    src={CatalogoImg}
+                    alt="Descargar catálogo"
+                    style={{ width: '100%', maxWidth: '500px', height: 'auto', borderRadius: '8px' }}
+                  />
+                </a>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '4rem' }}>
+              <div className="row g-4">
+                <div className="col-lg-4 text-center">
+                  <img src={InfIcon1} alt="icon" style={{ maxWidth: 50 }} />
+                  <h4>Ubicación</h4>
+                  <p>
+                    La Reserva Industrial de las 11 Hectáreas, Lote 4, Manzana
+                    <br />
+                    3, C.P. 43998, Tepeapulco Centro, Hidalgo, México.
+                  </p>
                 </div>
-            </section>
+                <div className="col-lg-4 text-center">
+                  <img src={InfIcon2} alt="icon" style={{ maxWidth: 50 }} />
+                  <h4>Teléfono</h4>
+                  <p>+52 5611262476</p>
+                </div>
+                <div className="col-lg-4 text-center">
+                  <img src={InfIcon3} alt="icon" style={{ maxWidth: 50 }} />
+                  <h4>Correo</h4>
+                  <p>ap_testinglab@outlook.com</p>
+                </div>
+              </div>
+            </div>
+            <p
+              style={{
+                marginTop: '2rem',
+                maxWidth: '600px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                textAlign: 'center',
+              }}
+            >
+              ¿Necesitas certificar tus equipos de protección personal? Contáctanos para obtener más información sobre nuestros servicios de pruebas de laboratorio.
+            </p>
 
+            <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+              <Link
+                to="/contact"
+                style={btnStyle}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+              >
+                Solicitar Información
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <section className="contact-section section-padding pt-0 section-bg-2">
-                <div className="contact-title">
-                    <p> ¿Necesitas certificar tus equipos de protección personal? <br/>
-                    Contáctanos para obtener más información sobre nuestros servicios de pruebas de laboratorio.</p>
-                <a href="/contact" role="button">Solicitar Información</a>
-                
-                                                    </div>
-                                                </section>
-                                            </div>
-                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </section>
-            <FooterS3 />
-        </Fragment>
-    )
+      <FooterS3 />
+    </Fragment>
+  );
 };
+
 export default ServiceSinglePage;

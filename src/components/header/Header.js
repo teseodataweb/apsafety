@@ -161,7 +161,7 @@ const Header = (props) => {
                                                 </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/shop">Productos</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
+
                                                     {/* <li><Link onClick={ClickHandler} to="/shop-cart">Shop Cart</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/checkout">Checkout</Link></li> */}
                                                 </ul>
@@ -189,6 +189,7 @@ const Header = (props) => {
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/contacto">Contacto</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                     </ul>
                                                     </li>
