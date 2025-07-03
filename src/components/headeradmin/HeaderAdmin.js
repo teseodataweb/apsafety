@@ -138,6 +138,7 @@ const HeaderAdmin = (props) => {
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/contacto">Contacto</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                     </ul>
                                                     </li>
