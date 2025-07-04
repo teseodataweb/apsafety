@@ -4896,6 +4896,29 @@ span {
   text-align: center;
   transition: all 0.3s ease-in-out;
 }
+
+
+/* Resaltar categoría seleccionada */
+.active-category {
+    font-weight: bold;
+    color: #008A1F !important;
+}
+
+/* Mejorar diseño de botones */
+.product-box-items .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mensaje cuando no hay productos */
+.no-products-message {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
 .main-sidebar .single-sidebar-widget .news-widget-categories ul li {
   display: flex;
   align-items: center;

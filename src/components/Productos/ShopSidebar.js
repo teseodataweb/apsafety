@@ -1,135 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RangeBarCustom from './RangeBarCustom';
-import FilterSize from './handleCheckboxChange';
-import FilterStarRating from './FilterStarRating';
 
+const ShopSidebar = ({ onSearch, onCategoryChange, selectedCategory }) => {
+    const [searchInput, setSearchInput] = useState('');
 
-const ClickHandler = () => {
-    window.scrollTo(10, 0);
-};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSearch(searchInput);
+    };
 
-const ShopSidebar = () => {
+    const categories = [
+        'Todos los productos',
+        'Detección de gas',
+        'Productos POP',
+        'Protección personal',
+        'Protección respiratoria',
+        'Productos'
 
+    ];
 
     return (
         <div className="shop-main-sidebar">
             <div className="single-sidebar-widget">
                 <div className="wid-title">
-                    <h4>search here</h4>
+                    <h4>Buscar Producto</h4>
                 </div>
                 <div className="search_widget">
-                    <form action="#">
-                        <input type="text" placeholder="search here" />
+                    <form onSubmit={handleSubmit}>
+                        <input 
+                            type="text" 
+                            placeholder="Buscar producto" 
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
                         <button type="submit"><i className="fal fa-search"></i></button>
                     </form>
                 </div>
             </div>
             <div className="single-sidebar-widget">
                 <div className="wid-title">
-                    <h4>Catagories</h4>
+                    <h4>Categorías</h4>
                 </div>
                 <div className="shop-catagory-items">
                     <ul>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Brochures & Catalogues
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Business Cards
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Calendars printing
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Design Online
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Flyers Design
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Folded Leaflets
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                t-shirt printing
-                            </Link>
-                        </li>
-                        <li>
-                            <Link onClick={ClickHandler} to="#">
-                                <i className="fa-regular fa-chevron-left"></i>
-                                Gift item printing
-                            </Link>
-                        </li>
+                        {categories.map((category, index) => (
+                            <li key={index}>
+                                <button 
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        padding: 0,
+                                        textAlign: 'left',
+                                        width: '100%',
+                                        cursor: 'pointer',
+                                        color: selectedCategory === category ? '#008A1F' : 'inherit'
+                                    }}
+                                    onClick={() => onCategoryChange(category)}
+                                >
+                                    <i className="fa-regular fa-chevron-left"></i>
+                                    {category}
+                                </button>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Filter By Price</h4>
-                </div>
-                <RangeBarCustom />
-            </div>
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Filter by size</h4>
-                </div>
-                <FilterSize />
-            </div>
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Filter by Rating</h4>
-                </div>
-                <FilterStarRating/>
-            </div>
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Filter by Color</h4>
-                </div>
-                <ul className="color-list">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Filter by Tag</h4>
-                </div>
-                <div className="shop-widget-tag">
-                    <span>Sweat Shirt</span>
-                    <span>Banner design</span>
-                    <span>Brochure</span>
-                    <span>Business Card</span>
-                    <span>landing</span>
-                    <span>Brochure</span>
-                    <span>Tryptich Brochure</span>
-                    <span>Cap</span>
-                </div>
-            </div>
         </div>
-
     );
 };
 
