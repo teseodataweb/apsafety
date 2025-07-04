@@ -1,9 +1,14 @@
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
+import { db } from './firebase';
 import auth from './firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { db } from './firebase'; // Importamos db con llaves
+
+import { 
+  signInWithEmailAndPassword, 
+  setPersistence, 
+  browserSessionPersistence 
+} from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const Login = () => {
@@ -39,8 +44,14 @@ const Login = () => {
         if (simpleValidator.current.allValid()) {
             try {
                 const sanitizedEmail = formData.email.trim().toLowerCase();
-                // 1. Autenticación con Firebase Auth
+                
+                // Establecer persistencia de sesión
+                await setPersistence(auth, browserSessionPersistence);
+                
+                // Autenticar al usuario
                 const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, formData.password);
+                
+                // Verificar rol en Firestore
                 const usersRef = collection(db, "users");
                 const q = query(usersRef, where("email", "==", sanitizedEmail));
                 const querySnapshot = await getDocs(q);
@@ -52,15 +63,14 @@ const Login = () => {
                 const userDoc = querySnapshot.docs[0];
                 const userType = userDoc.data().userType;
                 
-                // 3. Redirección según userType
+                // Redirección según rol
                 if (userType === 'admin') {
                     navigate('../admin');
                 } else if (userType === 'secundario') {
-                    navigate('/formUsser');
+                    navigate('/productos');
                 } else {
                     throw new Error('Tipo de usuario no válido');
                 }
-                
             } catch (error) {
                 console.error('Error de autenticación:', error);
                 let msg = 'Error al iniciar sesión.';
@@ -73,7 +83,7 @@ const Login = () => {
                 else if (error.message === 'Tipo de usuario no válido') msg = 'El tipo de usuario no es válido.';
                 
                 setErrorMsg(msg);
-                setFormData({ email: '', password: '' });
+                setFormData(prev => ({ ...prev, password: '' }));
             }
         } else {
             simpleValidator.current.showMessages();

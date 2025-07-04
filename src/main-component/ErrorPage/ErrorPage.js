@@ -9,7 +9,7 @@ const ErrorPage =() => {
     return(
         <Fragment>
             <NavbarS2 hclass={'header-section-2 style-two'} />
-            <PageTitle pageTitle={'Digital printing Service'} pagesub={'Error Page'}/> 
+            <PageTitle pageTitle={'Digital printing Service'} pagesub={''}/> 
             <Error/>
             <CtaSectionS2 />
             <FooterS3 />
