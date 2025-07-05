@@ -85,19 +85,18 @@ const Loginpage = () => {
                                     <div className="contact-title">
 
                         <br/>
-                        <br/>
-                        <br/>
+                     
 
-                        <br/>
-
+                        
 
 
 
-                                        <h3 className="wow fadeInUp"    data-wow-delay=".3s">Iniciar Sesión</h3>
-                                        {/* <p className="wow fadeInUp" data-wow-delay=".5s">Your email address will not be published. Required fields are marked *</p> */}
+
+                                      
                                     </div>
-                                    
                                     <Login/>
+                        <br/>
+
                                 </div>
                             </div>
                         </div>

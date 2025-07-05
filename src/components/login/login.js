@@ -3,7 +3,6 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase';
 import auth from './firebase';
-
 import { 
   signInWithEmailAndPassword, 
   setPersistence, 
@@ -44,11 +43,7 @@ const Login = () => {
         if (simpleValidator.current.allValid()) {
             try {
                 const sanitizedEmail = formData.email.trim().toLowerCase();
-                
-                // Establecer persistencia de sesión
                 await setPersistence(auth, browserSessionPersistence);
-                
-                // Autenticar al usuario
                 const userCredential = await signInWithEmailAndPassword(auth, sanitizedEmail, formData.password);
                 
                 // Verificar rol en Firestore
@@ -94,75 +89,97 @@ const Login = () => {
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     return (
-        <form id="login-form" onSubmit={handleSubmit}>
-            <div className="row g-4">
-                <div className="col-lg-12">
-                    <div className="form-clt">
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Correo electrónico*"
-                            value={formData.email}
-                            onChange={handleChange}
-                            autoComplete="email"
-                            autoCapitalize="none"
-                            spellCheck="false"
-                            style={{ textTransform: 'lowercase' }}
-                        />
-                        <div className="icon">
-                            <i className="fal fa-user"></i>
+        <div className="d-flex justify-content-center align-items-center">
+            <div className="card p-4" style={{ width: '100%', maxWidth: '500px' }}>
+                <div className="card-body">
+                    <h2 className="text-center mb-4">Inicio de Sesión</h2>
+                    <form id="login-form" onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <div className="d-flex align-items-center position-relative">
+                                <div className="icon-container bg-light rounded-start p-3 d-flex align-items-center justify-content-center" 
+                                     style={{ width: '50px', height: '50px' }}>
+                                    <i className="fas fa-envelope" style={{ color: '#008A1F' }}></i>
+                                </div>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    className="form-control rounded-0 rounded-end"
+                                    placeholder="Correo electrónico*"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    autoComplete="email"
+                                    autoCapitalize="none"
+                                    spellCheck="false"
+                                    style={{ 
+                                        height: '50px',
+                                        textTransform: 'lowercase',
+                                        borderLeft: 'none'
+                                    }}
+                                />
+                            </div>
+                            <div className="text-danger small mt-2 ps-2">
+                                {simpleValidator.current.message('email', formData.email, 'required|email')}
+                            </div>
                         </div>
-                        <span style={{ color: '#006400' }}>
-                            {simpleValidator.current.message('email', formData.email, 'required|email')}
-                        </span>
-                    </div>
-                </div>
-                <div className="col-lg-12">
-                    <div className="form-clt" style={{ position: 'relative' }}>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            id="password"
-                            placeholder="Contraseña*"
-                            value={formData.password}
-                            onChange={handleChange}
-                            style={{ paddingRight: '30px' }}
-                        />
-                        <div className="icon">
-                            <i className="fal fa-lock"></i>
+                        
+                        {/* Campo de contraseña */}
+                        <div className="mb-4">
+                            <div className="d-flex align-items-center position-relative">
+                                <div className="icon-container bg-light rounded-start p-3 d-flex align-items-center justify-content-center" 
+                                     style={{ width: '50px', height: '50px' }}>
+                                    <i className="fas fa-lock" style={{ color: '#008A1F' }}></i>
+                                </div>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    id="password"
+                                    className="form-control rounded-0"
+                                    placeholder="Contraseña*"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    style={{ 
+                                        height: '50px',
+                                        borderLeft: 'none',
+                                        borderRight: 'none'
+                                    }}
+                                />
+                                <button 
+                                    type="button"
+                                    className="btn bg-light rounded-end d-flex align-items-center justify-content-center"
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                        width: '50px',
+                                        height: '50px',
+                                        border: '1px solid #ced4da',
+                                        borderLeft: 'none'
+                                    }}
+                                >
+                                    <i
+                                        className={`fas ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
+                                        style={{ color: '#008A1F' }}
+                                    ></i>
+                                </button>
+                            </div>
+                            <div className="text-danger small mt-2 ps-2">
+                                {simpleValidator.current.message('password', formData.password, 'required|min:6')}
+                            </div>
                         </div>
-                        <span style={{ color: '#008A1F' }}>
-                            {simpleValidator.current.message('password', formData.password, 'required|min:6')}
-                        </span>
-                        <div
-                            onClick={togglePasswordVisibility}
-                            style={{
-                                position: 'absolute',
-                                right: '10px',
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <i
-                                className={`fal ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
-                            ></i>
+                        
+                        {errorMsg && (
+                            <div className="alert alert-danger mt-3">
+                                {errorMsg}
+                            </div>
+                        )}
+                        
+                        <div className="d-grid gap-2 mt-4">
+                            <button type="submit" className="btn btn-primary  py-3" style={{ backgroundColor: '#008A1F' }}>Iniciar Sesión
+                            </button>
                         </div>
-                    </div>
-                </div>
-                {errorMsg && (
-                    <div className="col-lg-12">
-                        <span style={{ color: 'red', fontWeight: 600 }}>{errorMsg}</span>
-                    </div>
-                )}
-                <div className="col-lg-6">
-                    <button type="submit" className="theme-btn">
-                        <i className="fal fa-paper-plane"></i> Iniciar Sesión
-                    </button>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
     );
 };
 

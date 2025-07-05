@@ -15,11 +15,6 @@ const Alltab = (props) => {
     useEffect(() => {
         openTab('Tab2');
     }, []);
-
-
-
-
-
     return (
         <div className="single-tab">
             <ul className="nav mb-4">
@@ -191,7 +186,7 @@ const Alltab = (props) => {
                                     </div>
                                 </div>
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus dolor eget viverra pretium.Curabitur vulputate vestibulum Phasellus rhoncus dolor eget viverra pretium.
+                                    Eyeyeyey ipsum dolor sit amet consectetur adipiscing elit. Curabitur vulputate vestibulum Phasellus rhoncus dolor eget viverra pretium.Curabitur vulputate vestibulum Phasellus rhoncus dolor eget viverra pretium.
                                 </p>
                             </div>
                         </div>
@@ -217,5 +212,4 @@ const Alltab = (props) => {
         </div>
     );
 };
-
 export default Alltab;

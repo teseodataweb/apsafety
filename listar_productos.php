@@ -15,6 +15,8 @@ try {
     $query = isset($_GET['query']) ? strtolower(trim($_GET['query'])) : '';
     $clasificacion = isset($_GET['clasificacion']) ? $_GET['clasificacion'] : '';
     $activo = isset($_GET['activo']) ? strtolower($_GET['activo']) : '';
+    $rutaParam = isset($_GET['ruta']) ? $_GET['ruta'] : '';
+    $modoDetalle = ($rutaParam !== '');
 
     foreach ($carpetas as $carpeta) {
         if ($carpeta === '.' || $carpeta === '..') continue;
@@ -33,23 +35,74 @@ try {
                     $prodClasificacion = $producto['clasificacion'] ?? '';
                     $prodActivo = $producto['activo'] ?? false;
                     
-                    // Filtrar por búsqueda
-                    if ($query !== '') {
-                        if (strpos($titulo, $query) === false && strpos($descripcion, $query) === false) {
-                            continue;
+                    // Filtros
+                    if ($query !== '' && strpos($titulo, $query) === false && strpos($descripcion, $query) === false) continue;
+                    if ($clasificacion !== '' && $clasificacion !== 'Todos los productos' && $clasificacion !== $prodClasificacion) continue;
+                    if ($activo !== '' && $activo != strtolower($prodActivo)) continue;
+                    if ($rutaParam !== '' && $producto['ruta'] !== $rutaParam) continue;
+
+                    // Leer archivos físicos
+                    $imagenPrincipal = '';
+                    $fichaTecnica = '';
+                    $sellos = [];
+                    $imagenes = [];
+
+                    // 1. Buscar imagen principal en raíz
+                    $archivos = scandir($carpetaPath);
+                    foreach ($archivos as $archivo) {
+                        if ($archivo === '.' || $archivo === '..') continue;
+                        $rutaArchivo = $carpetaPath . '/' . $archivo;
+                        $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+                        
+                        if (is_file($rutaArchivo)) {
+                            // Imagen principal
+                            if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                                $imagenPrincipal = base64_encode(file_get_contents($rutaArchivo));
+                            }
+                            // PDF
+                            if ($extension === 'pdf') {
+                                $fichaTecnica = base64_encode(file_get_contents($rutaArchivo));
+                            }
                         }
                     }
-                    
-                    // Filtrar por clasificación (solo si no es 'Todos los productos')
-                    if ($clasificacion !== '' && $clasificacion !== 'Todos los productos' && $clasificacion !== $prodClasificacion) {
-                        continue;
+
+                    // 2. Carpeta Sellos
+                    $sellosPath = $carpetaPath . '/Sellos';
+                    if (is_dir($sellosPath)) {
+                        $archivosSellos = scandir($sellosPath);
+                        foreach ($archivosSellos as $sello) {
+                            if ($sello === '.' || $sello === '..') continue;
+                            $rutaSello = $sellosPath . '/' . $sello;
+                            $extension = strtolower(pathinfo($sello, PATHINFO_EXTENSION));
+                            
+                            if (is_file($rutaSello) && in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                                $sellos[] = base64_encode(file_get_contents($rutaSello));
+                            }
+                        }
                     }
+
+                    // 3. Carpeta Imágenes
+                    $imagenesPath = $carpetaPath . '/imágenes';
+                    if (!is_dir($imagenesPath)) $imagenesPath = $carpetaPath . '/imagenes';
                     
-                    // Filtrar por estado activo
-                    if ($activo !== '' && $activo != (strtolower($prodActivo))) {
-                        continue;
+                    if (is_dir($imagenesPath)) {
+                        $archivosImagenes = scandir($imagenesPath);
+                        foreach ($archivosImagenes as $img) {
+                            if ($img === '.' || $img === '..') continue;
+                            $rutaImg = $imagenesPath . '/' . $img;
+                            $extension = strtolower(pathinfo($img, PATHINFO_EXTENSION));
+                            
+                            if (is_file($rutaImg) && in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                                $imagenes[] = base64_encode(file_get_contents($rutaImg));
+                            }
+                        }
                     }
-                    
+
+                    // Solo en detalle leer PDF completo
+                    if (!$modoDetalle) {
+                        $fichaTecnica = '';
+                    }
+
                     $productos[] = [
                         'titulo' => $producto['titulo'] ?? '',
                         'descripcion' => $producto['descripcion'] ?? '',
@@ -60,12 +113,14 @@ try {
                         'tipo' => $producto['tipo'] ?? '',
                         'activo' => $prodActivo,
                         'fechaCreacion' => $producto['fechaCreacion'] ?? '',
-                        'fichaTecnica' => $producto['fichaTecnica'] ?? '',
-                        'imagenPrincipal' => $producto['imagenPrincipal'] ?? '',
-                        'sellos' => $producto['sellos'] ?? [],
-                        'imagenes' => $producto['imagenes'] ?? [],
+                        'fichaTecnica' => $fichaTecnica,
+                        'imagenPrincipal' => $imagenPrincipal,
+                        'sellos' => $sellos,
+                        'imagenes' => $imagenes,
                         'ruta' => $producto['ruta'] ?? ''
                     ];
+                    
+                    if ($rutaParam !== '' && $producto['ruta'] === $rutaParam) break;
                 }
             }
         }

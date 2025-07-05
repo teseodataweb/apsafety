@@ -273,9 +273,9 @@ const Productos = () => {
 
                                         <div className={`product-content p-3 ${viewMode === 'list' ? 'd-flex flex-column justify-content-center' : ''}`}>
                                             <h6 className="product-name" style={viewMode === 'list' ? { fontSize: '1.2rem' } : {}}>
-                                                <Link to={`/productos/${encodeURIComponent(product.titulo)}`}>
-                                                    {product.titulo}
-                                                </Link>
+                                               <Link to={`/producto/${encodeURIComponent(product.ruta)}`}>
+      {product.titulo}
+    </Link>
                                             </h6>
                                             
                                             {viewMode === 'list' && (

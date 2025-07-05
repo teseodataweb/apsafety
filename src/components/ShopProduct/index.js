@@ -101,7 +101,7 @@ const ShopProduct = ({ products, addToCartProduct }) => {
                                                 </ul>
                                                 <div className="shop-btn">
                                                     <button onClick={() => addToCartProduct(product)} className="theme-btn">
-                                                        Add To Cart
+                                                         Ver Información
                                                     </button>
                                                 </div>
                                             </div>
