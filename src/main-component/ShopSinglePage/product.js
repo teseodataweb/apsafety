@@ -1,36 +1,39 @@
 import React from 'react';
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
-import { Link } from 'react-router-dom';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+import bannerDoc from '../../img/AP.Safetty.png'; // Asegúrate que la ruta es correcta
 
 const Product = ({ item, addToCart }) => {
-  const ClickHandler = () => {
-    window.scrollTo(10, 0);
-  }
-
   return (
-    <div className="row g-5">
+    <div className="row g-5 align-items-center" style={{ marginBottom: '3rem' }}>
       <div className="col-lg-6">
-        <div className="product-image-items">
-          <div className="tab-content">
-              <div className="product-image">
-                <Zoom>
-                  <img src={item.proImg ? item.proImg : ''} alt="products" />
-                </Zoom>
-              </div>
-          </div>
+        <div className="product-image-items text-center">
+          <Zoom>
+            <img
+              src={bannerDoc}
+              alt="Información Técnica"
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                borderRadius: '12px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              }}
+            />
+          </Zoom>
         </div>
       </div>
+
       <div className="col-lg-6">
         <div className="product-details-content">
-          
-          <h3 className="pb-12 split-text right">{item.title}</h3>
-          <p className="mb-4">
+          <h2 style={{ fontSize: '1.6rem', fontWeight: '600', marginBottom: '1.5rem', lineHeight: '1.6' }}>
             Consulta y descarga fichas técnicas, certificados, normativas y manuales para usar y validar 
-            nuestros equipos de protección personal (EPP). Toda la información está organizada para facilitar 
-            la toma de decisiones técnicas y cumplir con regulaciones nacionales e internacionales.
+            nuestros equipos de protección personal (EPP).
+          </h2>
+          <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.7' }}>
+            Toda la información está organizada para facilitar la toma de decisiones técnicas y cumplir con 
+            regulaciones nacionales e internacionales. Explora cada apartado para conocer la documentación que 
+            respalda la calidad y cumplimiento de nuestros productos. Todo validado por nuestro laboratorio acreditado.
           </p>
- 
         </div>
       </div>
     </div>
@@ -38,12 +41,3 @@ const Product = ({ item, addToCart }) => {
 };
 
 export default Product;
-
-
-
-
-
-
-
-
-

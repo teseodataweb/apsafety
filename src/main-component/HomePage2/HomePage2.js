@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import NavbarS2 from '../../components/NavbarS2/NavbarS2'
+import Navbar from '../../components/Navbar/Navbar'
 import Hero2 from '../../components/hero2/Hero2';
 import About2 from '../../components/about2/about2';
 import ShopbannerSection from '../../components/ShopbannerSection/ShopbannerSection';
@@ -33,7 +33,7 @@ const HomePage2 = ({ addToCart }) => {
 
     return (
         <Fragment>
-            <NavbarS2 hclass={'header-section-2 style-two'}/>
+            <Navbar hclass={'header-section-2 style-two'}/>
             <Hero2 />
             <IconboxSection />
             <ShopbannerSection />

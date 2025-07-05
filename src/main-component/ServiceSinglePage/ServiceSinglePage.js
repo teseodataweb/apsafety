@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import NavbarS2 from '../../components/NavbarS2/NavbarS2';
+import Navbar from '../../components/Navbar/Navbar'
 import PageTitle from '../../components/pagetitle/PageTitle';
 import FooterS3 from '../../components/footerS3/FooterS3';
 import InfIcon1 from '../../img/icon/location.png';
@@ -45,7 +45,7 @@ const ServiceSinglePage = () => {
 
   return (
     <Fragment>
-      <NavbarS2 hclass={'header-section-2 style-two'} />
+      <Navbar hclass={'header-section-2 style-two'} />
       <PageTitle
         pageTitle={'Laboratorio de Pruebas Certificadas para Equipos de Protección Personal'}
         pagesub={serviceDetails.title}
@@ -143,35 +143,46 @@ const ServiceSinglePage = () => {
                 </p>
               </div>
             </div>
-
-
- 
             <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 2fr))',
-                gap: '20px',
-                marginTop: '2rem',
-                justifyItems: 'center',
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 2fr))',
+              gap: '20px',
+              marginTop: '2rem',
+              justifyItems: 'center',
               }}
-            >
-             {videoLinks.map((link, index) => (
-                <iframe
-                key={index}
-                width="100%"
-                height="280"
-                src={link}
-                title={`Video ${index + 1}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                style={{ borderRadius: '8px' }}
-                ></iframe>
-                ))}
-            </div>
-
-            <div
+              >
+                {videoLinks.map((link, index) => (
+                  <div key={index} style={{ width: '100%' }}>
+                    <iframe
+                    width="100%"
+                    height="280"
+                    src={link}
+                    title={`Video ${index + 1}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    style={{ borderRadius: '8px' }}
+                    ></iframe>
+                    <p
+                    style={{
+                      textAlign: 'center',
+                      marginTop: '0.75rem',
+                      fontSize: '1rem',
+                      color: '#444',
+                      lineHeight: '1.5',}}>
+                        {[
+                          'LA ÚNICA PRUEBA REAL A MASCARILLAS N95.',
+                          'Esta es nuestra cámara de Pre - acondicionamiento de nuestro laboratorio.',
+                          'Mesa Vibratoria con la que hacemos pruebas en todos nuestros equipos. en nuestro #AP Testing Lab.',
+                          'TEASER AP TESTING LAB.'
+                          ][index]}
+                          </p>
+                          </div>
+                        ))}
+                        </div>
+              <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
