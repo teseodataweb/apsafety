@@ -64,58 +64,7 @@ const Header = (props) => {
                                                 <Link onClick={ClickHandler} to="/home">
                                                     Inicio
                                                 </Link>
-                                                <ul className="submenu has-homemenu">
-                                                    <li>
-                                                        <div className="homemenu-items">
-                                                            <div className="homemenu">
-                                                                <div className="homemenu-thumb">
-                                                                    <img src={Home1} alt="img" />
-                                                                    <div className="demo-button">
-                                                                        <Link onClick={ClickHandler} to="/home" className="theme-btn">
-                                                                            Demo Page
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="homemenu-content text-center">
-                                                                    <h4 className="homemenu-title">
-                                                                        Inicio 01
-                                                                    </h4>
-                                                                </div>
-                                                            </div>
-                                                            <div className="homemenu">
-                                                                <div className="homemenu-thumb mb-15">
-                                                                    <img src={Home2} alt="img" />
-                                                                    <div className="demo-button">
-                                                                        <Link onClick={ClickHandler} to="/home-2" className="theme-btn">
-                                                                            Demo Page
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="homemenu-content text-center">
-                                                                    <h4 className="homemenu-title">
-                                                                        Home 02
-                                                                    </h4>
-                                                                </div>
-                                                            </div>
-                                                            <div className="homemenu">
-                                                                <div className="homemenu-thumb mb-15">
-                                                                    <img src={Home3} alt="img" />
-                                                                    <div className="demo-button">
-                                                                        <Link onClick={ClickHandler} to="/home-3" className="theme-btn">
-                                                                            Demo Page
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="homemenu-content text-center">
-                                                                    <h4 className="homemenu-title">
-                                                                        Home 03
-                                                                    </h4>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                               
                                             </li>
                                             <li className="has-dropdown active d-xl-none">
                                                 <Link onClick={ClickHandler} to="/team" className="border-none">
@@ -136,35 +85,11 @@ const Header = (props) => {
 
                                                 </ul>
                                             </li>
-                                            {/* <li>
-                                                <Link onClick={ClickHandler} to="#">
-                                                    Services
-                                                </Link>
-                                                <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/service">Services</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Service Details</Link></li>
-                                                </ul>
-                                            </li>
-                                            <li className="has-dropdown">
-                                                <Link onClick={ClickHandler} to="#">
-                                                    Pages
-                                                </Link>
-                                                <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/project">Projects</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/project-details/3d-Genareted-Cate">Project Details</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/404">404 Page</Link></li>
-                                                </ul>
-                                            </li> */}
                                             <li>
-                                                <Link onClick={ClickHandler} to="#">
+                                                <Link onClick={ClickHandler} to="/shop">
                                                     Productos
                                                 </Link>
-                                                <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/shop">Productos</Link></li>
-
-                                                    {/* <li><Link onClick={ClickHandler} to="/shop-cart">Shop Cart</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/checkout">Checkout</Link></li> */}
-                                                </ul>
+                                              
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
@@ -199,13 +124,7 @@ const Header = (props) => {
                                 </div>
                             </div>
                             <div className="header-right d-flex justify-content-end align-items-center">
-                                <SearchComponent />
-                                <h5 className="cart-title"><Link onClick={ClickHandler} to="/shop-cart">Cart <span className='cart-count'>{carts.length}</span></Link></h5>
-                                <div className="header__hamburger d-xl-none my-auto">
-                                    <div className="sidebar__toggle">
-                                        <MobileMenu />
-                                    </div>
-                                </div>
+                         
                             </div>
                         </div>
                     </div>

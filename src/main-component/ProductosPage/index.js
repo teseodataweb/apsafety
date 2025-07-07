@@ -5,9 +5,7 @@ import { addToCart } from "../../store/actions/action";
 import Productos from '../../components/Productos/index';
 import api from "../../api";
 import NavbarS2 from '../../components/NavbarS2/NavbarS2';
-import CtaSectionS2 from '../../components/CtaSectionS2/CtaSectionS2';
-import FooterS3 from '../../components/footerS3/FooterS3';
-import CursorMaus from '../../components/CursorMaus/CursorMaus';
+import FooterS3 from '../../components/footer/Footer';
 const ProductosPage = ({ addToCart }) => {
     const productsArray = api();
     const addToCartProduct = (product, qty = 1) => {
@@ -20,9 +18,8 @@ const ProductosPage = ({ addToCart }) => {
             <Productos
                 addToCartProduct={addToCartProduct}
                 products={products} />
-            <CtaSectionS2 />
+           
             <FooterS3 />
-            <CursorMaus />
         </Fragment>
         )};
 export default connect(null, { addToCart })(ProductosPage);

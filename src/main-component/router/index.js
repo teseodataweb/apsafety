@@ -24,7 +24,7 @@ import AsesoriaTecnica from '../../components/AtencionCliente/AsesoriaTecnica';
 import AdminPage from '../Admin/AdminPage';
 import FormUsser from '../../components/AggUssers/FormUsser';
 import FormProducto from '../../components/AggProductos/FormProducto';
-import ProtectedRoute from '../../components/ProtectedRoute'; // Ajusta la ruta
+import ProtectedRoute from '../../components/ProtectedRoute';
 import ProductoDetalle from '../../components/Productos/ProductoDetalle';
 
 const AllRoute = () => {
@@ -65,7 +65,6 @@ const AllRoute = () => {
               </ProtectedRoute>
             } 
           />
-          
 
           <Route path="productos" element={ <ProtectedRoute allowedRoles={['admin', 'secundario']}>  <ProductosPage /> </ProtectedRoute>}  />
 
