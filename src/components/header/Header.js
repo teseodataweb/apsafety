@@ -2,30 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
-import HeaderTopbar from '../HeaderTopbar/HeaderTopbar';
 import Logo from '../../img/apsafetylogo.png';
-import Home1 from '../../img/header/home-1.jpg';
-import Home2 from '../../img/header/home-2.jpg';
-import Home3 from '../../img/header/home-3.jpg';
-import SearchComponent from './search';
-
-import MobileMenu from '../MobileMenu/MobileMenu';
-
 const Header = (props) => {
-
     const SubmitHandler = (e) => {
         e.preventDefault()
     }
-
     const ClickHandler = () => {
         window.scrollTo(10, 0);
     }
-
     const { carts } = props;
-
-
     const [isSticky, setIsSticky] = useState(false);
-
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 250) {
@@ -44,7 +30,6 @@ const Header = (props) => {
 
     return (
         <header className={props.hclass}>
-            {/* <HeaderTopbar /> */}
             <div id="header-sticky" className={isSticky ? 'sticky' : 'header-1'}>
                 <div className="container-fluid">
                     <div className="mega-menu-wrapper">
@@ -86,10 +71,9 @@ const Header = (props) => {
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/shop">
+                                                <Link onClick={ClickHandler} to="/productosusers">
                                                     Productos
                                                 </Link>
-                                              
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
@@ -102,13 +86,6 @@ const Header = (props) => {
 
                                                 </ul>
                                             </li>
-
-
- {/* <li>
-                                          <li>
-                                                <Link onClick={ClickHandler} to="/Login">Acceder</Link>
-                                            </li> 
-                                            </li> */}
                                             <li className="has-dropdown">
                                                 <Link onClick={ClickHandler} to="#">Atención al cliente</Link>
                                                 <ul className="submenu">
@@ -124,7 +101,6 @@ const Header = (props) => {
                                 </div>
                             </div>
                             <div className="header-right d-flex justify-content-end align-items-center">
-                         
                             </div>
                         </div>
                     </div>
@@ -138,15 +114,4 @@ const mapStateToProps = (state) => {
         carts: state.cartList.cart,
     };
 };
-
-
 export default connect(mapStateToProps, { removeFromCart })(Header);
-
-
-
-
-
-
-
-
-

@@ -11,6 +11,8 @@ import ProjectPage from '../ProjectPage/ProjectPage';
 import ProjectSinglePage from '../ProjectSinglePage/ProjectSinglePage';
 import ShopPage from '../ShopPage';
 import ProductosPage from '../ProductosPage';
+import ProductosUsers from '../ProductosUsers';
+
 import ShopSinglePage from '../ShopSinglePage';
 import CartPage from '../CartPage';
 import ProductDetailPage  from '../../components/ProductDetailPage/ProductDetailPage'
@@ -26,6 +28,8 @@ import FormUsser from '../../components/AggUssers/FormUsser';
 import FormProducto from '../../components/AggProductos/FormProducto';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import ProductoDetalle from '../../components/Productos/ProductoDetalle';
+import ProductoDetalleUs from '../../components/ProductosUsers/ProductoDetalle';
+
 
 const AllRoute = () => {
   return (
@@ -33,6 +37,8 @@ const AllRoute = () => {
       <BrowserRouter>
         <Routes>
         <Route path="/producto/:ruta" element={<ProductoDetalle />} />
+        <Route path="/productous/:ruta" element={<ProductoDetalleUs />} />
+
           <Route path="/" element={<Homepage />} />
           <Route path="home" element={<Homepage />} />
           <Route path="home-2" element={<HomePage2 />} />
@@ -70,8 +76,8 @@ const AllRoute = () => {
 
 
           <Route path="service" element={<ServicePage />} />
+          <Route path="productosusers" element={<ProductosUsers />} />
           <Route path="detail" element={<ProductDetailPage />} />
-
           <Route path="service-details/:slug" element={<ServiceSinglePage />} />
           <Route path="project" element={<ProjectPage />} />
           <Route path="project-details/:slug" element={<ProjectSinglePage />} />
