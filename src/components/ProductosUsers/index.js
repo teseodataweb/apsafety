@@ -46,8 +46,7 @@ const ProductosUsers = () => {
                 console.error('Error al obtener productos:', error);
             } finally {
                 setLoading(false);
-            }
-        };
+            }};
         fetchProducts();
     }, [searchTerm, selectedCategory]);
     const sortedProducts = useMemo(() => {
@@ -66,16 +65,12 @@ const ProductosUsers = () => {
             }
         });
     }, [products, sortOption]);
-
     const handleEdit = (product) => {
         navigate('/formProducto', { 
             state: { 
                 producto: product,
                 isEditing: true
-            } 
-        });
-    };
-
+            } }); };
     const handleDelete = async (product) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
             try {
@@ -86,29 +81,22 @@ const ProductosUsers = () => {
                     },
                     body: JSON.stringify({ ruta: product.ruta })
                 });
-                
                 const result = await response.json();
                 if (result.success) {
                     alert('Producto eliminado exitosamente');
                     setProducts(products.filter(p => p.ruta !== product.ruta));
                 } else {
                     alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
+                }} catch (error) {
                 console.error('Error al eliminar el producto:', error);
                 alert('Error al conectar con el servidor');
-            }
-        }
-    };
-
+            }}};
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
-
     const handleCategoryChange = (category) => {
         setSelectedCategory(prev => prev === category ? '' : category);
     };
-
     if (loading) {
         return (
             <div className="d-flex justify-content-center mt-5">
@@ -118,7 +106,6 @@ const ProductosUsers = () => {
             </div>
         );
     }
-
     if (error) {
         return (
             <div className="alert alert-danger mt-5 text-center">
@@ -126,7 +113,6 @@ const ProductosUsers = () => {
             </div>
         );
     }
-
     return (
         <section className="shop-page-section fix section-padding section-bg-2"> 
             <div className="container">
@@ -138,9 +124,7 @@ const ProductosUsers = () => {
                             selectedCategory={selectedCategory}
                         />
                     </div>
-
                     <div className="col-xl-9 col-lg-8 order-1 order-md-2">
-                        {/* Barra de herramientas: Ordenamiento y cambio de vista */}
                         <div className="d-flex justify-content-end mb-4">
                             <div className="me-3">
                                 <select 
@@ -160,8 +144,7 @@ const ProductosUsers = () => {
                                     <option value="fecha_asc">Fecha más antigua</option>
                                     <option value="fecha_desc">Fecha más reciente</option>
                                 </select>
-                            </div>
-                            
+                            </div>  
                             <div className="btn-group">
                                 <button 
                                     className={`btn btn-outline-secondary ${viewMode === 'grid' ? 'active' : ''}`}
@@ -187,7 +170,6 @@ const ProductosUsers = () => {
                                 </button>
                             </div>
                         </div>
-
                         <div className="row">
                             {sortedProducts.length > 0 ? sortedProducts.map((product, index) => (
                                 <div className={viewMode === 'grid' ? 'col-lg-3 col-md-4 col-6 mb-4' : 'col-12 mb-4'} key={index}>
@@ -230,13 +212,9 @@ const ProductosUsers = () => {
                                                 </div>
                                             )}
                                         </div>
-                                    
-
                                         <div className={`product-content p-3 ${viewMode === 'list' ? 'd-flex flex-column justify-content-center' : ''}`}>
                                             <h6 className="product-name" style={viewMode === 'list' ? { fontSize: '1.2rem' } : {}}>
-                                               <Link to={`/productous/${encodeURIComponent(product.ruta)}`}>
-      {product.titulo}
-    </Link>
+                                               <Link to={`/productous/${encodeURIComponent(product.ruta)}`}>{product.titulo}</Link>
                                             </h6>
                                             {viewMode === 'list' && (
                                                 <div className="mt-2">
@@ -261,13 +239,11 @@ const ProductosUsers = () => {
                             )) : (
                                 <div className="col-12 text-center">
                                     <p>No se encontraron productos.</p>
-                                </div>
-                            )}
+                                </div> )}
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    );
-};
+    );};
 export default ProductosUsers;

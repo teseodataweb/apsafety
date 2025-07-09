@@ -2,14 +2,11 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 $response = ['success' => false, 'message' => ''];
-
 try {
     $baseDir = __DIR__ . '/Productos';
-    
     if (!is_dir($baseDir)) {
         throw new Exception("No existe la carpeta de productos");
     }
-    
     $productos = [];
     $carpetas = scandir($baseDir);
     $query = isset($_GET['query']) ? strtolower(trim($_GET['query'])) : '';
@@ -119,21 +116,17 @@ try {
                         'imagenes' => $imagenes,
                         'ruta' => $producto['ruta'] ?? ''
                     ];
-                    
                     if ($rutaParam !== '' && $producto['ruta'] === $rutaParam) break;
                 }
             }
         }
     }
-    
     $response = [
         'success' => true,
         'productos' => $productos
-    ];
-    
+    ];   
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();
 }
-
 echo json_encode($response);
 ?>

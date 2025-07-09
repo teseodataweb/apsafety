@@ -4491,13 +4491,11 @@ span {
 
 .mean-container .mean-nav {
   background: none;
-  margin-top: 0;
 }
 
 .mean-container .mean-bar {
   padding: 0;
   min-height: auto;
-  background: none;
 }
 
 .mean-container .mean-nav > ul {

@@ -54,11 +54,8 @@ const Login = () => {
                 if (querySnapshot.empty) {
                     throw new Error('Usuario no encontrado en la base de datos');
                 }
-
                 const userDoc = querySnapshot.docs[0];
                 const userType = userDoc.data().userType;
-                
-                // Redirección según rol
                 if (userType === 'admin') {
                     navigate('../admin');
                 } else if (userType === 'secundario') {
@@ -87,10 +84,14 @@ const Login = () => {
     };
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
     return (
         <div className="d-flex justify-content-center align-items-center">
-            <div className="card p-4" style={{ width: '100%', maxWidth: '500px' }}>
+            <div className="card p-4" style={{ 
+                width: '100%', 
+                maxWidth: '500px',
+                border: 'none', 
+                boxShadow: '1px 1px 15px 1px rgba(0, 0, 0, 0.1)'
+            }}>
                 <div className="card-body">
                     <h2 className="text-center mb-4">Inicio de Sesión</h2>
                     <form id="login-form" onSubmit={handleSubmit}>
@@ -114,16 +115,26 @@ const Login = () => {
                                     style={{ 
                                         height: '50px',
                                         textTransform: 'lowercase',
-                                        borderLeft: 'none'
+                                        border: 'none',
+                                        backgroundColor: '#F8F9FA',
+                                        outline: 'none',
+                                        boxShadow: 'none',
+                                        transition: 'background-color 0.3s ease' // Suaviza la transición de color
                                     }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'white'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F8F9FA'}
+                                    onFocus={(e) => {
+                                        e.target.style.backgroundColor = 'white';
+                                        e.target.style.boxShadow = 'none';
+                                        e.target.style.border = 'none';
+                                    }}
+                                    onBlur={(e) => e.target.style.backgroundColor = '#F8F9FA'}
                                 />
                             </div>
                             <div className="text-danger small mt-2 ps-2">
                                 {simpleValidator.current.message('email', formData.email, 'required|email')}
                             </div>
                         </div>
-                        
-                        {/* Campo de contraseña */}
                         <div className="mb-4">
                             <div className="d-flex align-items-center position-relative">
                                 <div className="icon-container bg-light rounded-start p-3 d-flex align-items-center justify-content-center" 
@@ -140,20 +151,35 @@ const Login = () => {
                                     onChange={handleChange}
                                     style={{ 
                                         height: '50px',
-                                        borderLeft: 'none',
-                                        borderRight: 'none'
+                                        border: 'none',
+                                        backgroundColor: '#F8F9FA',
+                                        outline: 'none',
+                                        boxShadow: 'none',
+                                        transition: 'background-color 0.3s ease' // Suaviza la transición de color
                                     }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'white'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F8F9FA'}
+                                    onFocus={(e) => {
+                                        e.target.style.backgroundColor = 'white';
+                                        e.target.style.boxShadow = 'none';
+                                        e.target.style.border = 'none';
+                                    }}
+                                    onBlur={(e) => e.target.style.backgroundColor = '#F8F9FA'}
                                 />
                                 <button 
                                     type="button"
-                                    className="btn bg-light rounded-end d-flex align-items-center justify-content-center"
+                                    className="d-flex align-items-center justify-content-center"
                                     onClick={togglePasswordVisibility}
                                     style={{
                                         width: '50px',
                                         height: '50px',
-                                        border: '1px solid #ced4da',
-                                        borderLeft: 'none'
+                                        border: 'none',
+                                        backgroundColor: '#F8F9FA',
+                                        outline: 'none',
+                                        transition: 'background-color 0.3s ease'
                                     }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'white'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#F8F9FA'}
                                 >
                                     <i
                                         className={`fas ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
@@ -165,15 +191,32 @@ const Login = () => {
                                 {simpleValidator.current.message('password', formData.password, 'required|min:6')}
                             </div>
                         </div>
-                        
                         {errorMsg && (
                             <div className="alert alert-danger mt-3">
                                 {errorMsg}
                             </div>
                         )}
-                        
                         <div className="d-grid gap-2 mt-4">
-                            <button type="submit" className="btn btn-primary  py-3" style={{ backgroundColor: '#008A1F' }}>Iniciar Sesión
+                            <button 
+                                type="submit" 
+                                className="btn btn-primary py-3" 
+                                style={{ 
+                                    backgroundColor: '#008A1F', 
+                                    outline: 'none',
+                                    boxShadow: 'none',
+                                    border: 'none',
+                                    transition: 'background-color 0.3s ease' // Suaviza la transición de color
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#00A82D'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#008A1F'}
+                                onFocus={(e) => {
+                                    e.target.style.backgroundColor = '#00A82D';
+                                    e.target.style.boxShadow = 'none';
+                                    e.target.style.outline = 'none';
+                                }}
+                                onBlur={(e) => e.target.style.backgroundColor = '#008A1F'}
+                            >
+                                Iniciar Sesión
                             </button>
                         </div>
                     </form>
