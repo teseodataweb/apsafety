@@ -74,7 +74,7 @@ const ProductosUsers = () => {
     const handleDelete = async (product) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
             try {
-                const response = await fetch('http://localhost:5000/deleteProduct.php', {
+                const response = await fetch('https://apsafety.onrender.com/deleteProduct.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
