@@ -206,7 +206,7 @@ const AggProducto = () => {
     });
 
     try {
-      const response = await fetch('http://localhost:5000/saveProduct.php', {
+      const response = await fetch('https://apsafety.onrender.com/saveProduct.php', {
         method: 'POST',
         body: formDataToSend
       });
