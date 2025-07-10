@@ -10,7 +10,7 @@ const ProductoDetalle = () => {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/listar_productos.php?ruta=${encodeURIComponent(ruta)}`);
+                const response = await fetch(`https://apsafety.onrender.com/listar_productos.php?ruta=${encodeURIComponent(ruta)}`);
                 const result = await response.json();
                 
                 if (result.success && result.productos.length > 0) {

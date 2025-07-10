@@ -16,7 +16,7 @@ const Productos = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const url = new URL('http://localhost:5000/listar_productos.php');
+                const url = new URL('https://apsafety.onrender.com/listar_productos.php');
                 if (searchTerm) {
                     url.searchParams.append('search', searchTerm);
                 }
