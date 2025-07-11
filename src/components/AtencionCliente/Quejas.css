@@ -1,23 +1,15 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> 4de1369 (Quejas)
 .asesoria-tecnica-page {
     font-family: 'Roboto', sans-serif;
     color: #333;
 }
-<<<<<<< HEAD
-=======
 
-/* Color morado principal */
->>>>>>> 4de1369 (Quejas)
 :root {
     --purple-primary: #1b0a26;
     --purple-light: #9c27b0;
     --purple-dark: #4a148c;
 }
-<<<<<<< HEAD
-=======
+
 
 /* Iconos morados */
 .purple-icon {
@@ -55,7 +47,7 @@
 }
 
 /* Títulos */
->>>>>>> 4de1369 (Quejas)
+
 .main-title {
     color: var(--purple-primary);
     font-size: 2.5rem;
@@ -72,7 +64,7 @@
     position: relative;
     padding-bottom: 10px;
 }
-<<<<<<< HEAD
+
 .intro-text {
     font-size: 1.1rem;
     line-height: 1.4;
@@ -80,7 +72,7 @@
     margin-bottom: 1.8rem;
     text-align: justify;
 }
-=======
+
 
 .section-subtitle:after {
     content: '';
@@ -154,7 +146,7 @@
 }
 
 /* Botones */
->>>>>>> 4de1369 (Quejas)
+
 .purple-btn {
     background-color: var(--purple-primary);
     border: none;
@@ -167,8 +159,6 @@
     background-color: var(--purple-dark);
     transform: translateY(-2px);
 }
-<<<<<<< HEAD
-=======
 
 /* CTA Box */
 .cta-box {
@@ -196,4 +186,4 @@
         margin-bottom: 20px;
     }
 }
->>>>>>> 4de1369 (Quejas)
+

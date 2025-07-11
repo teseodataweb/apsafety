@@ -2,10 +2,14 @@ import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const Formulary= () => {
 =======
 const ContactForm = () => {
 >>>>>>> 4de1369 (Quejas)
+=======
+const Formulary= () => {
+>>>>>>> 100deeb (Quejas)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -143,7 +147,11 @@ const ContactForm = () => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default Formulary;
 =======
 export default ContactForm;
 >>>>>>> 4de1369 (Quejas)
+=======
+export default Formulary;
+>>>>>>> 100deeb (Quejas)

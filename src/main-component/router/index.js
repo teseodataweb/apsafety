@@ -82,6 +82,7 @@ const AllRoute = () => {
           <Route path='404' element={<ErrorPage />} />
           <Route path="/asesoria-tecnica" element={<AsesoriaTecnica />} />
           <Route path="/Quejas" element={<Quejas />} />
+
         </Routes>
       </BrowserRouter>
     </div>
