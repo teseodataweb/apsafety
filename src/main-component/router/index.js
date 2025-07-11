@@ -23,7 +23,9 @@ import AsesoriaTecnica from '../../components/AtencionCliente/AsesoriaTecnica';
 import AdminPage from '../Admin/AdminPage';
 import FormUsser from '../../components/AggUssers/FormUsser';
 import FormProducto from '../../components/AggProductos/FormProducto';
-import ProtectedRoute from '../../components/ProtectedRoute'; // Ajusta la ruta
+import ProtectedRoute from '../../components/ProtectedRoute'; 
+
+
 
 const AllRoute = () => {
   return (

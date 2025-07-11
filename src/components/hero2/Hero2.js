@@ -79,16 +79,11 @@ const HeroSection = () => {
                                             backgroundImage: `url(${Shapbg})`,
                                         }}
                                     >
-                                        <h5>Digital printing Service</h5>
                                         <h1 data-animation="fadeInUp" data-delay="1.5s">
-                                            Get 25% off your <br /> first order
+                                            Conviértete en Distribuidor Oficial de AP SAFETY 
                                         </h1>
-                                        <p data-animation="fadeInUp" data-delay="1.7s">
-                                            Beautiful, customizable template, with a ton of web blocks <br />
-                                            to create an amazing website that looks
-                                        </p>
                                         <div className="hero-button">
-                                            <Link onClick={ClickHandler} to="/shop"
+                                            <Link onClick={ClickHandler} to="/contac"
                                                 data-animation="fadeInUp"
                                                 data-delay="1.9s"
                                                 className="theme-btn hover-white"

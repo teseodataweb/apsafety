@@ -8,7 +8,7 @@ const Alltab = () => {
     setActiveTab('Tab2');
   }, []);
 
-  const toggleCategory = (category) => {
+  const Alltab = (category) => {
     setOpenCategory(openCategory === category ? null : category);
   };
 

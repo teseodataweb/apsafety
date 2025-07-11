@@ -1,19 +1,19 @@
 import React, {Fragment} from 'react';
-import NavbarS2 from '../../components/NavbarS2/NavbarS2';
+import Navbar from '../../components/Navbar/Navbar'
 import PageTitle from "../../components/pagetitle/PageTitle";
 import CheckoutSection from '../../components/CheckoutSection'
 import {connect} from "react-redux";
-import CtaSectionS2 from '../../components/CtaSectionS2/CtaSectionS2';
+
 import FooterS3 from '../../components/footerS3/FooterS3';
 import CursorMaus from '../../components/CursorMaus/CursorMaus';
 
 const CheckoutPage =({cartList}) => {
     return(
         <Fragment>
-            <NavbarS2 hclass={'header-section-2 style-two'} />
-            <PageTitle pageTitle={'Digital printing Service'} pagesub={'Checkout'}/> 
+            <Navbar hclass={'header-section'} />
+            <PageTitle pageTitle={'Digital printing Service'} pagesub={'Videos Técnicos y Educativos AP SAFETY'}/> 
             <CheckoutSection cartList={cartList}/>
-            <CtaSectionS2 />
+
             <FooterS3 />
             <CursorMaus />
         </Fragment>
