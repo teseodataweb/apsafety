@@ -100,6 +100,7 @@ const Quejas = () => {
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                     </div>
                 </div>
             </section>
@@ -108,3 +109,78 @@ const Quejas = () => {
 }
 
 export default Quejas;
+=======
+                    </section>
+
+                    <section className="contact-section section-padding pt-0 section-bg-2">
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-8">
+                                    <div className="contact-form-items p-4 rounded">
+                                        <div className="contact-title text-center mb-5">
+                                            <h2 className="wow fadeInUp" data-wow-delay=".3s">Formulario de Quejas</h2>
+                                        </div>
+                                        <Formulary/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div className="row mt-4">
+                        <div className="col-md-6 col-lg-3 mb-4 wow fadeInUp" data-wow-delay=".3s">
+                            <div className="service-card h-100 p-4 rounded">
+                                <div className="service-icon purple-text mb-3">
+                                   <i className="fas fa-clipboard-check fa-2x"></i>
+                                </div>
+                                <h3>¿Cómo gestionamos tu queja?</h3>
+                                <p>1. <strong>Recepción</strong>Confirmamos la recepción de tu queja en un palzo mázimo de 24 horas hábiles.</p>
+                                <p>2. <strong>Análisis</strong>Nuestro equipo evaluará la información proporcionada para comprender la situación.</p>
+                                <p>3. <strong>Respuesta</strong> Te proporcionaremos una respuesta o solución en un plazo de 5 días hábiles.</p>
+                                <p>4. <strong>Respuesta</strong> Nos aseguraremos de que la solución propuesta haya resuelto tu inquietud.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div className="row mt-4">
+                        <div className="col-md-6 col-lg-3 mb-4 wow fadeInUp" data-wow-delay=".3s">
+                            <div className="service-card h-100 p-4 rounded">
+                                <div className="service-icon purple-text mb-3">
+                                   <i className="fas fa-clipboard-check fa-2x"></i>
+                                </div>
+                                <h3>¿Prefieres otro medio de contacto?</h3>
+                                <h4>Si lo deseas, también puedes comunicarte con nosotros a través de los siguientes canales:</h4>
+                                <p><strong>Correo Electronico </strong>quejas@apsafety.com.mx</p>
+                                <p><strong>Teléfono:</strong> +52 55 5718 1075</p>
+                                <p><strong>WhatsApp: </strong> +52 1 791 110 1246</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-md-6 col-lg-3 mb-4 wow fadeInUp" data-wow-delay=".3s">
+                            <div className="service-card h-100 p-4 rounded">
+                                <div className="service-icon purple-text mb-3">
+                                   <i className="fas fa-clipboard-check fa-2x"></i>
+                                </div>
+                                <h3>Nuestro Compromiso</h3>
+                                <p>En AP SAFETY, nos esforzamos por ofrecer productos y servicios de la más alta calidad.
+                                     Tus comentarios son esenciales para ayudarnos a identificar áreas de mejora y 
+                                     garantizar la satisfacción de nuestros clientes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-md-6 col-lg-3 mb-4 wow fadeInUp" data-wow-delay=".3s">
+                            <div className="service-card h-100 p-4 rounded">
+                                <div className="service-icon purple-text mb-3">
+                                   <i className="fas fa-clipboard-check fa-2x"></i>
+                                </div>
+                                <h3>Quejas y Sugerencias | AP SAFETY</h3>
+                                <p>Envía tus quejas o sugerencias a AP SAFETY. 
+                                    Estamos comprometidos con la mejora continua y valoramos 
+                                    tus comentarios para ofrecerte un mejor servicio..</p>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    );
+}
+>>>>>>> 4de1369 (Quejas)

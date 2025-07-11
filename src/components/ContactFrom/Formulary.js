@@ -1,7 +1,11 @@
 import React, { useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
+<<<<<<< HEAD
 const Formulary= () => {
+=======
+const ContactForm = () => {
+>>>>>>> 4de1369 (Quejas)
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,7 +28,11 @@ const Formulary= () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (simpleValidator.current.allValid()) {
+<<<<<<< HEAD
 
+=======
+            // Aquí iría la lógica para enviar la queja
+>>>>>>> 4de1369 (Quejas)
             console.log('Formulario válido:', formData);
             alert('Queja enviada correctamente');
         } else {
@@ -134,4 +142,8 @@ const Formulary= () => {
     );
 };
 
+<<<<<<< HEAD
 export default Formulary;
+=======
+export default ContactForm;
+>>>>>>> 4de1369 (Quejas)
