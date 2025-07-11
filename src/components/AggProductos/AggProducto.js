@@ -24,60 +24,71 @@ const AggProducto = () => {
   const [sellosPreviews, setSellosPreviews] = useState([]);
   const [imagenesPreviews, setImagenesPreviews] = useState([]);
   const [fichaTecnicaNombre, setFichaTecnicaNombre] = useState('');
-  
-  const [validator] = useState(new SimpleReactValidator({
-    autoForceUpdate: this,
-    validators: {
-      requiredFile: {
-        message: 'El archivo es requerido.',
-        rule: (val, params, validator) => {
-          return val !== null && val !== undefined;
-        }
-      }
-    }
-  }));
-  
+  const [existingFiles, setExistingFiles] = useState({
+    fichaTecnica: null,
+    imagenPrincipal: null,
+    sellos: [],
+    imagenes: []
+  });
+  const [ventajasPlaceholder, setVentajasPlaceholder] = useState('Ventajas (ligero, alta resistencia, etc)');
+  const [aplicacionesPlaceholder, setAplicacionesPlaceholder] = useState('Aplicaciones (cara, interiores, etc)');
+
+  const [validator] = useState(new SimpleReactValidator());
+  const [, forceUpdate] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const isEditing = location.state?.isEditing || false;
   const productToEdit = location.state?.producto || null;
-  const fileInputRefs = useRef({
-    fichaTecnica: null,
-    imagenPrincipal: null,
-    sellos: null,
-    imagenes: null
-  });
+  const ventajasIntervalRef = useRef(null);
+  const aplicacionesIntervalRef = useRef(null);
 
   useEffect(() => {
     if (isEditing && productToEdit) {
       loadProductData(productToEdit);
     }
+
+    ventajasIntervalRef.current = setInterval(() => {
+      setVentajasPlaceholder(prev => 
+        prev === 'Ventajas (ligero, alta resistencia, etc)' 
+          ? 'Texto separado por comas' 
+          : 'Ventajas (ligero, alta resistencia, etc)'
+      );
+    }, 5000);
+    
+    aplicacionesIntervalRef.current = setInterval(() => {
+      setAplicacionesPlaceholder(prev => 
+        prev === 'Aplicaciones (cara, interiores, etc)' 
+          ? 'Texto separado por comas' 
+          : 'Aplicaciones (cara, interiores, etc)'
+      );
+    }, 5000);
     
     return () => {
-      // Limpiar URLs de objetos para evitar fugas de memoria
-      if (imagenPrincipalPreview && imagenPrincipalPreview.startsWith('blob:')) {
-        URL.revokeObjectURL(imagenPrincipalPreview);
-      }
-      sellosPreviews.forEach(preview => {
-        if (preview.startsWith('blob:')) URL.revokeObjectURL(preview);
-      });
-      imagenesPreviews.forEach(preview => {
-        if (preview.startsWith('blob:')) URL.revokeObjectURL(preview);
-      });
+      clearInterval(ventajasIntervalRef.current);
+      clearInterval(aplicacionesIntervalRef.current);
     };
-  }, []);
+  }, [isEditing, productToEdit]);
 
   const loadProductData = (producto) => {
+    setExistingFiles({
+      fichaTecnica: producto.fichaTecnica || null,
+      imagenPrincipal: producto.imagenPrincipal || null,
+      sellos: producto.sellos || [],
+      imagenes: producto.imagenes || []
+    });
+
     if (producto.imagenPrincipal) {
       setImagenPrincipalPreview(`data:image/jpeg;base64,${producto.imagenPrincipal}`);
     }
     
     if (producto.sellos && producto.sellos.length > 0) {
-      setSellosPreviews(producto.sellos.map(sello => `data:image/jpeg;base64,${sello}`));
+      const sellosPreviews = producto.sellos.map(sello => `data:image/jpeg;base64,${sello}`);
+      setSellosPreviews(sellosPreviews);
     }
     
     if (producto.imagenes && producto.imagenes.length > 0) {
-      setImagenesPreviews(producto.imagenes.map(imagen => `data:image/jpeg;base64,${imagen}`));
+      const imagenesPreviews = producto.imagenes.map(imagen => `data:image/jpeg;base64,${imagen}`);
+      setImagenesPreviews(imagenesPreviews);
     }
     
     if (producto.fichaTecnica) {
@@ -103,14 +114,19 @@ const AggProducto = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-    
+    const { name, value } = e.target;
+
+    if (name === 'fechaCreacion') {
+      setFormData({
+        ...formData,
+        [name]: new Date(value),
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+
     validator.showMessageFor(name);
+    forceUpdate(1);
   };
 
   const handleFileChange = (e, field) => {
@@ -118,30 +134,25 @@ const AggProducto = () => {
     if (files.length === 0) return;
 
     if (field === 'fichaTecnica') {
-      setFormData(prev => ({ ...prev, [field]: files[0] }));
+      setFormData({ ...formData, [field]: files[0] });
       setFichaTecnicaNombre(files[0].name);
-    } 
-    else if (field === 'imagenPrincipal') {
+    } else if (field === 'imagenPrincipal') {
       const reader = new FileReader();
       reader.onload = () => {
-        if (imagenPrincipalPreview && imagenPrincipalPreview.startsWith('blob:')) {
-          URL.revokeObjectURL(imagenPrincipalPreview);
-        }
         setImagenPrincipalPreview(reader.result);
       };
       reader.readAsDataURL(files[0]);
-      setFormData(prev => ({ ...prev, [field]: files[0] }));
-    } 
-    else if (field === 'sellos' || field === 'imagenes') {
+      setFormData({ ...formData, [field]: files[0] });
+    } else if (field === 'sellos') {
       const newPreviews = files.map(file => URL.createObjectURL(file));
-      const updatedPreviews = [...(field === 'sellos' ? sellosPreviews : imagenesPreviews), ...newPreviews];
-      
-      if (field === 'sellos') {
-        setSellosPreviews(updatedPreviews);
-      } else {
-        setImagenesPreviews(updatedPreviews);
-      }
-      
+      setSellosPreviews(prev => [...prev, ...newPreviews]);
+      setFormData(prev => ({
+        ...prev,
+        [field]: [...prev[field], ...files]
+      }));
+    } else if (field === 'imagenes') {
+      const newPreviews = files.map(file => URL.createObjectURL(file));
+      setImagenesPreviews(prev => [...prev, ...newPreviews]);
       setFormData(prev => ({
         ...prev,
         [field]: [...prev[field], ...files]
@@ -150,33 +161,33 @@ const AggProducto = () => {
   };
 
   const removeFile = (index, field, previewField, setPreviewField) => {
-    const updatedFiles = [...formData[field]];
-    const updatedPreviews = [...previewField];
-    
-    if (isEditing && updatedFiles[index] === 'existing') {
+    if (isEditing && formData[field][index] === 'existing') {
+      const updatedFiles = [...formData[field]];
       updatedFiles[index] = 'to_delete';
+      setFormData({ ...formData, [field]: updatedFiles });
+
+      const updatedPreviews = [...previewField];
+      updatedPreviews.splice(index, 1);
+      setPreviewField(updatedPreviews);
     } else {
-      if (updatedPreviews[index] && updatedPreviews[index].startsWith('blob:')) {
-        URL.revokeObjectURL(updatedPreviews[index]);
-      }
+      const updatedFiles = [...formData[field]];
       updatedFiles.splice(index, 1);
-    }
-    
-    updatedPreviews.splice(index, 1);
-    
-    setFormData(prev => ({ ...prev, [field]: updatedFiles }));
-    setPreviewField(updatedPreviews);
-    
-    if (updatedFiles.length === 0 && fileInputRefs.current[field]) {
-      fileInputRefs.current[field].value = '';
+      setFormData({ ...formData, [field]: updatedFiles });
+
+      if (previewField[index] && previewField[index].startsWith('blob:')) {
+        URL.revokeObjectURL(previewField[index]);
+      }
+      const updatedPreviews = [...previewField];
+      updatedPreviews.splice(index, 1);
+      setPreviewField(updatedPreviews);
     }
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    
     if (!validator.allValid()) {
       validator.showMessages();
+      forceUpdate(1);
       return;
     }
     
@@ -185,46 +196,68 @@ const AggProducto = () => {
     // Campos básicos
     Object.keys(formData).forEach(key => {
       if (!['sellos', 'imagenes', 'fichaTecnica', 'imagenPrincipal'].includes(key)) {
-        const value = formData[key];
-        formDataToSend.append(key, value instanceof Date ? value.toISOString() : value);
+        formDataToSend.append(key, formData[key] instanceof Date ? 
+          formData[key].toISOString() : 
+          formData[key]);
       }
     });
     
     // Manejo especial para edición
     if (isEditing) {
       formDataToSend.append('isEditing', 'true');
-      formDataToSend.append('rutaOriginal', formData.ruta);
+      formDataToSend.append('originalRuta', formData.ruta);
       
       // Manejar archivos existentes
       if (formData.fichaTecnica === 'to_delete') {
         formDataToSend.append('delete_fichaTecnica', 'true');
       } else if (formData.fichaTecnica !== 'existing' && formData.fichaTecnica !== null) {
         formDataToSend.append('fichaTecnica', formData.fichaTecnica);
+      } else if (formData.fichaTecnica === 'existing') {
+        formDataToSend.append('keep_fichaTecnica', 'true');
       }
       
       if (formData.imagenPrincipal === 'to_delete') {
         formDataToSend.append('delete_imagenPrincipal', 'true');
       } else if (formData.imagenPrincipal !== 'existing' && formData.imagenPrincipal !== null) {
         formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
+      } else if (formData.imagenPrincipal === 'existing') {
+        formDataToSend.append('keep_imagenPrincipal', 'true');
       }
       
-      // Procesar sellos e imágenes
-      ['sellos', 'imagenes'].forEach(field => {
-        formData[field].forEach((file, index) => {
-          if (file === 'to_delete') {
-            formDataToSend.append(`delete_${field}[]`, index.toString());
-          } else if (file !== 'existing') {
-            formDataToSend.append(`${field}[]`, file);
-          }
-        });
+      // Procesar sellos
+      formData.sellos.forEach((sello, index) => {
+        if (sello === 'to_delete') {
+          formDataToSend.append('delete_sellos[]', index.toString());
+        } else if (sello !== 'existing') {
+          formDataToSend.append('sellos[]', sello);
+        }
+      });
+      
+      // Procesar imágenes
+      formData.imagenes.forEach((imagen, index) => {
+        if (imagen === 'to_delete') {
+          formDataToSend.append('delete_imagenes[]', index.toString());
+        } else if (imagen !== 'existing') {
+          formDataToSend.append('imagenes[]', imagen);
+        }
       });
     } else {
       // Lógica para nuevo producto
-      if (formData.fichaTecnica) formDataToSend.append('fichaTecnica', formData.fichaTecnica);
-      if (formData.imagenPrincipal) formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
+      if (formData.fichaTecnica) {
+        formDataToSend.append('fichaTecnica', formData.fichaTecnica);
+      }
       
-      formData.sellos.forEach(sello => formDataToSend.append('sellos[]', sello));
-      formData.imagenes.forEach(imagen => formDataToSend.append('imagenes[]', imagen));
+      if (formData.imagenPrincipal) {
+        formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
+      }
+      
+      formData.sellos.forEach(sello => {
+        formDataToSend.append('sellos[]', sello);
+      });
+      
+      formData.imagenes.forEach(imagen => {
+        formDataToSend.append('imagenes[]', imagen);
+      });
     }
 
     try {
@@ -235,15 +268,45 @@ const AggProducto = () => {
       
       const result = await response.json();
       if (result.success) {
-        alert(isEditing ? '¡Producto actualizado exitosamente!' : '¡Producto creado exitosamente!');
+        alert(isEditing ? '¡Producto actualizado exitosamente!' : '¡Producto guardado exitosamente!');
+        resetForm();
         navigate('/productos');
       } else {
-        throw new Error(result.message || 'Error al guardar el producto');
+        alert(`Error: ${result.message}`);
       }
     } catch (error) {
       console.error('Error al enviar formulario:', error);
-      alert(error.message || 'Error al conectar con el servidor');
+      alert('Error al conectar con el servidor');
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      titulo: '',
+      descripcion: '',
+      unidadMedida: '',
+      clasificacion: '',
+      ventajas: '',
+      aplicaciones: '',
+      tipo: '',
+      sellos: [],
+      fichaTecnica: null,
+      imagenPrincipal: null,
+      imagenes: [],
+      activo: true,
+      fechaCreacion: new Date(),
+      ruta: ''
+    });
+    setImagenPrincipalPreview(null);
+    setSellosPreviews([]);
+    setImagenesPreviews([]);
+    setFichaTecnicaNombre('');
+    setExistingFiles({
+      fichaTecnica: null,
+      imagenPrincipal: null,
+      sellos: [],
+      imagenes: []
+    });
   };
 
   const handleCancel = () => {
@@ -329,7 +392,8 @@ const AggProducto = () => {
               name="ventajas"
               value={formData.ventajas}
               onChange={handleChange}
-              placeholder="Ventajas del producto"
+              placeholder={ventajasPlaceholder}
+              onFocus={() => clearInterval(ventajasIntervalRef.current)}
             />
             {validator.message('ventajas', formData.ventajas, 'required')}
           </div>
@@ -343,7 +407,8 @@ const AggProducto = () => {
               name="aplicaciones"
               value={formData.aplicaciones}
               onChange={handleChange}
-              placeholder="Aplicaciones del producto"
+              placeholder={aplicacionesPlaceholder}
+              onFocus={() => clearInterval(aplicacionesIntervalRef.current)}
             />
             {validator.message('aplicaciones', formData.aplicaciones, 'required')}
           </div>
@@ -374,21 +439,14 @@ const AggProducto = () => {
               type="file"
               accept="application/pdf"
               onChange={(e) => handleFileChange(e, 'fichaTecnica')}
-              ref={el => fileInputRefs.current.fichaTecnica = el}
             />
             {fichaTecnicaNombre && <p className="small text-muted mt-1">{fichaTecnicaNombre}</p>}
-            {validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'requiredFile')}
+            {validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'required')}
             {isEditing && formData.fichaTecnica === 'existing' && (
               <button 
                 type="button" 
                 className="btn btn-sm btn-outline-danger mt-1"
-                onClick={() => {
-                  setFichaTecnicaNombre('');
-                  setFormData(prev => ({ ...prev, fichaTecnica: 'to_delete' }));
-                  if (fileInputRefs.current.fichaTecnica) {
-                    fileInputRefs.current.fichaTecnica.value = '';
-                  }
-                }}
+                onClick={() => removeFile(0, 'fichaTecnica', [fichaTecnicaNombre], setFichaTecnicaNombre)}
               >
                 Eliminar ficha técnica actual
               </button>
@@ -403,7 +461,6 @@ const AggProducto = () => {
               type="file"
               accept="image/*"
               onChange={(e) => handleFileChange(e, 'imagenPrincipal')}
-              ref={el => fileInputRefs.current.imagenPrincipal = el}
             />
             {imagenPrincipalPreview && (
               <div className="mt-2">
@@ -424,16 +481,13 @@ const AggProducto = () => {
                       ...prev,
                       imagenPrincipal: isEditing && prev.imagenPrincipal === 'existing' ? 'to_delete' : null
                     }));
-                    if (fileInputRefs.current.imagenPrincipal) {
-                      fileInputRefs.current.imagenPrincipal.value = '';
-                    }
                   }}
                 >
                   Eliminar imagen
                 </button>
               </div>
             )}
-            {validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'requiredFile')}
+            {validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'required')}
           </div>
         </div>
 
@@ -445,7 +499,6 @@ const AggProducto = () => {
               multiple
               accept="image/*"
               onChange={(e) => handleFileChange(e, 'sellos')}
-              ref={el => fileInputRefs.current.sellos = el}
             />
             <div className="d-flex flex-wrap mt-2">
               {sellosPreviews.map((preview, index) => (
@@ -466,7 +519,7 @@ const AggProducto = () => {
                 </div>
               ))}
             </div>
-            {validator.message('sellos', formData.sellos, isEditing ? '' : 'requiredFile')}
+            {validator.message('sellos', formData.sellos, isEditing ? '' : 'required')}
           </div>
         </div>
 
@@ -478,7 +531,6 @@ const AggProducto = () => {
               multiple
               accept="image/*"
               onChange={(e) => handleFileChange(e, 'imagenes')}
-              ref={el => fileInputRefs.current.imagenes = el}
             />
             <div className="d-flex flex-wrap mt-2">
               {imagenesPreviews.map((preview, index) => (
@@ -499,7 +551,7 @@ const AggProducto = () => {
                 </div>
               ))}
             </div>
-            {validator.message('imagenes', formData.imagenes, isEditing ? '' : 'requiredFile')}
+            {validator.message('imagenes', formData.imagenes, isEditing ? '' : 'required')}
           </div>
         </div>
 
