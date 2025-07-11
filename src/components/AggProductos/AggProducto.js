@@ -287,7 +287,7 @@ const AggProducto = () => {
     }
 
     try {
-      const response = await fetch('https://apsafety.onrender.com/saveProduct.php', {
+      const response = await fetch('https://apsafety.onrender.com/saveProductToGitHub.php', {
         method: 'POST',
         body: formDataToSend
       });
