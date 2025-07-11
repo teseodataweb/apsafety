@@ -9,23 +9,16 @@ import { addToCart } from "../../store/actions/action";
 import Product from './product';
 import api from "../../api";
 import ProductTabs from './alltab';
-
-
-
 const ProductSinglePage = (props) => {
     const { slug } = useParams();
     const productsArray = api();
     const Allproduct = productsArray;
-
     const { addToCart } = props;
     const [product, setProduct] = useState({});
-
 useEffect(() => {
   setProduct(Allproduct.filter(p => p.slug === String(slug)))
 }, [Allproduct, slug]);
-
     const item = product[0];
-
     return (
         <Fragment>
             <Navbar hclass={'header-section-2 style-two'} />
@@ -49,11 +42,9 @@ useEffect(() => {
         </Fragment>
     );
 };
-
 const mapStateToProps = state => {
     return {
         products: state.data.products,
     };
 };
-
 export default connect(mapStateToProps, { addToCart })(ProductSinglePage);

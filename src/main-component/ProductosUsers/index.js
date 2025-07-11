@@ -2,24 +2,24 @@ import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import PageTitle from '../../components/pagetitle/PageTitle'
 import { addToCart } from "../../store/actions/action";
-import Productos from '../../components/Productos/index';
+import ProductosUs from '../../components/ProductosUsers/index';
 import api from "../../api";
-import NavbarS2 from '../../components/NavbarS2/NavbarS2';
 import FooterS3 from '../../components/footer/Footer';
-const ProductosPage = ({ addToCart }) => {
+import Navbar from '../../components/Navbar/Navbar';
+const ProductosUsers = ({ addToCart }) => {
     const productsArray = api();
     const addToCartProduct = (product, qty = 1) => {
         addToCart(product, qty);};
     const products = productsArray
     return (
         <Fragment>
-            <NavbarS2 hclass={'header-section-2 style-two'} />
+            <Navbar hclass={'header-section-2 style-two'} />
             <PageTitle pagesub={'Productos'} />
-            <Productos
+            <ProductosUs
                 addToCartProduct={addToCartProduct}
                 products={products} />
            
             <FooterS3 />
         </Fragment>
         )};
-export default connect(null, { addToCart })(ProductosPage);
+export default connect(null, { addToCart })(ProductosUsers);

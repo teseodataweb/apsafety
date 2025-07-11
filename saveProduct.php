@@ -17,7 +17,6 @@ try {
     $productSlug = preg_replace('/[^a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ,.-]/u', '', $_POST['titulo']);
     $productSlug = preg_replace('/_{2,}/', '_', $productSlug);
     $baseDir = __DIR__ . '/Productos/' . $productSlug;
-
     $dirs = [
         $baseDir,
         $baseDir . '/sellos',
@@ -98,7 +97,6 @@ try {
     if (!file_put_contents($jsonPath, json_encode($productData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
         throw new Exception('Error guardando JSON');
     }
-
     $response = [
         'success' => true,
         'message' => 'Producto guardado exitosamente',
