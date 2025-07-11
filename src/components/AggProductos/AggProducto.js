@@ -49,6 +49,12 @@ const AggProducto = () => {
   useEffect(() => {
     if (isEditing && productToEdit) {
       loadProductData(productToEdit);
+    } else {
+      // Establecer fecha actual automáticamente solo para nuevos productos
+      setFormData(prev => ({
+        ...prev,
+        fechaCreacion: new Date()
+      }));
     }
 
     ventajasIntervalRef.current = setInterval(() => {
@@ -459,7 +465,7 @@ const AggProducto = () => {
         </div>
 
         <div className="col-lg-6">
-          <p>Ficha Técnica (PDF):</p>
+          <p>Ficha Técnica (PDF - Máx. 10 MB):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -481,7 +487,7 @@ const AggProducto = () => {
         </div>
 
         <div className="col-lg-6">
-          <p>Imagen Principal:</p>
+          <p>Imagen Principal (Máx. 5 MB):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -518,7 +524,7 @@ const AggProducto = () => {
         </div>
 
         <div className="col-lg-6">
-          <p>Sellos (múltiples):</p>
+          <p>Sellos (múltiples - Máx. 5 MB c/u):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -550,7 +556,7 @@ const AggProducto = () => {
         </div>
 
         <div className="col-lg-6">
-          <p>Imágenes (múltiples):</p>
+          <p>Imágenes (múltiples - Máx. 5 MB c/u):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -589,6 +595,7 @@ const AggProducto = () => {
               name="fechaCreacion"
               value={formData.fechaCreacion ? formData.fechaCreacion.toISOString().slice(0, 16) : ''}
               onChange={handleChange}
+              disabled={!isEditing} // Deshabilitar para nuevos productos (se establece automáticamente)
             />
             {validator.message('fechaCreacion', formData.fechaCreacion, 'required')}
           </div>
