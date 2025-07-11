@@ -3,6 +3,10 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AggProducto = () => {
+  // Constantes para validación de tamaños de archivo
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB para imágenes
+  const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10 MB para PDF
+
   const [formData, setFormData] = useState({
     titulo: '',
     descripcion: '',
@@ -133,24 +137,46 @@ const AggProducto = () => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
+    // Validación de tamaños de archivo
     if (field === 'fichaTecnica') {
+      if (files[0].size > MAX_PDF_SIZE) {
+        alert('El tamaño máximo para la ficha técnica es de 10 MB');
+        return;
+      }
       setFormData({ ...formData, [field]: files[0] });
       setFichaTecnicaNombre(files[0].name);
-    } else if (field === 'imagenPrincipal') {
+    } 
+    else if (field === 'imagenPrincipal') {
+      if (files[0].size > MAX_IMAGE_SIZE) {
+        alert('El tamaño máximo para la imagen principal es de 5 MB');
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => {
         setImagenPrincipalPreview(reader.result);
       };
       reader.readAsDataURL(files[0]);
       setFormData({ ...formData, [field]: files[0] });
-    } else if (field === 'sellos') {
+    } 
+    else if (field === 'sellos') {
+      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
+      if (oversized) {
+        alert('El tamaño máximo para los sellos es de 5 MB cada uno');
+        return;
+      }
       const newPreviews = files.map(file => URL.createObjectURL(file));
       setSellosPreviews(prev => [...prev, ...newPreviews]);
       setFormData(prev => ({
         ...prev,
         [field]: [...prev[field], ...files]
       }));
-    } else if (field === 'imagenes') {
+    } 
+    else if (field === 'imagenes') {
+      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
+      if (oversized) {
+        alert('El tamaño máximo para las imágenes es de 5 MB cada una');
+        return;
+      }
       const newPreviews = files.map(file => URL.createObjectURL(file));
       setImagenesPreviews(prev => [...prev, ...newPreviews]);
       setFormData(prev => ({

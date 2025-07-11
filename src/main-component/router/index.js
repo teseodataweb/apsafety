@@ -12,7 +12,6 @@ import ProjectSinglePage from '../ProjectSinglePage/ProjectSinglePage';
 import ShopPage from '../ShopPage';
 import ProductosPage from '../ProductosPage';
 import ProductosUsers from '../ProductosUsers';
-
 import ShopSinglePage from '../ShopSinglePage';
 import CartPage from '../CartPage';
 import ProductDetailPage  from '../../components/ProductDetailPage/ProductDetailPage'
@@ -29,8 +28,6 @@ import FormProducto from '../../components/AggProductos/FormProducto';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import ProductoDetalle from '../../components/Productos/ProductoDetalle';
 import ProductoDetalleUs from '../../components/ProductosUsers/ProductoDetalle';
-
-
 const AllRoute = () => {
   return (
     <div className="App">
@@ -38,14 +35,12 @@ const AllRoute = () => {
         <Routes>
         <Route path="/producto/:ruta" element={<ProductoDetalle />} />
         <Route path="/productous/:ruta" element={<ProductoDetalleUs />} />
-
           <Route path="/" element={<Homepage />} />
           <Route path="home" element={<Homepage />} />
           <Route path="home-2" element={<HomePage2 />} />
           <Route path="home-3" element={<HomePage3 />} />
           <Route path="about" element={<AboutPage />} />
           <Route path='login' element={<LoginPage />} />
-          
           {/* Rutas protegidas */}
           <Route 
             path='admin' 
@@ -53,28 +48,22 @@ const AllRoute = () => {
               <ProtectedRoute allowedRoles={['admin']}>
                 <AdminPage />
               </ProtectedRoute>
-            } 
-          />
+            } />
           <Route 
             path='formUsser' 
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <FormUsser />
               </ProtectedRoute>
-            } 
-          />
+            } />
           <Route 
             path='formProducto' 
             element={
               <ProtectedRoute allowedRoles={['admin', 'secundario']}>
                 <FormProducto />
               </ProtectedRoute>
-            } 
-          />
-
+            } />
           <Route path="productos" element={ <ProtectedRoute allowedRoles={['admin', 'secundario']}>  <ProductosPage /> </ProtectedRoute>}  />
-
-
           <Route path="service" element={<ServicePage />} />
           <Route path="productosusers" element={<ProductosUsers />} />
           <Route path="detail" element={<ProductDetailPage />} />
@@ -94,7 +83,5 @@ const AllRoute = () => {
         </Routes>
       </BrowserRouter>
     </div>
-  );
-}
-
+  );}
 export default AllRoute;
