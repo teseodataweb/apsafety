@@ -102,7 +102,6 @@ const Quejas = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -111,4 +110,3 @@ const Quejas = () => {
 }
 
 export default Quejas;
-
