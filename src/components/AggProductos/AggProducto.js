@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const AggProducto = () => {
-  // Constantes para validación de tamaños de archivo
-  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB para imágenes
-  const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10 MB para PDF
+const AggProducto = ({ productToEdit, isEditing: propIsEditing }) => {
+  // Constantes
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
+  const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10 MB
+  const VALID_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
+  const VALID_PDF_TYPE = 'application/pdf';
 
+  // Estados
   const [formData, setFormData] = useState({
     titulo: '',
     descripcion: '',
@@ -24,80 +28,87 @@ const AggProducto = () => {
     ruta: ''
   });
 
-  const [imagenPrincipalPreview, setImagenPrincipalPreview] = useState(null);
-  const [sellosPreviews, setSellosPreviews] = useState([]);
-  const [imagenesPreviews, setImagenesPreviews] = useState([]);
-  const [fichaTecnicaNombre, setFichaTecnicaNombre] = useState('');
-  const [existingFiles, setExistingFiles] = useState({
-    fichaTecnica: null,
+  const [previews, setPreviews] = useState({
     imagenPrincipal: null,
     sellos: [],
     imagenes: []
   });
-  const [ventajasPlaceholder, setVentajasPlaceholder] = useState('Ventajas (ligero, alta resistencia, etc)');
-  const [aplicacionesPlaceholder, setAplicacionesPlaceholder] = useState('Aplicaciones (cara, interiores, etc)');
 
-  const [validator] = useState(new SimpleReactValidator());
-  const [, forceUpdate] = useState();
+  const [fileNames, setFileNames] = useState({
+    fichaTecnica: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationKey, setValidationKey] = useState(0);
+  const [placeholders, setPlaceholders] = useState({
+    ventajas: 'Ventajas (ligero, alta resistencia, etc)',
+    aplicaciones: 'Aplicaciones (cara, interiores, etc)'
+  });
+
+  // Refs y hooks
+  const validator = useRef(new SimpleReactValidator({
+    autoForceUpdate: { forceUpdate: () => setValidationKey(prev => prev + 1) }
+  })).current;
+
+  const intervalRefs = useRef({
+    ventajas: null,
+    aplicaciones: null
+  }).current;
+
   const navigate = useNavigate();
   const location = useLocation();
-  const isEditing = location.state?.isEditing || false;
-  const productToEdit = location.state?.producto || null;
-  const ventajasIntervalRef = useRef(null);
-  const aplicacionesIntervalRef = useRef(null);
+  const isEditing = propIsEditing || location.state?.isEditing || false;
+  const editingProduct = productToEdit || location.state?.producto || null;
 
+  // Efectos
   useEffect(() => {
-    if (isEditing && productToEdit) {
-      loadProductData(productToEdit);
+    if (isEditing && editingProduct) {
+      loadProductData(editingProduct);
     }
 
-    ventajasIntervalRef.current = setInterval(() => {
-      setVentajasPlaceholder(prev => 
-        prev === 'Ventajas (ligero, alta resistencia, etc)' 
+    // Animación placeholders
+    intervalRefs.ventajas = setInterval(() => {
+      setPlaceholders(prev => ({
+        ...prev,
+        ventajas: prev.ventajas === 'Ventajas (ligero, alta resistencia, etc)' 
           ? 'Texto separado por comas' 
           : 'Ventajas (ligero, alta resistencia, etc)'
-      );
+      }));
     }, 5000);
-    
-    aplicacionesIntervalRef.current = setInterval(() => {
-      setAplicacionesPlaceholder(prev => 
-        prev === 'Aplicaciones (cara, interiores, etc)' 
+
+    intervalRefs.aplicaciones = setInterval(() => {
+      setPlaceholders(prev => ({
+        ...prev,
+        aplicaciones: prev.aplicaciones === 'Aplicaciones (cara, interiores, etc)' 
           ? 'Texto separado por comas' 
           : 'Aplicaciones (cara, interiores, etc)'
-      );
+      }));
     }, 5000);
-    
+
     return () => {
-      clearInterval(ventajasIntervalRef.current);
-      clearInterval(aplicacionesIntervalRef.current);
+      clearInterval(intervalRefs.ventajas);
+      clearInterval(intervalRefs.aplicaciones);
+      // Limpiar URLs de objetos
+      Object.values(previews).flat().forEach(preview => {
+        if (preview?.startsWith('blob:')) URL.revokeObjectURL(preview);
+      });
     };
-  }, [isEditing, productToEdit]);
+  }, [isEditing, editingProduct]);
 
-  const loadProductData = (producto) => {
-    setExistingFiles({
-      fichaTecnica: producto.fichaTecnica || null,
-      imagenPrincipal: producto.imagenPrincipal || null,
-      sellos: producto.sellos || [],
-      imagenes: producto.imagenes || []
+  // Cargar datos del producto a editar
+  const loadProductData = useCallback((producto) => {
+    const newPreviews = {
+      imagenPrincipal: producto.imagenPrincipal 
+        ? `data:image/jpeg;base64,${producto.imagenPrincipal}` 
+        : null,
+      sellos: producto.sellos?.map(sello => `data:image/jpeg;base64,${sello}`) || [],
+      imagenes: producto.imagenes?.map(img => `data:image/jpeg;base64,${img}`) || []
+    };
+
+    setPreviews(newPreviews);
+    setFileNames({
+      fichaTecnica: producto.fichaTecnica ? 'Ficha técnica actual' : ''
     });
-
-    if (producto.imagenPrincipal) {
-      setImagenPrincipalPreview(`data:image/jpeg;base64,${producto.imagenPrincipal}`);
-    }
-    
-    if (producto.sellos && producto.sellos.length > 0) {
-      const sellosPreviews = producto.sellos.map(sello => `data:image/jpeg;base64,${sello}`);
-      setSellosPreviews(sellosPreviews);
-    }
-    
-    if (producto.imagenes && producto.imagenes.length > 0) {
-      const imagenesPreviews = producto.imagenes.map(imagen => `data:image/jpeg;base64,${imagen}`);
-      setImagenesPreviews(imagenesPreviews);
-    }
-    
-    if (producto.fichaTecnica) {
-      setFichaTecnicaNombre('Ficha técnica actual');
-    }
 
     setFormData({ 
       titulo: producto.titulo,
@@ -115,194 +126,170 @@ const AggProducto = () => {
       imagenPrincipal: producto.imagenPrincipal ? 'existing' : null,
       imagenes: producto.imagenes ? Array(producto.imagenes.length).fill('existing') : []
     });
-  };
+  }, []);
 
+  // Manejadores de eventos
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === 'fechaCreacion') {
-      setFormData({
-        ...formData,
-        [name]: new Date(value),
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'fechaCreacion' ? new Date(value) : value
+    }));
     validator.showMessageFor(name);
-    forceUpdate(1);
   };
 
   const handleFileChange = (e, field) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
-    // Validación de tamaños de archivo
+    // Validaciones
     if (field === 'fichaTecnica') {
       if (files[0].size > MAX_PDF_SIZE) {
         alert('El tamaño máximo para la ficha técnica es de 10 MB');
         return;
       }
-      setFormData({ ...formData, [field]: files[0] });
-      setFichaTecnicaNombre(files[0].name);
-    } 
-    else if (field === 'imagenPrincipal') {
-      if (files[0].size > MAX_IMAGE_SIZE) {
-        alert('El tamaño máximo para la imagen principal es de 5 MB');
+      if (files[0].type !== VALID_PDF_TYPE) {
+        alert('Solo se permiten archivos PDF para la ficha técnica');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagenPrincipalPreview(reader.result);
-      };
-      reader.readAsDataURL(files[0]);
-      setFormData({ ...formData, [field]: files[0] });
+      setFileNames(prev => ({ ...prev, fichaTecnica: files[0].name }));
+      setFormData(prev => ({ ...prev, [field]: files[0] }));
     } 
-    else if (field === 'sellos') {
-      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
-      if (oversized) {
-        alert('El tamaño máximo para los sellos es de 5 MB cada uno');
+    else {
+      const isImageField = ['imagenPrincipal', 'sellos', 'imagenes'].includes(field);
+      const maxSize = isImageField ? MAX_IMAGE_SIZE : MAX_PDF_SIZE;
+      
+      const invalidFiles = files.filter(file => 
+        file.size > maxSize || 
+        (isImageField && !VALID_IMAGE_TYPES.includes(file.type))
+      );
+
+      if (invalidFiles.length > 0) {
+        alert(`Algunos archivos no cumplen con los requisitos:
+          - Tamaño máximo: ${maxSize / (1024 * 1024)}MB
+          - Formatos permitidos: ${isImageField ? 'JPEG, PNG, GIF' : 'PDF'}`);
         return;
       }
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setSellosPreviews(prev => [...prev, ...newPreviews]);
-      setFormData(prev => ({
-        ...prev,
-        [field]: [...prev[field], ...files]
-      }));
-    } 
-    else if (field === 'imagenes') {
-      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
-      if (oversized) {
-        alert('El tamaño máximo para las imágenes es de 5 MB cada una');
-        return;
+
+      if (field === 'imagenPrincipal') {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPreviews(prev => ({ ...prev, imagenPrincipal: reader.result }));
+        };
+        reader.readAsDataURL(files[0]);
+        setFormData(prev => ({ ...prev, [field]: files[0] }));
+      } 
+      else {
+        const newPreviews = files.map(file => URL.createObjectURL(file));
+        setPreviews(prev => ({
+          ...prev,
+          [field]: [...prev[field], ...newPreviews]
+        }));
+        setFormData(prev => ({
+          ...prev,
+          [field]: [...prev[field], ...files]
+        }));
       }
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setImagenesPreviews(prev => [...prev, ...newPreviews]);
-      setFormData(prev => ({
-        ...prev,
-        [field]: [...prev[field], ...files]
-      }));
     }
   };
 
-  const removeFile = (index, field, previewField, setPreviewField) => {
-    if (isEditing && formData[field][index] === 'existing') {
-      const updatedFiles = [...formData[field]];
-      updatedFiles[index] = 'to_delete';
-      setFormData({ ...formData, [field]: updatedFiles });
-
-      const updatedPreviews = [...previewField];
-      updatedPreviews.splice(index, 1);
-      setPreviewField(updatedPreviews);
-    } else {
-      const updatedFiles = [...formData[field]];
-      updatedFiles.splice(index, 1);
-      setFormData({ ...formData, [field]: updatedFiles });
-
-      if (previewField[index] && previewField[index].startsWith('blob:')) {
-        URL.revokeObjectURL(previewField[index]);
-      }
-      const updatedPreviews = [...previewField];
-      updatedPreviews.splice(index, 1);
-      setPreviewField(updatedPreviews);
+  const removeFile = (index, field) => {
+    // Liberar URL de objeto si existe
+    if (previews[field]?.[index]?.startsWith('blob:')) {
+      URL.revokeObjectURL(previews[field][index]);
     }
-  };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    if (!validator.allValid()) {
-      validator.showMessages();
-      forceUpdate(1);
-      return;
-    }
-    
-    const formDataToSend = new FormData();
-    
-    // Campos básicos
-    Object.keys(formData).forEach(key => {
-      if (!['sellos', 'imagenes', 'fichaTecnica', 'imagenPrincipal'].includes(key)) {
-        formDataToSend.append(key, formData[key] instanceof Date ? 
-          formData[key].toISOString() : 
-          formData[key]);
-      }
+    setPreviews(prev => {
+      const newPreviews = [...prev[field]];
+      newPreviews.splice(index, 1);
+      return { ...prev, [field]: newPreviews };
     });
-    
-    // Manejo especial para edición
-    if (isEditing) {
-      formDataToSend.append('isEditing', 'true');
-      formDataToSend.append('originalRuta', formData.ruta);
-      
-      // Manejar archivos existentes
-      if (formData.fichaTecnica === 'to_delete') {
-        formDataToSend.append('delete_fichaTecnica', 'true');
-      } else if (formData.fichaTecnica !== 'existing' && formData.fichaTecnica !== null) {
-        formDataToSend.append('fichaTecnica', formData.fichaTecnica);
-      } else if (formData.fichaTecnica === 'existing') {
-        formDataToSend.append('keep_fichaTecnica', 'true');
-      }
-      
-      if (formData.imagenPrincipal === 'to_delete') {
-        formDataToSend.append('delete_imagenPrincipal', 'true');
-      } else if (formData.imagenPrincipal !== 'existing' && formData.imagenPrincipal !== null) {
-        formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
-      } else if (formData.imagenPrincipal === 'existing') {
-        formDataToSend.append('keep_imagenPrincipal', 'true');
-      }
-      
-      // Procesar sellos
-      formData.sellos.forEach((sello, index) => {
-        if (sello === 'to_delete') {
-          formDataToSend.append('delete_sellos[]', index.toString());
-        } else if (sello !== 'existing') {
-          formDataToSend.append('sellos[]', sello);
-        }
-      });
-      
-      // Procesar imágenes
-      formData.imagenes.forEach((imagen, index) => {
-        if (imagen === 'to_delete') {
-          formDataToSend.append('delete_imagenes[]', index.toString());
-        } else if (imagen !== 'existing') {
-          formDataToSend.append('imagenes[]', imagen);
-        }
-      });
-    } else {
-      // Lógica para nuevo producto
-      if (formData.fichaTecnica) {
-        formDataToSend.append('fichaTecnica', formData.fichaTecnica);
-      }
-      
-      if (formData.imagenPrincipal) {
-        formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
-      }
-      
-      formData.sellos.forEach(sello => {
-        formDataToSend.append('sellos[]', sello);
-      });
-      
-      formData.imagenes.forEach(imagen => {
-        formDataToSend.append('imagenes[]', imagen);
-      });
-    }
 
+    setFormData(prev => {
+      const newFiles = [...prev[field]];
+      newFiles.splice(index, 1);
+      return { ...prev, [field]: newFiles };
+    });
+
+    if (field === 'fichaTecnica') {
+      setFileNames(prev => ({ ...prev, fichaTecnica: '' }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validator.allValid() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    
     try {
-      const response = await fetch('https://apsafety.onrender.com/saveProduct.php', {
+      const formDataToSend = new FormData();
+      
+      // Campos básicos
+      Object.entries(formData).forEach(([key, value]) => {
+        if (['sellos', 'imagenes', 'fichaTecnica', 'imagenPrincipal'].includes(key)) return;
+        
+        formDataToSend.append(
+          key, 
+          value instanceof Date ? value.toISOString() : value
+        );
+      });
+
+      // Manejo de archivos
+      if (isEditing) {
+        formDataToSend.append('isEditing', 'true');
+        formDataToSend.append('originalRuta', formData.ruta);
+        
+        // Procesar archivos para edición
+        ['fichaTecnica', 'imagenPrincipal'].forEach(field => {
+          if (formData[field] === 'to_delete') {
+            formDataToSend.append(`delete_${field}`, 'true');
+          } else if (formData[field] && formData[field] !== 'existing') {
+            formDataToSend.append(field, formData[field]);
+          } else if (formData[field] === 'existing') {
+            formDataToSend.append(`keep_${field}`, 'true');
+          }
+        });
+
+        ['sellos', 'imagenes'].forEach(field => {
+          formData[field].forEach((file, index) => {
+            if (file === 'to_delete') {
+              formDataToSend.append(`delete_${field}[]`, index);
+            } else if (file !== 'existing') {
+              formDataToSend.append(`${field}[]`, file);
+            }
+          });
+        });
+      } else {
+        // Procesar archivos para nuevo producto
+        ['fichaTecnica', 'imagenPrincipal', 'sellos', 'imagenes'].forEach(field => {
+          if (formData[field]) {
+            Array.isArray(formData[field])
+              ? formData[field].forEach(file => formDataToSend.append(`${field}[]`, file))
+              : formDataToSend.append(field, formData[field]);
+          }
+        });
+      }
+
+      const response = await fetch('https://apsafety.onrender.com/saveProductToGitHub.php', {
         method: 'POST',
         body: formDataToSend
       });
-      
+
       const result = await response.json();
-      if (result.success) {
-        alert(isEditing ? '¡Producto actualizado exitosamente!' : '¡Producto guardado exitosamente!');
-        resetForm();
-        navigate('/productos');
-      } else {
-        alert(`Error: ${result.message}`);
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Error al guardar el producto');
       }
+
+      alert(isEditing ? '¡Producto actualizado exitosamente!' : '¡Producto guardado exitosamente!');
+      resetForm();
+      navigate('/productos');
     } catch (error) {
-      console.error('Error al enviar formulario:', error);
-      alert('Error al conectar con el servidor');
+      console.error('Error:', error);
+      alert(`Error: ${error.message || 'Ocurrió un error al procesar la solicitud'}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -323,302 +310,220 @@ const AggProducto = () => {
       fechaCreacion: new Date(),
       ruta: ''
     });
-    setImagenPrincipalPreview(null);
-    setSellosPreviews([]);
-    setImagenesPreviews([]);
-    setFichaTecnicaNombre('');
-    setExistingFiles({
-      fichaTecnica: null,
+    setPreviews({
       imagenPrincipal: null,
       sellos: [],
       imagenes: []
     });
+    setFileNames({
+      fichaTecnica: ''
+    });
   };
 
   const handleCancel = () => {
-    navigate('/productos');
+    if (window.confirm('¿Estás seguro de que deseas cancelar? Los cambios no guardados se perderán.')) {
+      navigate('/productos');
+    }
   };
 
+  // Renderizado
   return (
-    <form id="contact-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="product-form">
       <div className="row g-4">
-        <div className="col-lg-6">
-          <p>Nombre Producto:</p>
-          <div className="form-clt">
-            <input
-              type="text"
-              name="titulo"
-              value={formData.titulo}
-              onChange={handleChange}
-              placeholder="Nombre del producto"
-            />
-            {validator.message('titulo', formData.titulo, 'required')}
-          </div>
-        </div>
+        {/* Campos de texto */}
+        <TextInput 
+          label="Nombre Producto"
+          name="titulo"
+          value={formData.titulo}
+          onChange={handleChange}
+          placeholder="Nombre del producto"
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Descripción:</p>
-          <div className="form-clt">
-            <textarea
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleChange}
-              placeholder="Descripción del producto"
-            />
-            {validator.message('descripcion', formData.descripcion, 'required')}
-          </div>
-        </div>
+        <TextAreaInput
+          label="Descripción"
+          name="descripcion"
+          value={formData.descripcion}
+          onChange={handleChange}
+          placeholder="Descripción detallada del producto"
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Unidad de medida:</p>
-          <div className="form-clt">
-            <select
-              name="unidadMedida"
-              value={formData.unidadMedida}
-              onChange={handleChange}
-            >
-              <option value="">Selecciona una unidad</option>
-              <option value="Metro">Metro</option>
-              <option value="Metro cuadrado">Metro cuadrado</option>
-              <option value="Metro cúbico">Metro cúbico</option>
-              <option value="Kilogramo">Kilogramo</option>
-              <option value="Litro">Litro</option>
-              <option value="Segundo">Segundo</option>
-              <option value="Grado">Grado</option>
-            </select>
-            {validator.message('unidadMedida', formData.unidadMedida, 'required')}
-          </div>
-        </div>
+        {/* Selectores */}
+        <SelectInput
+          label="Unidad de medida"
+          name="unidadMedida"
+          value={formData.unidadMedida}
+          onChange={handleChange}
+          options={[
+            { value: '', label: 'Selecciona una unidad' },
+            { value: 'Metro', label: 'Metro' },
+            { value: 'Metro cuadrado', label: 'Metro cuadrado' },
+            { value: 'Metro cúbico', label: 'Metro cúbico' },
+            { value: 'Kilogramo', label: 'Kilogramo' },
+            { value: 'Litro', label: 'Litro' },
+            { value: 'Segundo', label: 'Segundo' },
+            { value: 'Grado', label: 'Grado' }
+          ]}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Clasificación:</p>
-          <div className="form-clt">
-            <select
-              name="clasificacion"
-              value={formData.clasificacion}
-              onChange={handleChange}
-            >
-              <option value="">Selecciona clasificación</option>
-              <option value="Productos">Productos</option>
-              <option value="Protección respiratoria">Protección respiratoria</option>
-              <option value="Protección personal">Protección personal</option>
-              <option value="Detección de gas">Detección de gas</option>
-              <option value="Productos retail">Productos retail</option>
-              <option value="Productos POP">Productos POP</option>
-            </select>
-            {validator.message('clasificacion', formData.clasificacion, 'required')}
-          </div>
-        </div>
+        <SelectInput
+          label="Clasificación"
+          name="clasificacion"
+          value={formData.clasificacion}
+          onChange={handleChange}
+          options={[
+            { value: '', label: 'Selecciona clasificación' },
+            { value: 'Productos', label: 'Productos' },
+            { value: 'Protección respiratoria', label: 'Protección respiratoria' },
+            { value: 'Protección personal', label: 'Protección personal' },
+            { value: 'Detección de gas', label: 'Detección de gas' },
+            { value: 'Productos retail', label: 'Productos retail' },
+            { value: 'Productos POP', label: 'Productos POP' }
+          ]}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Ventajas:</p>
-          <div className="form-clt">
-            <input
-              type="text"
-              name="ventajas"
-              value={formData.ventajas}
-              onChange={handleChange}
-              placeholder={ventajasPlaceholder}
-              onFocus={() => clearInterval(ventajasIntervalRef.current)}
-            />
-            {validator.message('ventajas', formData.ventajas, 'required')}
-          </div>
-        </div>
+        {/* Campos de texto con placeholders animados */}
+        <TextInput
+          label="Ventajas"
+          name="ventajas"
+          value={formData.ventajas}
+          onChange={handleChange}
+          placeholder={placeholders.ventajas}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Aplicaciones:</p>
-          <div className="form-clt">
-            <input
-              type="text"
-              name="aplicaciones"
-              value={formData.aplicaciones}
-              onChange={handleChange}
-              placeholder={aplicacionesPlaceholder}
-              onFocus={() => clearInterval(aplicacionesIntervalRef.current)}
-            />
-            {validator.message('aplicaciones', formData.aplicaciones, 'required')}
-          </div>
-        </div>
+        <TextInput
+          label="Aplicaciones"
+          name="aplicaciones"
+          value={formData.aplicaciones}
+          onChange={handleChange}
+          placeholder={placeholders.aplicaciones}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Tipo o subcategoría:</p>
-          <div className="form-clt">
-            <select
-              name="tipo"
-              value={formData.tipo}
-              onChange={handleChange}
-            >
-              <option value="">Selecciona un tipo</option>
-              <option value="Tipo1">Tipo1</option>
-              <option value="Tipo2">Tipo2</option>
-              <option value="Tipo3">Tipo3</option>
-              <option value="Tipo4">Tipo4</option>
-            </select>
-            {validator.message('tipo', formData.tipo, 'required')}
-          </div>
-        </div>
+        <SelectInput
+          label="Tipo o subcategoría"
+          name="tipo"
+          value={formData.tipo}
+          onChange={handleChange}
+          options={[
+            { value: '', label: 'Selecciona un tipo' },
+            { value: 'Tipo1', label: 'Tipo1' },
+            { value: 'Tipo2', label: 'Tipo2' },
+            { value: 'Tipo3', label: 'Tipo3' },
+            { value: 'Tipo4', label: 'Tipo4' }
+          ]}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Ficha Técnica (PDF):</p>
-          <div className="form-clt">
-            <input
-              type="file"
-              accept="application/pdf"
-              onChange={(e) => handleFileChange(e, 'fichaTecnica')}
-            />
-            {fichaTecnicaNombre && <p className="small text-muted mt-1">{fichaTecnicaNombre}</p>}
-            {validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'required')}
-            {isEditing && formData.fichaTecnica === 'existing' && (
-              <button 
-                type="button" 
-                className="btn btn-sm btn-outline-danger mt-1"
-                onClick={() => removeFile(0, 'fichaTecnica', [fichaTecnicaNombre], setFichaTecnicaNombre)}
-              >
-                Eliminar ficha técnica actual
-              </button>
-            )}
-          </div>
-        </div>
+        {/* Campos de archivos */}
+        <FileInput
+          label="Ficha Técnica (PDF - Máx. 10 MB)"
+          name="fichaTecnica"
+          accept="application/pdf"
+          onChange={(e) => handleFileChange(e, 'fichaTecnica')}
+          fileName={fileNames.fichaTecnica}
+          validator={validator}
+          required={!isEditing}
+          onRemove={() => removeFile(0, 'fichaTecnica')}
+          showRemove={isEditing && formData.fichaTecnica === 'existing'}
+        />
 
-        <div className="col-lg-6">
-          <p>Imagen Principal:</p>
-          <div className="form-clt">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileChange(e, 'imagenPrincipal')}
-            />
-            {imagenPrincipalPreview && (
-              <div className="mt-2">
-                <img 
-                  src={imagenPrincipalPreview} 
-                  alt="Previsualización de imagen principal" 
-                  style={{ maxWidth: '100px', maxHeight: '100px' }} 
-                />
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-danger d-block mt-1"
-                  onClick={() => {
-                    if (imagenPrincipalPreview.startsWith('blob:')) {
-                      URL.revokeObjectURL(imagenPrincipalPreview);
-                    }
-                    setImagenPrincipalPreview(null);
-                    setFormData(prev => ({
-                      ...prev,
-                      imagenPrincipal: isEditing && prev.imagenPrincipal === 'existing' ? 'to_delete' : null
-                    }));
-                  }}
-                >
-                  Eliminar imagen
-                </button>
-              </div>
-            )}
-            {validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'required')}
-          </div>
-        </div>
+        <ImageUploader
+          label="Imagen Principal (Máx. 5 MB)"
+          name="imagenPrincipal"
+          preview={previews.imagenPrincipal}
+          onChange={(e) => handleFileChange(e, 'imagenPrincipal')}
+          validator={validator}
+          required={!isEditing}
+          onRemove={() => {
+            if (previews.imagenPrincipal?.startsWith('blob:')) {
+              URL.revokeObjectURL(previews.imagenPrincipal);
+            }
+            setPreviews(prev => ({ ...prev, imagenPrincipal: null }));
+            setFormData(prev => ({
+              ...prev,
+              imagenPrincipal: isEditing ? 'to_delete' : null
+            }));
+          }}
+          showRemove={previews.imagenPrincipal}
+        />
 
-        <div className="col-lg-6">
-          <p>Sellos (múltiples):</p>
-          <div className="form-clt">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => handleFileChange(e, 'sellos')}
-            />
-            <div className="d-flex flex-wrap mt-2">
-              {sellosPreviews.map((preview, index) => (
-                <div key={index} className="position-relative me-2 mb-2">
-                  <img 
-                    src={preview} 
-                    alt={`Previsualización de sello ${index}`} 
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 p-0"
-                    style={{ width: '20px', height: '20px', fontSize: '10px' }}
-                    onClick={() => removeFile(index, 'sellos', sellosPreviews, setSellosPreviews)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-            {validator.message('sellos', formData.sellos, isEditing ? '' : 'required')}
-          </div>
-        </div>
+        <MultiImageUploader
+          label="Sellos (Múltiples - Máx. 5 MB c/u)"
+          name="sellos"
+          previews={previews.sellos}
+          onChange={(e) => handleFileChange(e, 'sellos')}
+          validator={validator}
+          required={!isEditing}
+          onRemove={(index) => removeFile(index, 'sellos')}
+        />
 
-        <div className="col-lg-6">
-          <p>Imágenes (múltiples):</p>
-          <div className="form-clt">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => handleFileChange(e, 'imagenes')}
-            />
-            <div className="d-flex flex-wrap mt-2">
-              {imagenesPreviews.map((preview, index) => (
-                <div key={index} className="position-relative me-2 mb-2">
-                  <img 
-                    src={preview} 
-                    alt={`Previsualización de imagen ${index}`} 
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 p-0"
-                    style={{ width: '20px', height: '20px', fontSize: '10px' }}
-                    onClick={() => removeFile(index, 'imagenes', imagenesPreviews, setImagenesPreviews)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-            {validator.message('imagenes', formData.imagenes, isEditing ? '' : 'required')}
-          </div>
-        </div>
+        <MultiImageUploader
+          label="Imágenes (Múltiples - Máx. 5 MB c/u)"
+          name="imagenes"
+          previews={previews.imagenes}
+          onChange={(e) => handleFileChange(e, 'imagenes')}
+          validator={validator}
+          required={!isEditing}
+          onRemove={(index) => removeFile(index, 'imagenes')}
+        />
 
-        <div className="col-lg-6">
-          <p>Fecha de Creación:</p>
-          <div className="form-clt">
-            <input
-              type="datetime-local"
-              name="fechaCreacion"
-              value={formData.fechaCreacion ? formData.fechaCreacion.toISOString().slice(0, 16) : ''}
-              onChange={handleChange}
-            />
-            {validator.message('fechaCreacion', formData.fechaCreacion, 'required')}
-          </div>
-        </div>
+        {/* Fecha y estado */}
+        <DateTimeInput
+          label="Fecha de Creación"
+          name="fechaCreacion"
+          value={formData.fechaCreacion?.toISOString().slice(0, 16) || ''}
+          onChange={handleChange}
+          disabled={!isEditing}
+          validator={validator}
+          required
+        />
 
-        <div className="col-lg-6">
-          <p>Estado:</p>
-          <div className="form-clt">
-            <select
-              name="activo"
-              value={formData.activo}
-              onChange={handleChange}
-              className="form-control"
-            >
-              <option value={true}>Activo</option>
-              <option value={false}>No Activo</option>
-            </select>
-            {validator.message('activo', formData.activo, 'required')}
-          </div>
-        </div>
+        <SelectInput
+          label="Estado"
+          name="activo"
+          value={formData.activo}
+          onChange={handleChange}
+          options={[
+            { value: true, label: 'Activo' },
+            { value: false, label: 'No Activo' }
+          ]}
+          validator={validator}
+          required
+        />
 
+        {/* Botones */}
         <div className="col-lg-12">
           <div className="d-flex justify-content-between">
             <button
               type="submit"
               className="theme-btn"
+              disabled={isSubmitting}
             >
-              {isEditing ? 'Actualizar Producto' : 'Agregar Producto'}
+              {isSubmitting ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Procesando...
+                </>
+              ) : isEditing ? 'Actualizar Producto' : 'Agregar Producto'}
             </button>
-            <button type="button" className="theme-btn" onClick={handleCancel}>
+            <button 
+              type="button" 
+              className="theme-btn btn-secondary"
+              onClick={handleCancel}
+              disabled={isSubmitting}
+            >
               Cancelar
             </button>
           </div>
@@ -626,6 +531,170 @@ const AggProducto = () => {
       </div>
     </form>
   );
+};
+
+// Componentes auxiliares (deberías moverlos a archivos separados)
+const TextInput = ({ label, name, value, onChange, placeholder, validator, required }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+      {validator.message(name, value, required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+const TextAreaInput = ({ label, name, value, onChange, placeholder, validator, required }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <textarea
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        rows="3"
+      />
+      {validator.message(name, value, required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+const SelectInput = ({ label, name, value, onChange, options, validator, required, disabled }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <select
+        name={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      {validator.message(name, value, required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+const FileInput = ({ label, name, accept, onChange, fileName, validator, required, onRemove, showRemove }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <input
+        type="file"
+        accept={accept}
+        onChange={onChange}
+      />
+      {fileName && <p className="small text-muted mt-1">{fileName}</p>}
+      {validator.message(name, fileName || '', required ? 'required' : '')}
+      {showRemove && (
+        <button 
+          type="button" 
+          className="btn btn-sm btn-outline-danger mt-1"
+          onClick={onRemove}
+        >
+          Eliminar archivo actual
+        </button>
+      )}
+    </div>
+  </div>
+);
+
+const ImageUploader = ({ label, name, preview, onChange, validator, required, onRemove, showRemove }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <input
+        type="file"
+        accept="image/*"
+        onChange={onChange}
+      />
+      {preview && (
+        <div className="mt-2">
+          <img 
+            src={preview} 
+            alt="Previsualización" 
+            style={{ maxWidth: '100px', maxHeight: '100px' }} 
+          />
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-danger d-block mt-1"
+            onClick={onRemove}
+          >
+            Eliminar imagen
+          </button>
+        </div>
+      )}
+      {validator.message(name, preview || '', required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+const MultiImageUploader = ({ label, name, previews, onChange, validator, required, onRemove }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={onChange}
+      />
+      <div className="d-flex flex-wrap mt-2">
+        {previews.map((preview, index) => (
+          <div key={index} className="position-relative me-2 mb-2">
+            <img 
+              src={preview} 
+              alt={`Previsualización ${index}`} 
+              style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
+            />
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 p-0"
+              style={{ width: '20px', height: '20px', fontSize: '10px' }}
+              onClick={() => onRemove(index)}
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+      {validator.message(name, previews.length > 0 ? previews : '', required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+const DateTimeInput = ({ label, name, value, onChange, validator, required, disabled }) => (
+  <div className="col-lg-6">
+    <p>{label}:</p>
+    <div className="form-clt">
+      <input
+        type="datetime-local"
+        name={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      {validator.message(name, value, required ? 'required' : '')}
+    </div>
+  </div>
+);
+
+// PropTypes
+AggProducto.propTypes = {
+  productToEdit: PropTypes.object,
+  isEditing: PropTypes.bool
 };
 
 export default AggProducto;
