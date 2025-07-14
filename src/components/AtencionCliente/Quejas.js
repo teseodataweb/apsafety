@@ -24,13 +24,13 @@ const Quejas = () => {
             <section className="about-section section-padding">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-10 mx-auto">
+                        <div className="col-lg-8 mx-auto">
                             <div className="about-content">
                                 <h1 className="wow fadeInUp main-title">Tu opinión nos importa</h1>
                                 <div className="wow fadeInUp" data-wow-delay=".2s">
                                     <p className="intro-text">
                                         En AP SAFETY, valoramos tus comentarios y estamos comprometidos con la mejora continua de nuestros productos y servicios. 
-                                        Si has tenido alguna experiencia que no cumplió con tus expectativas, por favor, háznoslo saber.
+                                        <p>Si has tenido alguna experiencia que no cumplió con tus expectativas, por favor, háznoslo saber.</p>
                                     </p>
                                 </div>
                             </div>
@@ -45,11 +45,11 @@ const Quejas = () => {
                         <div className="col-lg-8">
                             <div className="contact-form-items p-4 rounded">
                                 <div className="contact-title text-center mb-5">
-                                    <h3 className="wow fadeInUp" data-wow-delay=".3s">
+                                    <h3 className="wow fadeInUp" data-wow-delay=".2s">
                                         Completa el formulario y un asesor técnico se pondrá en contacto en menos de 24 horas
                                     </h3>
                                 </div>
-                                <ContactForm/>
+                                <Formulary/>
                             </div>
                         </div>
                     </div>

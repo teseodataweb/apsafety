@@ -36,10 +36,8 @@ const Formulary= () => {
 
     return (
         <form id="complaint-form" onSubmit={handleSubmit}>
-            <div className="row g-4">
 
                 {/* Nombre completo */}
-                <div className="col-lg-12">
                     <div className="form-clt">
                         <input
                             type="text"
@@ -50,10 +48,9 @@ const Formulary= () => {
                         />
                         {simpleValidator.current.message('name', formData.name, 'required|alpha_space')}
                     </div>
-                </div>
+    
 
                 {/* Correo electrónico */}
-                <div className="col-lg-12">
                     <div className="form-clt">
                         <input
                             type="email"
@@ -64,10 +61,8 @@ const Formulary= () => {
                         />
                         {simpleValidator.current.message('email', formData.email, 'required|email')}
                     </div>
-                </div>
 
                 {/* Teléfono */}
-                <div className="col-lg-12">
                     <div className="form-clt">
                         <input
                             type="tel"
@@ -78,10 +73,8 @@ const Formulary= () => {
                         />
                         {simpleValidator.current.message('phone', formData.phone, 'required|numeric|min:10|max:15')}
                     </div>
-                </div>
 
                 {/* Producto  */}
-                <div className="col-lg-12">
                     <div className="form-clt">
                         <input
                             type="text"
@@ -92,10 +85,8 @@ const Formulary= () => {
                         />
                         {simpleValidator.current.message('product', formData.product, 'required')}
                     </div>
-                </div>
 
                 {/* Detalles de queja */}
-                <div className="col-lg-12">
                     <div className="form-clt-big form-clt">
                         <textarea
                             name="message"
@@ -105,33 +96,30 @@ const Formulary= () => {
                         ></textarea>
                         {simpleValidator.current.message('message', formData.message, 'required|min:10|max:500')}
                     </div>
-                </div>
 
                 {/* Adjuntar archivo */}
-                <div className="col-lg-12">
                     <div className="form-clt">
                         <input
                             type="file"
                             name="file"
+                            placeholder="Detalles de la queja*"
                             onChange={handleChange}
                         />
                         <small>(Opcional)</small>
                     </div>
-                </div>
 
-                {/* Botón de envío */}
-                <div className="col-lg-6">
-                    <button type="submit" className="theme-btn">
-                        <i className="fal fa-paper-plane"></i> Enviar Queja
-                    </button>
-                </div>
+                {/* Botón */}
+                    <div className="boton-container">
+                    <button type="submit" className="theme-btn small">
+                       <i className="fal fa-paper-plane"></i> Enviar
+                   </button>
+                   </div>
 
-                {/*k*/}
-                <div className="col-lg-12">
-                    <small>Todos los campos son obligatorios, excepto donde se indique.</small>
-                </div>
-            </div>
-        </form>
+
+                    <small style={{ display: 'block', textAlign: 'center', marginTop: '10px' }}>
+                        Todos los campos son obligatorios, excepto donde se indique.
+                    </small>
+                    </form>
     );
 };
 
