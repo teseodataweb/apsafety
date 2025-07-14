@@ -1,0 +1,44 @@
+.tienda-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.tienda-card {
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 450px; 
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tienda-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 15px auto;
+}
+
+.tienda-card p {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 8px; /* menos redondeado */
+  font-weight: 600;
+  font-size: 1.2rem;
+  width: fit-content;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+

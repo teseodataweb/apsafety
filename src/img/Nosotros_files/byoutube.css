@@ -1,0 +1,59 @@
+
+.byoutube {
+	flex-basis: inherit !important;
+	-webkit-flex-basis: inherit !important;
+}
+
+.byoutube .byoutube-wrapper {
+	position: absolute;
+	z-index: 0;
+	min-width: 100%;
+	min-height: 100%;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	display: block;
+	transform: translateZ(0) translate3d(0, 0, 0);
+	transform-style: preserve-3d;
+	perspective: 1000;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	box-sizing: border-box;
+}
+
+.byoutube .byoutube-wrapper .byoutube-iframe {
+	position: absolute;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+
+.byoutube .byoutube-wrapper .byoutube-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.byoutube-wrapper iframe {
+	max-width: 4000px !important;
+}
+
+.content-with-background-video {
+	position: relative !important;
+}
+
+.editando-pagina .byoutube .byoutube-wrapper {
+	z-index: 0 !important;
+}
+
+.byoutube-controls {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	z-index: 1;
+}
