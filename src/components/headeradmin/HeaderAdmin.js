@@ -1,27 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
+import { logout } from '../../services/authService';
+
 const HeaderAdmin = (props) => {
+    const navigate = useNavigate();
     const SubmitHandler = (e) => {
-        e.preventDefault()}
+        e.preventDefault();
+    }
+
     const ClickHandler = () => {
-        window.scrollTo(10, 0);}
+        window.scrollTo(10, 0);
+    }
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    };
+
     const { carts } = props;
     const [isSticky, setIsSticky] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 250) {
                 setIsSticky(true);
             } else {
                 setIsSticky(false);
-            }};
+            }
+        };
+        
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
-        };}, []);
+        };
+    }, []);
+
     return (
         <header className={props.hclass}>
             <div id="header-sticky" className={isSticky ? 'sticky' : 'header-1'}>
@@ -60,7 +80,6 @@ const HeaderAdmin = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Distribuidores</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
-
                                                 </ul>
                                             </li>
                                             <li>
@@ -74,8 +93,8 @@ const HeaderAdmin = (props) => {
                                                 </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/news">Videos</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Noticias</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog AP</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Noticias</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Blog AP</Link></li>
                                                 </ul>
                                             </li>
                                             <li className="has-dropdown">
@@ -85,22 +104,38 @@ const HeaderAdmin = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
-                                                    </ul>
-                                                    </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
-                            <div className="header-right d-flex justify-content-end align-items-center">   
+                            <div className="header-right d-flex justify-content-end align-items-center">
+                                <div className="header-button">
+                                    <button 
+                                        onClick={handleLogout} 
+                                        className="theme-btn" 
+                                        style={{
+                                            backgroundColor: '#4CAF50', 
+                                            borderRadius: '4px'
+                                        }}
+                                    >
+                                        Cerrar Sesión
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
-    )}
+    );
+};
+
 const mapStateToProps = (state) => {
     return {
         carts: state.cartList.cart,
-    };};
+    };
+};
+
 export default connect(mapStateToProps, { removeFromCart })(HeaderAdmin);

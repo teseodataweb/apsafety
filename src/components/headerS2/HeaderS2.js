@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
@@ -7,27 +7,47 @@ import Home1 from '../../img/header/home-1.jpg';
 import Home2 from '../../img/header/home-2.jpg';
 import Home3 from '../../img/header/home-3.jpg';
 import MobileMenu from '../MobileMenu/MobileMenu';
+import { logout } from '../../services/authService';
+
 const HeaderS2 = (props) => {
+    const navigate = useNavigate();
     const SubmitHandler = (e) => {
-        e.preventDefault()}
+        e.preventDefault();
+    }
+
     const ClickHandler = () => {
-        window.scrollTo(10, 0);}
+        window.scrollTo(10, 0);
+    }
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    };
+
     const { carts } = props;
     const [isSticky, setIsSticky] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 250) {
                 setIsSticky(true);
             } else {
                 setIsSticky(false);
-            }};
+            }
+        };
+        
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
-        };}, []);
+        };
+    }, []);
+
     return (
         <header className={props.hclass}>
-            {/* <HeaderTopbarS2 /> */}
             <div id="header-sticky" className={isSticky ? 'header-1 style-2 sticky' : 'header-1 style-2'}>
                 <div className="container-fluid">
                     <div className="mega-menu-wrapper">
@@ -35,7 +55,7 @@ const HeaderS2 = (props) => {
                             <div className="header-left">
                                 <div className="logo">
                                     <Link onClick={ClickHandler} to="/" className="header-logo">
-                                        <img src={Logo} alt="logo-img"  width={80} />
+                                        <img src={Logo} alt="logo-img" width={80} />
                                     </Link>
                                 </div>
                             </div>
@@ -95,7 +115,6 @@ const HeaderS2 = (props) => {
                                                                     </h4>
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -140,10 +159,9 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
-                                                    
-                                                    </ul>
-                                                    </li>
-                                                    <li>
+                                                </ul>
+                                            </li>
+                                            <li>
                                                 <Link onClick={ClickHandler} to="/admin">
                                                     Administrar Usuarios
                                                 </Link>
@@ -156,6 +174,15 @@ const HeaderS2 = (props) => {
                                 <div className="header-button">
                                     <Link onClick={ClickHandler} to="/formProducto" className="theme-btn">Agregar Producto</Link>
                                 </div>
+                                <div className="header-button">
+                                    <button 
+                                        onClick={handleLogout} 
+                                        className="theme-btn" 
+                                        style={{backgroundColor: '#4CAF50', border: 'none', cursor: 'pointer'}}
+                                    >
+                                        Cerrar Sesión
+                                    </button>
+                                </div>
                                 <div className="header__hamburger d-xl-none my-auto">
                                     <div className="sidebar__toggle">
                                         <MobileMenu />
@@ -167,9 +194,13 @@ const HeaderS2 = (props) => {
                 </div>
             </div>
         </header>
-    )}
+    );
+};
+
 const mapStateToProps = (state) => {
     return {
         carts: state.cartList.cart,
-    };};
+    };
+};
+
 export default connect(mapStateToProps, { removeFromCart })(HeaderS2);
