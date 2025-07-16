@@ -5,7 +5,7 @@ import ContactForm from '../ContactFrom/Formulary';
 import { Link } from 'react-router-dom';
 import './Quejas.css';
 import Formulary from '../ContactFrom/Formulary';
-
+import FooterS4 from '../footerS3/footerS4';
 
 const Quejas = () => {
     return (
@@ -105,6 +105,9 @@ const Quejas = () => {
                     </div>
                 </div>
             </section>
+            <div>
+                <FooterS4/>
+            </div>
         </div>
     );
 }

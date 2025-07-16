@@ -7,6 +7,8 @@ import FormularioC2 from '../ContactFrom/FormularioC2';
 import FormularioC3 from '../ContactFrom/FormularioC3';
 import FormularioC4 from '../ContactFrom/FormularioC4';
 import './contacto.css';
+import footerS3 from '../footerS3/footerS4';
+import FooterS4 from '../footerS3/footerS4';
 
 
 
@@ -217,15 +219,9 @@ const Contacto = () =>{
                                         </div>
                                     </div>
                                 </section>
-                                {/* Footer CTA */}
-                                <footer className="footer-cta-section section-padding bg-dark text-white">
-                                    <div className="container text-center">
-                                        <h4 className="mb-3">Estamos comprometidos con brindarte atención de calidad, asesoría personalizada y soluciones a la medida de tus necesidades.</h4>
-                                        <Link to="/distribuidores" className="theme-btn btn-white">
-                                            Conoce nuestra red de distribuidores
-                                        </Link>
-                                    </div>
-                                </footer>
+                                <div>
+                                    <FooterS4/>
+                                </div>
 
 
 
