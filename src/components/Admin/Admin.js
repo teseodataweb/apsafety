@@ -80,7 +80,8 @@ const Admin = (props) => {
                                     boxShadow: '0 8px 15px rgba(0,0,0,0.1)',
                                     margin: '60px',
                                     minHeight: '350px',
-                                    width: '100%',
+                                    
+                                    width: '400px',
 
                                     display: 'flex',
                                     flexDirection: 'column',
