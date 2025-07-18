@@ -8,6 +8,7 @@ Version: 1.0.0
 */
 /*CSS Table Of Content Ends Here*/
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import url("https://fonts.cdnfonts.com/css/satoshi");
 :root {
   --body: #fff;
@@ -94,7 +95,7 @@ Version: 1.0.0
   display: inline-block;
   color: var(--theme);
   text-align: center;
-  font-family: "DM Sans";
+  font-family: "Montserrat";
   font-size: 18px;
   font-weight: 700;
   text-transform: capitalize;
@@ -108,7 +109,7 @@ Version: 1.0.0
     Template Default Fonts & Fonts Styles
  ---------------------------------------------- */
 body {
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 28px;
@@ -146,7 +147,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin: 0px;
   padding: 0;
   color: var(--header);
@@ -350,7 +351,7 @@ span {
   background-color: #F6D17C;
 }
 .about-wrapper .about-content .icon-box-items .icon-items h6 {
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .about-wrapper .about-content .icon-box-items span {
   font-weight: 400;
@@ -1462,14 +1463,14 @@ span {
 .faq-wrapper .faq-content .accordion-item .accordion-header .accordion-button::after {
   content: "\f063";
   background: transparent;
-  font-family: "Font Awesome 6 Pro";
+  font-family: "Montserrat";
   font-weight: 300;
   transition: all 0.3s ease-in-out !important;
 }
 .faq-wrapper .faq-content .accordion-item .accordion-header .accordion-button:not(.collapsed)::after {
   content: "\f062";
   background: transparent;
-  font-family: "Font Awesome 6 Pro";
+  font-family: "Montserrat";
   font-weight: 300;
   color: var(--theme);
 }
@@ -1630,7 +1631,7 @@ span {
   font-size: 16px;
   font-weight: 700;
   color: var(--header);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .counter-text {
@@ -1682,7 +1683,7 @@ span {
 .fearure-wrapper-3 .feature-item .feature-content h5 {
   font-weight: 500;
   line-height: 150%;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .fearure-wrapper-3 .line-shape {
   position: absolute;
@@ -1792,7 +1793,7 @@ span {
   color: var(--white);
   font-size: 18px;
   font-weight: 700;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   border-radius: 50%;
   position: absolute;
   bottom: -20px;
@@ -1961,7 +1962,7 @@ span {
   margin-right: 10px;
 }
 .feature-wrapper-3 .feature-content .theme-btn {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .footer-widgets-wrapper {
@@ -2034,7 +2035,7 @@ span {
 .footer-widgets-wrapper .single-footer-widget .footer-content .scan-items .store-list li {
   font-size: 14px;
   font-weight: 700;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .footer-widgets-wrapper .single-footer-widget .footer-content .scan-items .store-list li:not(:last-child) {
   margin-bottom: 16px;
@@ -2533,7 +2534,7 @@ span {
   background-color: var(--header);
 }
 .header-top-wrapper-2 h6 {
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .header-top-wrapper-2 h6 i {
   color: var(--theme);
@@ -2901,7 +2902,7 @@ span {
 }
 .header-1 .header-right .cart-title {
   font-weight: 700;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2976,7 +2977,7 @@ span {
   text-transform: uppercase;
 }
 .header-1.style-2 .mega-menu-wrapper .header-right .content h5 {
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .header-1.style-2 .mega-menu-wrapper .header-right .menu-cart {
   position: relative;
@@ -3074,7 +3075,7 @@ span {
   font-size: 20px;
 }
 .header-1.style-3 .header-right .cart-item .content h6 {
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .header-1.style-3 .header-right .cart-item .content p {
   color: #73839C;
@@ -3334,7 +3335,7 @@ span {
 .breadcrumb-wrapper .page-heading h6 {
   font-size: 18px;
   font-weight: 500;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: var(--theme);
   color: var(--white);
   padding: 14px 30px;
@@ -3712,7 +3713,7 @@ span {
 
 .scroll-up::after {
   position: absolute;
-  font-family: "Font Awesome 6 free";
+  font-family: "Montserrat";
   content: "\f062";
   text-align: center;
   line-height: 50px;
@@ -3954,7 +3955,7 @@ span {
 .hero-1 .hero-content h6 {
   font-size: 16px;
   font-weight: 700;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: var(--theme);
   color: var(--header);
   color: var(--white);
@@ -4297,7 +4298,7 @@ span {
 .hero-3 .hero-content h6 {
   font-size: 18px;
   font-weight: 500;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   border-radius: 18.5px;
   background: #FF003D;
   color: var(--white);
@@ -5127,7 +5128,7 @@ span {
 .news-details-wrapper .single-news-post .details-content .hilight-text p {
   font-weight: 700;
   text-transform: capitalize;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: var(--header);
   line-height: 180%;
   font-size: 24px;
@@ -5385,7 +5386,7 @@ span {
   content: attr(data-text-preloader);
   left: 0;
   opacity: 0;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   position: absolute;
   top: -3px;
   transform: rotateY(-90deg);
@@ -5905,7 +5906,7 @@ input.main-search-input::placeholder {
   padding: 15px 40px 15px 25px;
   color: var(--white);
   line-height: 1;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .portfolio-wrapper .portfolio-image-items .portfolio-image .portfolio-content h3 a {
   color: var(--white);
@@ -5977,7 +5978,7 @@ input.main-search-input::placeholder {
   padding: 15px 25px;
   color: var(--white);
   line-height: 1;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .project-image .portfolio-content h3 a {
   color: var(--white);
@@ -6211,7 +6212,7 @@ input.main-search-input::placeholder {
   margin-bottom: 30px;
   font-size: 18px;
   font-weight: 500;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: var(--theme);
   color: var(--white);
   padding: 13px 40px;
@@ -6353,7 +6354,7 @@ input.main-search-input::placeholder {
 .section-title h6 {
   font-size: 18px;
   font-weight: 700;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: var(--theme);
   color: var(--white);
   padding: 14px 30px;
@@ -6566,7 +6567,7 @@ input.main-search-input::placeholder {
   background: rgba(230, 229, 246, 0.89);
   padding: 10px 25px;
   line-height: 1;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   text-transform: capitalize;
   margin-bottom: 20px;
 }
@@ -6580,7 +6581,7 @@ input.main-search-input::placeholder {
 .service-card-items-2 .service-content .link-btn {
   font-size: 16px;
   font-weight: 600;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-top: 20px;
 }
 .service-card-items-2 .service-content .link-btn i {
@@ -6629,7 +6630,7 @@ input.main-search-input::placeholder {
   color: var(--header);
   font-size: 16px;
   font-weight: 700;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   display: inline-block;
   margin-top: 25px;
   transition: all 0.4s ease-in-out;
@@ -6884,7 +6885,7 @@ input.main-search-input::placeholder {
   font-size: 18px;
   line-height: 1;
   font-weight: 700;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .service-sidebar .service-widget-categories ul li a {
   color: var(--header);
@@ -7072,7 +7073,7 @@ input.main-search-input::placeholder {
 .testimonial-wrapper .testimonial-content .client-info h3 span {
   font-size: 14px;
   font-weight: 500;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .testimonial-wrapper .testimonial-content .client-info .star {
   color: #FF8C22;
@@ -7717,7 +7718,7 @@ input.main-search-input::placeholder {
 .shop-banner-items.style-2 .shop-image .sale-text h5 {
   color: var(--black);
   text-align: center;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -7875,7 +7876,7 @@ input.main-search-input::placeholder {
 
 .shop-bottom-title {
   font-size: 18px;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   background-color: var(--white);
   border-radius: 22.5px;
@@ -8064,7 +8065,7 @@ input.main-search-input::placeholder {
 .product-demand-wrapper .product-demand-content ul li {
   font-size: 20px;
   font-weight: 400;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 @media (max-width: 767px) {
   .product-demand-wrapper .product-demand-content ul li {
@@ -8134,7 +8135,7 @@ input.main-search-input::placeholder {
 }
 .shop-banner-items-2 .content h3 {
   font-size: 24px;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #FF8617;
   margin-top: 20px;
 }
@@ -8626,7 +8627,7 @@ input.main-search-input::placeholder {
 .shop-main-sidebar .single-sidebar-widget .filter-size .checkbox-single .checkbox-area input:checked ~ .checkmark::after {
   content: "\f00c";
   position: absolute;
-  font-family: "Font Awesome 6 Pro";
+  font-family: "Montserrat";
   top: -5px;
   left: 5px;
   color: var(--theme);
@@ -8897,7 +8898,7 @@ input.main-search-input::placeholder {
   font-size: 18px;
   font-weight: 700;
   color: var(--header);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -9041,7 +9042,7 @@ input.main-search-input::placeholder {
   font-weight: 500;
   margin-bottom: 30px;
   text-transform: capitalize;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .product-details-wrapper .product-details-content .shop-text span {
   font-weight: 600;
@@ -9059,7 +9060,7 @@ input.main-search-input::placeholder {
   position: absolute;
   left: 0;
   top: 2px;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .product-details-wrapper .product-details-content .details-info a {
   font-size: 18px;
@@ -9067,7 +9068,7 @@ input.main-search-input::placeholder {
   color: var(--header);
   margin-left: 120px;
   text-transform: capitalize;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .product-details-wrapper .single-tab {
   padding-top: 80px;
@@ -9088,7 +9089,7 @@ input.main-search-input::placeholder {
   border-radius: 5px;
   font-weight: 700;
   font-size: 18px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
   color: var(--header);
   margin-right: 20px;
@@ -9566,7 +9567,7 @@ input.main-search-input::placeholder {
   line-height: 95px;
   text-transform: capitalize;
   color: var(--header);
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .scrolling-wrap .comm .cmn-textslide.color-2 {
   color: var(--theme);
@@ -9655,7 +9656,7 @@ input.main-search-input::placeholder {
   font-size: 190px;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: "Satoshi", sans-serif;
+  font-family: "Montserrat", sans-serif;
   line-height: 155px;
 }
 
