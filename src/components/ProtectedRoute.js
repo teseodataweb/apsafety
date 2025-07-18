@@ -1,15 +1,29 @@
+// src/components/ProtectedRoute.js
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import {  db } from '../components/login/firebase';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { db } from '../components/login/firebase';
 import auth from '../components/login/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { setupInactivityTimer, checkInactivityOnLoad, logout } from '../services/authService';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
   useEffect(() => {
+    // Verificar inactividad al cargar
+    checkInactivityOnLoad(handleLogout);
+
+    // Configurar temporizador de inactividad
+    const cleanupTimer = setupInactivityTimer(handleLogout);
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
@@ -33,8 +47,11 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
       setLoading(false);
     });
 
-    return unsubscribe;
-  }, []);
+    return () => {
+      unsubscribe();
+      cleanupTimer(); // Limpiar el temporizador al desmontar
+    };
+  }, [navigate]);
 
   if (loading) {
     return <div className="text-center mt-5">Cargando...</div>;
@@ -50,4 +67,5 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   return children;
 };
+
 export default ProtectedRoute;

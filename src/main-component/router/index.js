@@ -28,6 +28,8 @@ import FormProducto from '../../components/AggProductos/FormProducto';
 import ProtectedRoute from '../../components/ProtectedRoute'; 
 import ProductoDetalle from '../../components/Productos/ProductoDetalle';
 import ProductoDetalleUs from '../../components/ProductosUsers/ProductoDetalle';
+import Quejas from '../../components/AtencionCliente/Quejas';
+import Contacto from '../../components/AtencionCliente/contacto';
 const AllRoute = () => {
   return (
     <div className="App">
@@ -80,6 +82,8 @@ const AllRoute = () => {
           <Route path='contact' element={<ContactPage />} />
           <Route path='404' element={<ErrorPage />} />
           <Route path="/asesoria-tecnica" element={<AsesoriaTecnica />} />
+          <Route path="/Quejas" element={<Quejas />} />
+          <Route path="/contacto" element={<Contacto />} />
         </Routes>
       </BrowserRouter>
     </div>

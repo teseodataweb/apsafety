@@ -1,11 +1,25 @@
+//formulario 
 import React, { useState, useEffect, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AggProducto = () => {
-  // Constantes para validación de tamaños de archivo
-  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB para imágenes
-  const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10 MB para PDF
+  const getMexicoDateTime = () => {
+    const now = new Date();
+    const mexicoNow = new Date(
+      now.toLocaleString('en-US', { timeZone: 'America/Mexico_City' })
+    );
+    const pad = (n) => n.toString().padStart(2, '0');
+    const yyyy = mexicoNow.getFullYear();
+    const mm = pad(mexicoNow.getMonth() + 1);
+    const dd = pad(mexicoNow.getDate());
+    const hh = pad(mexicoNow.getHours());
+    const min = pad(mexicoNow.getMinutes());
+    return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+  };
+
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+  const MAX_PDF_SIZE = 10 * 1024 * 1024;
 
   const [formData, setFormData] = useState({
     titulo: '',
@@ -20,8 +34,8 @@ const AggProducto = () => {
     imagenPrincipal: null,
     imagenes: [],
     activo: true,
-    fechaCreacion: new Date(),
-    ruta: ''
+    fechaCreacion: getMexicoDateTime(),
+    ruta: '',
   });
 
   const [imagenPrincipalPreview, setImagenPrincipalPreview] = useState(null);
@@ -32,41 +46,53 @@ const AggProducto = () => {
     fichaTecnica: null,
     imagenPrincipal: null,
     sellos: [],
-    imagenes: []
+    imagenes: [],
   });
-  const [ventajasPlaceholder, setVentajasPlaceholder] = useState('Ventajas (ligero, alta resistencia, etc)');
-  const [aplicacionesPlaceholder, setAplicacionesPlaceholder] = useState('Aplicaciones (cara, interiores, etc)');
+
+  const [ventajasPlaceholder, setVentajasPlaceholder] = useState(
+    'Ventajas (ligero, alta resistencia, etc)'
+  );
+  const [aplicacionesPlaceholder, setAplicacionesPlaceholder] = useState(
+    'Aplicaciones (cara, interiores, etc)'
+  );
 
   const [validator] = useState(new SimpleReactValidator());
   const [, forceUpdate] = useState();
+
   const navigate = useNavigate();
   const location = useLocation();
   const isEditing = location.state?.isEditing || false;
   const productToEdit = location.state?.producto || null;
+
   const ventajasIntervalRef = useRef(null);
   const aplicacionesIntervalRef = useRef(null);
 
   useEffect(() => {
     if (isEditing && productToEdit) {
       loadProductData(productToEdit);
+    } else {
+      // Para nuevo producto: fecha/hora actual
+      setFormData(prev => ({
+        ...prev,
+        fechaCreacion: getMexicoDateTime()
+      }));
     }
 
     ventajasIntervalRef.current = setInterval(() => {
-      setVentajasPlaceholder(prev => 
-        prev === 'Ventajas (ligero, alta resistencia, etc)' 
-          ? 'Texto separado por comas' 
+      setVentajasPlaceholder((prev) =>
+        prev === 'Ventajas (ligero, alta resistencia, etc)'
+          ? 'Texto separado por comas'
           : 'Ventajas (ligero, alta resistencia, etc)'
       );
     }, 5000);
-    
     aplicacionesIntervalRef.current = setInterval(() => {
-      setAplicacionesPlaceholder(prev => 
-        prev === 'Aplicaciones (cara, interiores, etc)' 
-          ? 'Texto separado por comas' 
+      setAplicacionesPlaceholder((prev) =>
+        prev === 'Aplicaciones (cara, interiores, etc)'
+          ? 'Texto separado por comas'
           : 'Aplicaciones (cara, interiores, etc)'
       );
     }, 5000);
-    
+
     return () => {
       clearInterval(ventajasIntervalRef.current);
       clearInterval(aplicacionesIntervalRef.current);
@@ -78,28 +104,29 @@ const AggProducto = () => {
       fichaTecnica: producto.fichaTecnica || null,
       imagenPrincipal: producto.imagenPrincipal || null,
       sellos: producto.sellos || [],
-      imagenes: producto.imagenes || []
+      imagenes: producto.imagenes || [],
     });
 
     if (producto.imagenPrincipal) {
-      setImagenPrincipalPreview(`data:image/jpeg;base64,${producto.imagenPrincipal}`);
+      setImagenPrincipalPreview(
+        `data:image/jpeg;base64,${producto.imagenPrincipal}`
+      );
     }
-    
-    if (producto.sellos && producto.sellos.length > 0) {
-      const sellosPreviews = producto.sellos.map(sello => `data:image/jpeg;base64,${sello}`);
-      setSellosPreviews(sellosPreviews);
+    if (producto.sellos?.length) {
+      setSellosPreviews(
+        producto.sellos.map((s) => `data:image/jpeg;base64,${s}`)
+      );
     }
-    
-    if (producto.imagenes && producto.imagenes.length > 0) {
-      const imagenesPreviews = producto.imagenes.map(imagen => `data:image/jpeg;base64,${imagen}`);
-      setImagenesPreviews(imagenesPreviews);
+    if (producto.imagenes?.length) {
+      setImagenesPreviews(
+        producto.imagenes.map((i) => `data:image/jpeg;base64,${i}`)
+      );
     }
-    
     if (producto.fichaTecnica) {
       setFichaTecnicaNombre('Ficha técnica actual');
     }
 
-    setFormData({ 
+    setFormData({
       titulo: producto.titulo,
       descripcion: producto.descripcion,
       unidadMedida: producto.unidadMedida,
@@ -108,240 +135,157 @@ const AggProducto = () => {
       aplicaciones: producto.aplicaciones,
       tipo: producto.tipo,
       activo: producto.activo,
-      fechaCreacion: new Date(producto.fechaCreacion),
+      // Al editar: usar fecha actual en lugar de la original
+      fechaCreacion: getMexicoDateTime(),
       ruta: producto.ruta || '',
-      sellos: producto.sellos ? Array(producto.sellos.length).fill('existing') : [],
+      sellos: producto.sellos
+        ? Array(producto.sellos.length).fill('existing')
+        : [],
       fichaTecnica: producto.fichaTecnica ? 'existing' : null,
       imagenPrincipal: producto.imagenPrincipal ? 'existing' : null,
-      imagenes: producto.imagenes ? Array(producto.imagenes.length).fill('existing') : []
+      imagenes: producto.imagenes
+        ? Array(producto.imagenes.length).fill('existing')
+        : [],
     });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === 'fechaCreacion') {
-      setFormData({
-        ...formData,
-        [name]: new Date(value),
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-
+    setFormData((f) => ({ ...f, [name]: value }));
     validator.showMessageFor(name);
     forceUpdate(1);
   };
 
   const handleFileChange = (e, field) => {
     const files = Array.from(e.target.files);
-    if (files.length === 0) return;
+    if (!files.length) return;
 
-    // Validación de tamaños de archivo
     if (field === 'fichaTecnica') {
       if (files[0].size > MAX_PDF_SIZE) {
         alert('El tamaño máximo para la ficha técnica es de 10 MB');
         return;
       }
-      setFormData({ ...formData, [field]: files[0] });
+      setFormData((f) => ({ ...f, fichaTecnica: files[0] }));
       setFichaTecnicaNombre(files[0].name);
-    } 
-    else if (field === 'imagenPrincipal') {
+    } else if (field === 'imagenPrincipal') {
       if (files[0].size > MAX_IMAGE_SIZE) {
         alert('El tamaño máximo para la imagen principal es de 5 MB');
         return;
       }
       const reader = new FileReader();
-      reader.onload = () => {
-        setImagenPrincipalPreview(reader.result);
-      };
+      reader.onload = () => setImagenPrincipalPreview(reader.result);
       reader.readAsDataURL(files[0]);
-      setFormData({ ...formData, [field]: files[0] });
-    } 
-    else if (field === 'sellos') {
-      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
+      setFormData((f) => ({ ...f, imagenPrincipal: files[0] }));
+    } else if (field === 'sellos' || field === 'imagenes') {
+      const oversized = files.some((f) => f.size > MAX_IMAGE_SIZE);
       if (oversized) {
-        alert('El tamaño máximo para los sellos es de 5 MB cada uno');
+        alert('El tamaño máximo para cada imagen es de 5 MB');
         return;
       }
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setSellosPreviews(prev => [...prev, ...newPreviews]);
-      setFormData(prev => ({
-        ...prev,
-        [field]: [...prev[field], ...files]
-      }));
-    } 
-    else if (field === 'imagenes') {
-      const oversized = files.some(file => file.size > MAX_IMAGE_SIZE);
-      if (oversized) {
-        alert('El tamaño máximo para las imágenes es de 5 MB cada una');
-        return;
+      const previews = files.map((f) => URL.createObjectURL(f));
+      if (field === 'sellos') {
+        setSellosPreviews((p) => [...p, ...previews]);
+      } else {
+        setImagenesPreviews((p) => [...p, ...previews]);
       }
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setImagenesPreviews(prev => [...prev, ...newPreviews]);
-      setFormData(prev => ({
-        ...prev,
-        [field]: [...prev[field], ...files]
+      setFormData((f) => ({
+        ...f,
+        [field]: [...f[field], ...files],
       }));
     }
   };
 
-  const removeFile = (index, field, previewField, setPreviewField) => {
-    if (isEditing && formData[field][index] === 'existing') {
-      const updatedFiles = [...formData[field]];
-      updatedFiles[index] = 'to_delete';
-      setFormData({ ...formData, [field]: updatedFiles });
-
-      const updatedPreviews = [...previewField];
-      updatedPreviews.splice(index, 1);
-      setPreviewField(updatedPreviews);
+  const removeFile = (index, field, previewArr, setPreviewArr) => {
+    const fdata = [...formData[field]];
+    if (isEditing && fdata[index] === 'existing') {
+      fdata[index] = 'to_delete';
     } else {
-      const updatedFiles = [...formData[field]];
-      updatedFiles.splice(index, 1);
-      setFormData({ ...formData, [field]: updatedFiles });
-
-      if (previewField[index] && previewField[index].startsWith('blob:')) {
-        URL.revokeObjectURL(previewField[index]);
+      fdata.splice(index, 1);
+      if (previewArr[index]?.startsWith('blob:')) {
+        URL.revokeObjectURL(previewArr[index]);
       }
-      const updatedPreviews = [...previewField];
-      updatedPreviews.splice(index, 1);
-      setPreviewField(updatedPreviews);
     }
+    setFormData((f) => ({ ...f, [field]: fdata }));
+    const previews = [...previewArr];
+    previews.splice(index, 1);
+    setPreviewArr(previews);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validator.allValid()) {
       validator.showMessages();
       forceUpdate(1);
       return;
     }
+
+    const enviar = new FormData();
+    Object.entries(formData).forEach(([k, v]) => {
+      if (!['sellos', 'imagenes', 'fichaTecnica', 'imagenPrincipal'].includes(k)) {
+        enviar.append(k, k === 'fechaCreacion' ? new Date(v).toISOString() : v);
+      }
+    });
+
+    // Añadir banderas de eliminación
+    if (formData.fichaTecnica === 'to_delete') {
+      enviar.append('delete_fichaTecnica', 'true');
+    }
+    if (formData.imagenPrincipal === 'to_delete') {
+      enviar.append('delete_imagenPrincipal', 'true');
+    }
+
+    if (formData.fichaTecnica && formData.fichaTecnica !== 'existing' && formData.fichaTecnica !== 'to_delete') {
+      enviar.append('fichaTecnica', formData.fichaTecnica);
+    }
+    if (formData.imagenPrincipal && formData.imagenPrincipal !== 'existing' && formData.imagenPrincipal !== 'to_delete') {
+      enviar.append('imagenPrincipal', formData.imagenPrincipal);
+    }
     
-    const formDataToSend = new FormData();
-    
-    // Campos básicos
-    Object.keys(formData).forEach(key => {
-      if (!['sellos', 'imagenes', 'fichaTecnica', 'imagenPrincipal'].includes(key)) {
-        formDataToSend.append(key, formData[key] instanceof Date ? 
-          formData[key].toISOString() : 
-          formData[key]);
+    formData.sellos.forEach((s) => {
+      if (s === 'to_delete') {
+        enviar.append('delete_sellos[]', 'true');
+      } else if (s !== 'existing') {
+        enviar.append('sellos[]', s);
       }
     });
     
-    // Manejo especial para edición
+    formData.imagenes.forEach((i) => {
+      if (i === 'to_delete') {
+        enviar.append('delete_imagenes[]', 'true');
+      } else if (i !== 'existing') {
+        enviar.append('imagenes[]', i);
+      }
+    });
+
     if (isEditing) {
-      formDataToSend.append('isEditing', 'true');
-      formDataToSend.append('originalRuta', formData.ruta);
-      
-      // Manejar archivos existentes
-      if (formData.fichaTecnica === 'to_delete') {
-        formDataToSend.append('delete_fichaTecnica', 'true');
-      } else if (formData.fichaTecnica !== 'existing' && formData.fichaTecnica !== null) {
-        formDataToSend.append('fichaTecnica', formData.fichaTecnica);
-      } else if (formData.fichaTecnica === 'existing') {
-        formDataToSend.append('keep_fichaTecnica', 'true');
-      }
-      
-      if (formData.imagenPrincipal === 'to_delete') {
-        formDataToSend.append('delete_imagenPrincipal', 'true');
-      } else if (formData.imagenPrincipal !== 'existing' && formData.imagenPrincipal !== null) {
-        formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
-      } else if (formData.imagenPrincipal === 'existing') {
-        formDataToSend.append('keep_imagenPrincipal', 'true');
-      }
-      
-      // Procesar sellos
-      formData.sellos.forEach((sello, index) => {
-        if (sello === 'to_delete') {
-          formDataToSend.append('delete_sellos[]', index.toString());
-        } else if (sello !== 'existing') {
-          formDataToSend.append('sellos[]', sello);
-        }
-      });
-      
-      // Procesar imágenes
-      formData.imagenes.forEach((imagen, index) => {
-        if (imagen === 'to_delete') {
-          formDataToSend.append('delete_imagenes[]', index.toString());
-        } else if (imagen !== 'existing') {
-          formDataToSend.append('imagenes[]', imagen);
-        }
-      });
-    } else {
-      // Lógica para nuevo producto
-      if (formData.fichaTecnica) {
-        formDataToSend.append('fichaTecnica', formData.fichaTecnica);
-      }
-      
-      if (formData.imagenPrincipal) {
-        formDataToSend.append('imagenPrincipal', formData.imagenPrincipal);
-      }
-      
-      formData.sellos.forEach(sello => {
-        formDataToSend.append('sellos[]', sello);
-      });
-      
-      formData.imagenes.forEach(imagen => {
-        formDataToSend.append('imagenes[]', imagen);
-      });
+      enviar.append('isEditing', 'true');
+      enviar.append('originalRuta', productToEdit.ruta);
     }
 
     try {
-      const response = await fetch('https://apsafety.onrender.com/saveProduct.php', {
-        method: 'POST',
-        body: formDataToSend
-      });
-      
-      const result = await response.json();
-      if (result.success) {
-        alert(isEditing ? '¡Producto actualizado exitosamente!' : '¡Producto guardado exitosamente!');
-        resetForm();
+      const resp = await fetch(
+        'http://localhost:5000/saveProduct.php',
+        { method: 'POST', body: enviar }
+      );
+      const json = await resp.json();
+      if (json.success) {
+        alert(isEditing ? '¡Producto actualizado!' : '¡Producto guardado!');
         navigate('/productos');
       } else {
-        alert(`Error: ${result.message}`);
+        alert(`Error: ${json.message}`);
       }
-    } catch (error) {
-      console.error('Error al enviar formulario:', error);
-      alert('Error al conectar con el servidor');
+    } catch (err) {
+      console.error(err);
+      alert('Error de conexión');
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      titulo: '',
-      descripcion: '',
-      unidadMedida: '',
-      clasificacion: '',
-      ventajas: '',
-      aplicaciones: '',
-      tipo: '',
-      sellos: [],
-      fichaTecnica: null,
-      imagenPrincipal: null,
-      imagenes: [],
-      activo: true,
-      fechaCreacion: new Date(),
-      ruta: ''
-    });
-    setImagenPrincipalPreview(null);
-    setSellosPreviews([]);
-    setImagenesPreviews([]);
-    setFichaTecnicaNombre('');
-    setExistingFiles({
-      fichaTecnica: null,
-      imagenPrincipal: null,
-      sellos: [],
-      imagenes: []
-    });
-  };
-
-  const handleCancel = () => {
-    navigate('/productos');
-  };
+  const handleCancel = () => navigate('/productos');
 
   return (
     <form id="contact-form" onSubmit={handleSubmit}>
       <div className="row g-4">
+        {/* Nombre Producto */}
         <div className="col-lg-6">
           <p>Nombre Producto:</p>
           <div className="form-clt">
@@ -355,7 +299,7 @@ const AggProducto = () => {
             {validator.message('titulo', formData.titulo, 'required')}
           </div>
         </div>
-
+        {/* Descripción */}
         <div className="col-lg-6">
           <p>Descripción:</p>
           <div className="form-clt">
@@ -368,7 +312,7 @@ const AggProducto = () => {
             {validator.message('descripcion', formData.descripcion, 'required')}
           </div>
         </div>
-
+        {/* Unidad de medida */}
         <div className="col-lg-6">
           <p>Unidad de medida:</p>
           <div className="form-clt">
@@ -389,7 +333,7 @@ const AggProducto = () => {
             {validator.message('unidadMedida', formData.unidadMedida, 'required')}
           </div>
         </div>
-
+        {/* Clasificación */}
         <div className="col-lg-6">
           <p>Clasificación:</p>
           <div className="form-clt">
@@ -409,7 +353,7 @@ const AggProducto = () => {
             {validator.message('clasificacion', formData.clasificacion, 'required')}
           </div>
         </div>
-
+        {/* Ventajas */}
         <div className="col-lg-6">
           <p>Ventajas:</p>
           <div className="form-clt">
@@ -424,7 +368,7 @@ const AggProducto = () => {
             {validator.message('ventajas', formData.ventajas, 'required')}
           </div>
         </div>
-
+        {/* Aplicaciones */}
         <div className="col-lg-6">
           <p>Aplicaciones:</p>
           <div className="form-clt">
@@ -439,7 +383,7 @@ const AggProducto = () => {
             {validator.message('aplicaciones', formData.aplicaciones, 'required')}
           </div>
         </div>
-
+        {/* Tipo o subcategoría */}
         <div className="col-lg-6">
           <p>Tipo o subcategoría:</p>
           <div className="form-clt">
@@ -457,31 +401,36 @@ const AggProducto = () => {
             {validator.message('tipo', formData.tipo, 'required')}
           </div>
         </div>
-
+        {/* Ficha Técnica */}
         <div className="col-lg-6">
-          <p>Ficha Técnica (PDF):</p>
+          <p>Ficha Técnica (PDF - Máx. 10 MB):</p>
           <div className="form-clt">
             <input
               type="file"
               accept="application/pdf"
               onChange={(e) => handleFileChange(e, 'fichaTecnica')}
             />
-            {fichaTecnicaNombre && <p className="small text-muted mt-1">{fichaTecnicaNombre}</p>}
+            {fichaTecnicaNombre && (
+              <p className="small text-muted mt-1">{fichaTecnicaNombre}</p>
+            )}
             {validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'required')}
             {isEditing && formData.fichaTecnica === 'existing' && (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-sm btn-outline-danger mt-1"
-                onClick={() => removeFile(0, 'fichaTecnica', [fichaTecnicaNombre], setFichaTecnicaNombre)}
+                onClick={() => {
+                  setFormData((f) => ({ ...f, fichaTecnica: 'to_delete' }));
+                  setFichaTecnicaNombre('');
+                }}
               >
                 Eliminar ficha técnica actual
               </button>
             )}
           </div>
         </div>
-
+        {/* Imagen Principal */}
         <div className="col-lg-6">
-          <p>Imagen Principal:</p>
+          <p>Imagen Principal (Máx. 5 MB):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -490,10 +439,10 @@ const AggProducto = () => {
             />
             {imagenPrincipalPreview && (
               <div className="mt-2">
-                <img 
-                  src={imagenPrincipalPreview} 
-                  alt="Previsualización de imagen principal" 
-                  style={{ maxWidth: '100px', maxHeight: '100px' }} 
+                <img
+                  src={imagenPrincipalPreview}
+                  alt="Previsualización de imagen principal"
+                  style={{ maxWidth: '100px', maxHeight: '100px' }}
                 />
                 <button
                   type="button"
@@ -503,9 +452,12 @@ const AggProducto = () => {
                       URL.revokeObjectURL(imagenPrincipalPreview);
                     }
                     setImagenPrincipalPreview(null);
-                    setFormData(prev => ({
-                      ...prev,
-                      imagenPrincipal: isEditing && prev.imagenPrincipal === 'existing' ? 'to_delete' : null
+                    setFormData((f) => ({
+                      ...f,
+                      imagenPrincipal:
+                        isEditing && f.imagenPrincipal === 'existing'
+                          ? 'to_delete'
+                          : null,
                     }));
                   }}
                 >
@@ -516,9 +468,9 @@ const AggProducto = () => {
             {validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'required')}
           </div>
         </div>
-
+        {/* Sellos */}
         <div className="col-lg-6">
-          <p>Sellos (múltiples):</p>
+          <p>Sellos (múltiples - Máx. 5 MB c/u):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -527,18 +479,18 @@ const AggProducto = () => {
               onChange={(e) => handleFileChange(e, 'sellos')}
             />
             <div className="d-flex flex-wrap mt-2">
-              {sellosPreviews.map((preview, index) => (
-                <div key={index} className="position-relative me-2 mb-2">
-                  <img 
-                    src={preview} 
-                    alt={`Previsualización de sello ${index}`} 
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
+              {sellosPreviews.map((preview, idx) => (
+                <div key={idx} className="position-relative me-2 mb-2">
+                  <img
+                    src={preview}
+                    alt={`Previsualización de sello ${idx}`}
+                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                   />
                   <button
                     type="button"
                     className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 p-0"
                     style={{ width: '20px', height: '20px', fontSize: '10px' }}
-                    onClick={() => removeFile(index, 'sellos', sellosPreviews, setSellosPreviews)}
+                    onClick={() => removeFile(idx, 'sellos', sellosPreviews, setSellosPreviews)}
                   >
                     ×
                   </button>
@@ -548,9 +500,9 @@ const AggProducto = () => {
             {validator.message('sellos', formData.sellos, isEditing ? '' : 'required')}
           </div>
         </div>
-
+        {/* Imágenes */}
         <div className="col-lg-6">
-          <p>Imágenes (múltiples):</p>
+          <p>Imágenes (múltiples - Máx. 5 MB c/u):</p>
           <div className="form-clt">
             <input
               type="file"
@@ -559,18 +511,18 @@ const AggProducto = () => {
               onChange={(e) => handleFileChange(e, 'imagenes')}
             />
             <div className="d-flex flex-wrap mt-2">
-              {imagenesPreviews.map((preview, index) => (
-                <div key={index} className="position-relative me-2 mb-2">
-                  <img 
-                    src={preview} 
-                    alt={`Previsualización de imagen ${index}`} 
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }} 
+              {imagenesPreviews.map((preview, idx) => (
+                <div key={idx} className="position-relative me-2 mb-2">
+                  <img
+                    src={preview}
+                    alt={`Previsualización de imagen ${idx}`}
+                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                   />
                   <button
                     type="button"
                     className="btn btn-sm btn-outline-danger position-absolute top-0 end-0 p-0"
                     style={{ width: '20px', height: '20px', fontSize: '10px' }}
-                    onClick={() => removeFile(index, 'imagenes', imagenesPreviews, setImagenesPreviews)}
+                    onClick={() => removeFile(idx, 'imagenes', imagenesPreviews, setImagenesPreviews)}
                   >
                     ×
                   </button>
@@ -580,20 +532,20 @@ const AggProducto = () => {
             {validator.message('imagenes', formData.imagenes, isEditing ? '' : 'required')}
           </div>
         </div>
-
+        {/* Fecha de Creación */}
         <div className="col-lg-6">
           <p>Fecha de Creación:</p>
           <div className="form-clt">
             <input
               type="datetime-local"
               name="fechaCreacion"
-              value={formData.fechaCreacion ? formData.fechaCreacion.toISOString().slice(0, 16) : ''}
+              value={formData.fechaCreacion}
               onChange={handleChange}
             />
             {validator.message('fechaCreacion', formData.fechaCreacion, 'required')}
           </div>
         </div>
-
+        {/* Estado */}
         <div className="col-lg-6">
           <p>Estado:</p>
           <div className="form-clt">
@@ -609,13 +561,10 @@ const AggProducto = () => {
             {validator.message('activo', formData.activo, 'required')}
           </div>
         </div>
-
+        {/* Botones */}
         <div className="col-lg-12">
           <div className="d-flex justify-content-between">
-            <button
-              type="submit"
-              className="theme-btn"
-            >
+            <button type="submit" className="theme-btn">
               {isEditing ? 'Actualizar Producto' : 'Agregar Producto'}
             </button>
             <button type="button" className="theme-btn" onClick={handleCancel}>
