@@ -14,7 +14,7 @@ const ProductosUsers = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const url = new URL('https://apsafety.onrender.com/listar_productos.php');
+                const url = new URL('http://localhost:5000/listar_productos.php');
                 if (searchTerm) {
                     url.searchParams.append('search', searchTerm);
                 }
@@ -74,7 +74,7 @@ const ProductosUsers = () => {
     const handleDelete = async (product) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
             try {
-                const response = await fetch('https://apsafety.onrender.com/deleteProduct.php', {
+                const response = await fetch('http://localhost:5000/deleteProduct.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
