@@ -1,0 +1,299 @@
+
+.asesoria-tecnica-page {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+:root {
+    --purple-primary: #1b0a26;
+    --purple-light: #9c27b0;
+    --purple-dark: #4a148c;
+}
+
+
+/* Iconos morados */
+.purple-icon {
+    filter: brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(2000%) hue-rotate(270deg) brightness(90%) contrast(90%);
+    width: 50px;
+    height: 50px;
+}
+
+.info-card-purple {
+    background: white;
+    border-radius: 10px;
+    padding: 25px 15px;
+    box-shadow: 0 5px 15px rgba(106, 27, 154, 0.1);
+    transition: transform 0.3s ease;
+    border-top: 4px solid var(--purple-primary);
+}
+
+.info-card-purple:hover {
+    transform: translateY(-5px);
+}
+
+.info-card-purple .icon {
+    margin-bottom: 15px;
+}
+
+.info-card-purple h3 {
+    color: var(--purple-primary);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.info-card-purple p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Títulos */
+
+.main-title {
+    color: var(--purple-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.section-subtitle {
+    color: var(--purple-dark);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 2rem 0 1.5rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+.section-subtitle:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--purple-primary);
+}
+
+
+.intro-text {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: #444;
+    margin-bottom: 1.8rem;
+    text-align: justify;
+}
+
+
+.section-subtitle:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--purple-primary);
+}
+
+/* Texto introductorio */
+.intro-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+/* Tarjetas de servicios */
+.service-card {
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: none;
+    text-align: center;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(106, 27, 154, 0.15);
+}
+
+.service-card h3 {
+    color: var(--purple-primary);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.service-icon {
+    color: var(--purple-primary);
+}
+
+/* Lista de beneficios */
+.benefits-container {
+    background: #f9f5ff;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.benefits-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.benefits-list li {
+    font-size: 1.1rem;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.purple-text {
+    color: var(--purple-primary);
+}
+
+/* Botones */
+
+.purple-btn {
+    background-color: var(--purple-primary);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.purple-btn:hover {
+    background-color: var(--purple-dark);
+    transform: translateY(-2px);
+}
+
+/* CTA Box */
+.cta-box {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border-left: 5px solid var(--purple-primary);
+}
+
+/* Formulario */
+.contact-form-items {
+    background: white;
+    box-shadow: 0 3px 24px rgba(0,0,0,0.1);
+}
+
+#complaint-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-clt {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.form-clt input,
+.form-clt textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-clt textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.boton-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.theme-btn {
+  padding: 10px 24px;     
+  font-size: 1rem;
+  border-radius: 50px;    
+  background-color: #000;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  min-width: auto;        
+  width: auto;
+}
+
+
+.formulario-pequeno {
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.formulario-pequeno .form-clt input,
+.formulario-pequeno .form-clt textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.formulario-pequeno .form-clt textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.formulario-pequeno .theme-btn {
+  width: auto;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  margin: 0 auto;
+  display: block;
+  background-color: #000;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.contenedor-formulario-pequeno {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  padding: 1.5rem;
+  background-color: #f8f9fa; /* gris claro */
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .service-card {
+        margin-bottom: 20px;
+    }
+}
+
