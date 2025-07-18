@@ -4,7 +4,7 @@ import PageTitle from "../../components/pagetitle/PageTitle";
 import CheckoutSection from '../../components/CheckoutSection'
 import {connect} from "react-redux";
 
-import FooterS3 from '../../components/footerS3/FooterS3';
+import Footer from '../../components/footer/Footer';
 import CursorMaus from '../../components/CursorMaus/CursorMaus';
 
 const CheckoutPage =({cartList}) => {
@@ -14,7 +14,7 @@ const CheckoutPage =({cartList}) => {
             <PageTitle pageTitle={'Digital printing Service'} pagesub={'Videos Técnicos y Educativos AP SAFETY'}/> 
             <CheckoutSection cartList={cartList}/>
 
-            <FooterS3 />
+            <Footer />
             <CursorMaus />
         </Fragment>
     )

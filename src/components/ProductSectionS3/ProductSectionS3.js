@@ -1,103 +1,84 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Swiper from 'swiper/bundle';  // Make sure to install Swiper with 'npm install swiper'
-import 'swiper/swiper-bundle.min.css'; // Import Swiper styles
+import 'swiper/swiper-bundle.min.css';
 
-import PBg from '../../img/product/bg.jpg';
-import Shap1 from '../../img/product/shape-2.png';
-import Shap2 from '../../img/product/shape-3.png';
 
 const ProductSectionS3 = ({ products }) => {
+  const ClickHandler = () => {
+    window.scrollTo(10, 0);
+  };
 
-    const ClickHandler = () => {
-        window.scrollTo(10, 0);
-    }
+  return (
+    <section
+      className="shop-section bg-cover section-padding"
+      style={{
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '4rem 1rem',
+        color: '#000', 
+        backgroundColor: '#fff', 
+      }}>
+      <div className="container">
+        <div className="section-title text-center" style={{ marginBottom: '3rem' }}>
+          <h6 className="wow fadeInUp" style={{ fontSize: '1.1rem', color: '#fff' }}>
+            Proceso para Convertirse en Distribuidor
+          </h6>
+          <h2 className="wow fadeInUp" data-wow-delay=".3s" style={{ fontWeight: '700', color: '#000' }}>
+            ¿Cómo unirte a nuestra red de distribuidores?
+          </h2>
+        </div>
 
-    useEffect(() => {
-        const shopSlider = new Swiper('.shop-slider', {
-            spaceBetween: 30,
-            speed: 2000,
-            loop: true,
-            autoplay: {
-                delay: 1000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: '.array-next',
-                prevEl: '.array-prev',
-            },
-            breakpoints: {
-                1399: {
-                    slidesPerView: 5,
-                },
-                1199: {
-                    slidesPerView: 4,
-                },
-                991: {
-                    slidesPerView: 3,
-                },
-                767: {
-                    slidesPerView: 2,
-                },
-                575: {
-                    slidesPerView: 1,
-                },
-                0: {
-                    slidesPerView: 1,
-                },
-            },
-        });
-    }, []);
+        <div className="seccion-pasos text-center" style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <h4 className="wow fadeInUp" data-wow-delay=".3s" style={{ marginBottom: '2rem', color: '#000' }}>
+            Pasos
+          </h4>
+          <ul
+            className="about-list wow fadeInUp"
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              textAlign: 'left',
+              color: '#000',
+              fontSize: '1.1rem',
+              lineHeight: '1.8',
+            }}>
+            <li>
+              <i className="fa-solid fa-check" style={{ color: '#00cc66', marginRight: '0.5rem' }}></i>
+              Completa el formulario de solicitud en nuestra página de contacto.
+            </li>
+            <li>
+              <i className="fa-solid fa-check" style={{ color: '#00cc66', marginRight: '0.5rem' }}></i>
+              Nuestro equipo evaluará tu solicitud y se pondrá en contacto contigo.
+            </li>
+            <li>
+              <i className="fa-solid fa-check" style={{ color: '#00cc66', marginRight: '0.5rem' }}></i>
+              Recibirás capacitación y materiales necesarios para comenzar.
+            </li>
+          </ul>
+        </div>
 
-    return (
-        <section className="shop-section bg-cover section-padding" style={{ backgroundImage: `url(${PBg})` }}>
-            <div className="shape-image">
-                <img src={Shap1} alt="img" />
-            </div>
-            <div className="shape-image-2">
-                <img src={Shap2} alt="img" />
-            </div>
-            <div className="array-button justify-content-center">
-                <button className="array-prev"><i className="fa-regular fa-arrow-left-long"></i></button>
-                <button className="array-next"><i className="fa-regular fa-arrow-right-long"></i></button>
-            </div>
-            <div className="container">
-                <div className="section-title text-center">
-                    <h6 className="wow fadeInUp">Digital printing Service</h6>
-                    <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                        Our Popular Print Service <br />
-                        Complete Solution
-                    </h2>
-                </div>
-                <div className="swiper shop-slider">
-                    <div className="swiper-wrapper">
-                        {products.length > 0 &&
-                            products.slice(12, 18).map((product, index) => (
-                                <div className="swiper-slide" key={index}>
-                                    <div className="shop-box-items">
-                                        <div className="shop-image">
-                                            <img src={product.proImg} alt="img" />
-                                        </div>
-                                        <div className="shop-content">
-                                            <h3>
-                                                <Link onClick={ClickHandler} to={`/shop-details/${product.slug}`}>
-                                                    {product.title}
-                                                </Link>
-                                            </h3>
-                                            <p>312 Product</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                    </div>
-                </div>
-
-                <h5 className="shop-bottom-title wow fadeInUp" data-wow-delay=".3s">
-                    Unlock more products & buy it for your business <Link onClick={ClickHandler} to="/shop">More products</Link>
-                </h5>
-            </div>
-        </section>
-    );
+        <div className="text-center" style={{ marginTop: '3rem' }}>
+          <Link
+            onClick={ClickHandler}
+            to="/contact"
+            className="theme-btn hover-white"
+            style={{
+              backgroundColor: '#000',
+              color: '#fff',
+              padding: '0.75rem 1.5rem',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              display: 'inline-block',
+              transition: 'all 0.3s ease',
+            }}>
+            → Ir al formulario de solicitud
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ProductSectionS3;

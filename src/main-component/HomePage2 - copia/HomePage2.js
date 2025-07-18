@@ -16,7 +16,7 @@ import TestimonialSectionS2 from '../../components/TestimonialSectionS2/Testimon
 import FaqSection from '../../components/FaqSection/FaqSection';
 import MarqueeSectionS3 from '../../components/MarqueeSectionS3/MarqueeSectionS3';
 import BlogSection from '../../components/BlogSection/BlogSection';
-import FooterS2 from '../../components/footerS2/FooterS2';
+import Footer from '../../components/footer/Footer';
 import CursorMaus from '../../components/CursorMaus/CursorMaus';
 import { connect } from "react-redux";
 import { addToCart } from "../../store/actions/action";
@@ -53,7 +53,7 @@ const HomePage2 = ({ addToCart }) => {
             <FaqSection />
             <MarqueeSectionS3 />
             <BlogSection hclass="blog-section-2 section-padding bg-cover" SubClass="blog-wrapper mb-0" blogAllbtn={false} />
-            <FooterS2 />
+             <Footer />
             <CursorMaus />
         </Fragment>
     )
