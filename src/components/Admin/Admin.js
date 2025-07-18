@@ -70,19 +70,18 @@ const Admin = (props) => {
             </div>
             <div className="service-wrapper">
                 <div className="swiper service-slider">
-                    <div className="swiper-wrapper">
+                    <div className="swiper-wrapper" style={{ gap: '100px'  }} >
                         {users.map((user, idx) => (
-                            <div className="swiper-slide" key={idx}>
+                            <div className="swiper-slide"   key={idx}>
                                 <div className="service-card-items" style={{ 
                                     background: '#fff', 
                                     borderRadius: '8px', 
                                     padding: '25px', 
                                     boxShadow: '0 8px 15px rgba(0,0,0,0.1)',
-                                    margin: '60px',
+                                    margin: '80px',
+                                    height: '460px',
                                     minHeight: '350px',
-                                    
-                                    width: '400px',
-
+                                    width: '500px',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     justifyContent: 'space-between'
@@ -97,12 +96,12 @@ const Admin = (props) => {
                                                     ? "Administrador Secundario"
                                                     : user.userType}
                                         </p>
-                                        <p style={{ margin: '0px 0', color: '#555', textAlign: 'left' }}><strong>Contraseña:</strong> ********</p>
+                                        <p style={{ margin: '0px', color: '#555', textAlign: 'left' }}><strong>Contraseña:</strong> ********</p>
                                     </div>
                                     <div style={{ 
                                         display: 'flex', 
                                         justifyContent: 'space-between',
-                                        marginTop: '20px'
+                                        marginTop: '10px'
                                     }}>
                                         <button
                                             onClick={() => {

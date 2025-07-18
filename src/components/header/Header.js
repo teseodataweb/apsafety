@@ -106,7 +106,7 @@ const Header = (props) => {
                             
                             <div className="header-right d-flex justify-content-end align-items-center">
                               <button 
-                                        onClick={() => window.location.href = '/login'}
+                                        onClick={() => window.location.href = 'login'}
                                         className="theme-btn" 
                                         style={{
                                             backgroundColor: '#02871c', 
