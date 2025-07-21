@@ -51,12 +51,6 @@ const ProductSectionS3 = ({ products }) => {
 
     return (
         <section className="shop-section bg-cover section-padding" style={{ backgroundImage: `url(${PBg})` }}>
-            <div className="shape-image">
-                <img src={Shap1} alt="img" />
-            </div>
-            <div className="shape-image-2">
-                <img src={Shap2} alt="img" />
-            </div>
             <div className="array-button justify-content-center">
                 <button className="array-prev"><i className="fa-regular fa-arrow-left-long"></i></button>
                 <button className="array-next"><i className="fa-regular fa-arrow-right-long"></i></button>

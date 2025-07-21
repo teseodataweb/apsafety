@@ -43,30 +43,8 @@ const HeroSection = () => {
                         style={{ backgroundImage: `url(${hero1})` }}
                     >
                         <div className="hero-image">
-                            <div
-                                className="flower-shape"
-                                data-animation="slideInDown"
-                                data-duration="2s"
-                                data-delay="1.5s"
-                            >
-                                <img src={Shap1} alt="img" />
-                            </div>
-                            <div
-                                className="rong-shape"
-                                data-animation="slideInLeft"
-                                data-duration="2s"
-                                data-delay="1.7s"
-                            >
-                                <img src={Shap2} alt="img" />
-                            </div>
-                            <div
-                                className="stickers-shape"
-                                data-animation="slideInRight"
-                                data-duration="2s"
-                                data-delay="1.9s"
-                            >
-                                <img src={Shap3} alt="img" />
-                            </div>
+                             
+                            
                         </div>
                         <div className="container">
                             <div className="row justify-content-xxl-end">
@@ -103,30 +81,7 @@ const HeroSection = () => {
                         style={{ backgroundImage: `url(${hero2})` }}
                     >
                        <div className="hero-image">
-                            <div
-                                className="flower-shape"
-                                data-animation="slideInDown"
-                                data-duration="2s"
-                                data-delay="1.5s"
-                            >
-                                <img src={Shap1} alt="img" />
-                            </div>
-                            <div
-                                className="rong-shape"
-                                data-animation="slideInLeft"
-                                data-duration="2s"
-                                data-delay="1.7s"
-                            >
-                                <img src={Shap2} alt="img" />
-                            </div>
-                            <div
-                                className="stickers-shape"
-                                data-animation="slideInRight"
-                                data-duration="2s"
-                                data-delay="1.9s"
-                            >
-                                <img src={Shap3} alt="img" />
-                            </div>
+                            
                         </div>
                         <div className="container">
                             <div className="row justify-content-xxl-end">
@@ -168,30 +123,7 @@ const HeroSection = () => {
                         style={{ backgroundImage: `url(${hero3})` }}
                     >
                        <div className="hero-image">
-                            <div
-                                className="flower-shape"
-                                data-animation="slideInDown"
-                                data-duration="2s"
-                                data-delay="1.5s"
-                            >
-                                <img src={Shap1} alt="img" />
-                            </div>
-                            <div
-                                className="rong-shape"
-                                data-animation="slideInLeft"
-                                data-duration="2s"
-                                data-delay="1.7s"
-                            >
-                                <img src={Shap2} alt="img" />
-                            </div>
-                            <div
-                                className="stickers-shape"
-                                data-animation="slideInRight"
-                                data-duration="2s"
-                                data-delay="1.9s"
-                            >
-                                <img src={Shap3} alt="img" />
-                            </div>
+                            
                         </div>
                         <div className="container">
                             <div className="row justify-content-xxl-end">

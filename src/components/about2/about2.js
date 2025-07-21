@@ -27,21 +27,6 @@ const About2 = (props) => {
                                 <div className="about-image wow img-custom-anim-top" >
                                     <img src={abImg} alt="img" />
                                 </div>
-                                <div className="shape-1">
-                                    <img src={abImg1} alt="img" />
-                                </div>
-                                <div className="shape-2">
-                                    <img src={abImg2} alt="img" />
-                                </div>
-                                <div className="shape-3">
-                                    <img src={abImg3} alt="img" />
-                                </div>
-                                <div className="shape-4">
-                                    <img src={abImg4} alt="img" />
-                                </div>
-                                <div className="shape-5">
-                                    <img src={abImg5} alt="img" />
-                                </div>
                             </div>
                         </div>
                         <div className="col-lg-6">

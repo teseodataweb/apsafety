@@ -13,12 +13,7 @@ const ClickHandler = () => {
 const ServiceSectionS2 = (props) => {
     return (
         <section className="service-section fix section-padding">
-            <div className="shape-image-2">
-                <img src={Sshape1} alt="img" />
-            </div>
-            <div className="shape-image-3">
-                <img src={Sshape2} alt="img" />
-            </div>
+            
             <div className="container">
                 <div className="section-title text-center">
                     <h6 className="wow fadeInUp">Digital printing Service</h6>

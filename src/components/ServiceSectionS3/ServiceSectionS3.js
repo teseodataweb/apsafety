@@ -12,38 +12,7 @@ const ClickHandler = () => {
 }
 const ServiceSectionS3 = () => {
 
-useEffect(() =>{
-    const serviceSlider2 = new Swiper(".service-slider-2", {
-        spaceBetween: 30,
-        speed: 2000,
-        loop: true,
-        autoplay: {
-            delay: 1000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: ".dot",
-            clickable: true,
-        },
-        breakpoints: {
-            1199: {
-                slidesPerView: 3,
-            },
-            991: {
-                slidesPerView: 2,
-            },
-            767: {
-                slidesPerView: 1,
-            },
-            575: {
-                slidesPerView: 1,
-            },
-            0: {
-                slidesPerView: 1,
-            },
-        },
-    });
-},[]);
+
 
     return (
         <section className="service-section-2 bg-cover fix section-padding" style={{ backgroundImage: `url(${Sbg})` }}>
