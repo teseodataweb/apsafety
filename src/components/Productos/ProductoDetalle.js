@@ -10,7 +10,7 @@ const ProductoDetalle = () => {
     useEffect(() => {
         const fetchProducto = async () => {
             try {
-                const response = await fetch(`https://apsafety.onrender.com/listar_productos.php?ruta=${encodeURIComponent(ruta)}`);
+                const response = await fetch(`http://localhost:5000/listar_productos.php?ruta=${encodeURIComponent(ruta)}`);
                 const result = await response.json();
                 
                 if (result.success && result.productos.length > 0) {
@@ -25,14 +25,12 @@ const ProductoDetalle = () => {
                 setLoading(false);
             }
         };
-
         fetchProducto();
     }, [ruta]);
 
     const base64ToImageUrl = (base64String) => {
         return `data:image/jpeg;base64,${base64String}`;
     };
-
     if (loading) return <div className="text-center my-5">Cargando...</div>;
     if (error) return <div className="alert alert-danger my-5 text-center">{error}</div>;
     if (!producto) return <div className="alert alert-warning my-5 text-center">Producto no encontrado</div>;

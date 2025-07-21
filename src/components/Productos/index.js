@@ -1,7 +1,128 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { FaEdit, FaTrash, FaTh, FaListUl } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaTh, FaListUl, FaExclamationTriangle } from 'react-icons/fa';
 import ShopSidebar from "./ShopSidebar";
+import styled, { keyframes } from 'styled-components';
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+const slideIn = keyframes`
+  from { 
+    transform: translateY(-50px) scale(1.5);
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0) scale(1);
+    opacity: 1; 
+  }
+`;
+const pulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: ${fadeIn} 0.3s ease-out;
+  backdrop-filter: blur(2px);
+`;
+
+const ModalContainer = styled.div`
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 100px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  animation: ${slideIn} 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  transform-origin: center;
+`;
+
+const ModalHeader = styled.div`
+  padding: 22px;
+  background: linear-gradient(9deg, #ff4d4d, #d93636);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`;
+
+const ModalBody = styled.div`
+  padding: 30px;
+  text-align: center;
+`;
+
+const ModalFooter = styled.div`
+  padding: 20px 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+`;
+
+const DangerButton = styled.button`
+  background: linear-gradient(135deg, #ff4d4d, #d93636);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #ff3333, #cc2a2a);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const SecondaryButton = styled.button`
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: #02871c;
+    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const WarningIcon = styled.div`
+
+  font-size: 2rem;
+  margin-left: 28px;
+  color: #fff;
+  animation: ${pulse} 1.5s infinite;
+`;
 
 const Productos = () => {
     const [products, setProducts] = useState([]);
@@ -12,13 +133,15 @@ const Productos = () => {
     const [sortOption, setSortOption] = useState('default');
     const [viewMode, setViewMode] = useState('grid');
     const [activeStatusFilter, setActiveStatusFilter] = useState('all');
+    const [showModal, setShowModal] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const url = new URL('https://apsafety.onrender.com/listar_productos.php');
+                const url = new URL('http://localhost:5000/listar_productos.php');
                 
                 if (searchTerm) url.searchParams.append('query', searchTerm);
                 if (selectedCategory) url.searchParams.append('clasificacion', selectedCategory);
@@ -82,38 +205,45 @@ const Productos = () => {
                 isEditing: true,
                 productoOriginal: {
                     ...product,
-                    fechaCreacion: product.fechaCreacion.split('T')[0] // Formato para input date
+                    fechaCreacion: product.fechaCreacion.split('T')[0]
                 }
             } 
         });
     };
 
-    const handleDelete = async (product) => {
-        if (window.confirm(`¿Estás seguro de eliminar "${product.titulo}"?`)) {
-            try {
-                const response = await fetch('https://apsafety.onrender.com/deleteProduct.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ruta: product.ruta })
-                });
-                
-                const result = await response.json();
-                if (result.success) {
-                    setProducts(prev => prev.filter(p => p.ruta !== product.ruta));
-                    alert('Producto eliminado exitosamente');
-                } else {
-                    throw new Error(result.message || 'Error al eliminar');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert(error.message || 'Error al conectar con el servidor');
+    const handleDelete = async () => {
+        if (!productToDelete) return;
+
+        try {
+            const response = await fetch('http://localhost:5000/deleteProduct.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ruta: productToDelete.ruta })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                setProducts(prev => prev.filter(p => p.ruta !== productToDelete.ruta));
+                alert('Producto eliminado exitosamente');
+            } else {
+                throw new Error(result.message || 'Error al eliminar');
             }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message || 'Error al conectar con el servidor');
+        } finally {
+            setShowModal(false);
+            setProductToDelete(null);
         }
     };
 
     const handleSearch = (term) => setSearchTerm(term);
     const handleCategoryChange = (category) => setSelectedCategory(prev => prev === category ? '' : category);
     const handleStatusFilterChange = (status) => setActiveStatusFilter(status);
+    const openModal = (product) => {
+        setProductToDelete(product);
+        setShowModal(true);
+    };
 
     if (loading) return (
         <div className="d-flex justify-content-center mt-5">
@@ -203,7 +333,7 @@ const Productos = () => {
                                         product={product}
                                         viewMode={viewMode}
                                         onEdit={handleEdit}
-                                        onDelete={handleDelete}
+                                        onDelete={openModal}
                                     />
                                 ))
                             ) : (
@@ -215,6 +345,36 @@ const Productos = () => {
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <ModalOverlay>
+                    <ModalContainer>
+                        <ModalHeader>
+                            <WarningIcon>
+                                <FaExclamationTriangle />
+                            </WarningIcon>
+                            <h3 style={{ letterSpacing: '0.6px', color: 'white', margin: 2 }}>Confirmar eliminación</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>
+                                ¿Estás seguro de que deseas eliminar el producto <strong>"{productToDelete.titulo}"</strong>?
+                            </p>
+                            <p style={{ color: '#6c757d', fontSize: '0.9rem' }}>
+                                Esta acción no se puede deshacer y el producto será eliminado permanentemente.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                         <DangerButton onClick={handleDelete}>
+                                Eliminar
+                            </DangerButton>
+                            <SecondaryButton onClick={() => setShowModal(false)}>
+                                Cancelar
+                            </SecondaryButton>
+                           
+                        </ModalFooter>
+                    </ModalContainer>
+                </ModalOverlay>
+            )}
         </section>
     );
 };

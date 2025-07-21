@@ -1,10 +1,15 @@
 import React from 'react';
 import Login from '../login/login';
+import Navbar  from '../Navbar/Navbar';
 const Loginpage = () => {
  return (
         <div>
+    <Navbar />
+
             <section className="contact-section section-padding">
+
                 <div className="container">
+
                     <div className="contact-area">
                         <div className="row justify-content-center">
                         <br/>

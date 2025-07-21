@@ -95,14 +95,23 @@ const Header = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                     </ul>
                                                     </li>
-
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div className="header-right d-flex justify-content-end align-items-center">
+                              <button 
+                                        onClick={() => window.location.href = 'login'}
+                                        className="theme-btn" 
+                                        style={{
+                                            backgroundColor: '#02871c', 
+                                            color: '#fff',
+                                            borderRadius: '4px'
+                                        }}>
+                                        Iniciar Sesión
+                                    </button>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
