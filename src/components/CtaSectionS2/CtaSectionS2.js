@@ -38,15 +38,7 @@ const CtaSectionS2 = () => {
             </div>
             <div className="container">
                 <div className="cta-wrapper-2 bg-cover"  style={{ backgroundImage: `url(${Mq2})` }}>
-                    <div className="prite-box float-bob-y">
-                        <img src={Mq3} alt="img" />
-                    </div>
-                    <div className="hand-bag float-bob-x">
-                        <img src={Mq4}alt="img" />
-                    </div>
-                    <div className="cta-sticker float-bob-y">
-                        <img src={Mq5} alt="img" />
-                    </div>
+                    
                     <div className="cta-content">
                         <div className="section-title">
                             <h6 className="bg-white wow fadeInUp">printing Service</h6>

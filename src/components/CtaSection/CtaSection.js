@@ -18,15 +18,7 @@ const CtaSection = () => {
                     <div className="cta-image">
                         <img src={Ct1} alt="img" />
                     </div>
-                    <div className="hand-bag float-bob-x">
-                        <img src={Ct2} alt="img" />
-                    </div>
-                    <div className="t-shirt-shape float-bob-x">
-                        <img src={Ct3} alt="img" />
-                    </div>
-                    <div className="prite-box float-bob-y">
-                        <img src={Ct4} alt="img" />
-                    </div>
+                   
                     <div className="section-title">
                         <h6 className="wow fadeInUp">printing Service</h6>
                         <h2 className="wow fadeInUp" data-wow-delay=".3s">

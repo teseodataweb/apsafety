@@ -22,15 +22,7 @@ const PricingSection = () => {
 
     return (
         <section className="pricing-section section-padding pt-0">
-            <div className="shape-image float-bob-y">
-                <img src={PS1} alt="img" />
-            </div>
-            <div className="shape-image-2">
-                <img src={PS2} alt="img" />
-            </div>
-            <div className="circle-shape">
-                <img src={PS3} alt="img" />
-            </div>
+            
             <div className="container">
                 <div className="section-title text-center">
                     <h6>Digital printing Service</h6>
