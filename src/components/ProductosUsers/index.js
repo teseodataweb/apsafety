@@ -1,7 +1,93 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import { FaTrash, FaTh, FaListUl, FaSearch, FaTimes } from 'react-icons/fa';
+import { Link } from "react-router-dom";
+import { FaTh, FaListUl, FaSearch, FaTimes } from 'react-icons/fa';
 import ShopSidebar from "./ShopSidebar";
+import styled, { keyframes, css } from 'styled-components';
+
+// Animaciones
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const slideIn = keyframes`
+  from { 
+    transform: translateY(-20px);
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1; 
+  }
+`;
+
+// Componentes estilizados
+const Card = styled.div`
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+`;
+
+const ProductImageContainer = styled.div`
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  position: relative;
+  
+  ${props => props.listView && css`
+    height: 150px;
+    width: 220px;
+    border-radius: 8px 0 0 8px;
+  `}
+`;
+
+const ProductImage = styled.img`
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const EmptyStateContainer = styled.div`
+  padding: 40px;
+  text-align: center;
+  animation: ${fadeIn} 0.5s ease;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+`;
+
+const SearchResultsInfo = styled.div`
+  background: rgba(40,167,69,0.1);
+  padding: 8px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  animation: ${slideIn} 0.3s ease;
+`;
+
+const ClearSearchButton = styled.button`
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: #212529;
+  }
+`;
 
 const ProductosUsers = () => {
     const [products, setProducts] = useState([]);
@@ -12,7 +98,6 @@ const ProductosUsers = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [sortOption, setSortOption] = useState('default');
     const [viewMode, setViewMode] = useState('grid');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -50,7 +135,7 @@ const ProductosUsers = () => {
                     // Filtrar solo los productos activos
                     const activeProducts = processedProducts.filter(product => product.activo);
                     setProducts(activeProducts);
-                    setFilteredProducts(activeProducts); // Inicialmente mostrar todos los productos activos
+                    setFilteredProducts(activeProducts);
                 } else {
                     setError(result.message || 'Error al cargar productos');
                 }
@@ -64,7 +149,6 @@ const ProductosUsers = () => {
         fetchProducts();
     }, [searchTerm, selectedCategory]);
 
-    // Efecto para filtrar productos cuando cambia el término de búsqueda
     useEffect(() => {
         if (searchTerm.trim() === '') {
             setFilteredProducts(products);
@@ -94,40 +178,6 @@ const ProductosUsers = () => {
         });
     }, [filteredProducts, sortOption]);
 
-    const handleEdit = (product) => {
-        navigate('/formProducto', { 
-            state: { 
-                producto: product,
-                isEditing: true
-            } 
-        });
-    };
-
-    const handleDelete = async (product) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-            try {
-                const response = await fetch('http://localhost:5000/deleteProduct.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ ruta: product.ruta })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert('Producto eliminado exitosamente');
-                    setProducts(products.filter(p => p.ruta !== product.ruta));
-                    setFilteredProducts(filteredProducts.filter(p => p.ruta !== product.ruta));
-                } else {
-                    alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
-                console.error('Error al eliminar el producto:', error);
-                alert('Error al conectar con el servidor');
-            }
-        }
-    };
-
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
@@ -142,8 +192,8 @@ const ProductosUsers = () => {
 
     if (loading) {
         return (
-            <div className="d-flex justify-content-center mt-5">
-                <div className="spinner-border" role="status">
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+                <div className="spinner-border text-success" role="status" style={{ width: '3rem', height: '3rem' }}>
                     <span className="visually-hidden">Cargando...</span>
                 </div>
             </div>
@@ -152,14 +202,18 @@ const ProductosUsers = () => {
 
     if (error) {
         return (
-            <div className="alert alert-danger mt-5 text-center">
-                {error}
+            <div className="alert alert-danger mt-5 mx-auto text-center" style={{ maxWidth: '600px' }}>
+                <h5 className="alert-heading">Error al cargar productos</h5>
+                <p>{error}</p>
+                <button className="btn btn-outline-danger" onClick={() => window.location.reload()}>
+                    Intentar nuevamente
+                </button>
             </div>
         );
     }
 
     return (
-        <section className="shop-page-section fix section-padding section-bg-2"> 
+        <section className="shop-page-section fix section-padding" style={{ backgroundColor: '#f8f9fa' }}> 
             <div className="container">
                 <div className="row g-4">
                     <div className="col-xl-3 col-lg-4 order-2 order-md-1">
@@ -171,34 +225,36 @@ const ProductosUsers = () => {
                         />
                     </div>
                     <div className="col-xl-9 col-lg-8 order-1 order-md-2">
-                        <div className="d-flex justify-content-between mb-4">
+                        <div className="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
                             <div className="d-flex align-items-center">
-                                {searchTerm && (
-                                    <div className="search-results-info">
-                                        <span className="badge bg-primary me-2">
+                                {searchTerm ? (
+                                    <SearchResultsInfo>
+                                        <span className="badge bg-success me-2">
                                             {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'}
                                         </span>
-                                        <span>para "{searchTerm}"</span>
-                                        <button 
-                                            onClick={clearSearch}
-                                            className="btn btn-sm btn-outline-secondary ms-2"
-                                        >
-                                            <FaTimes /> Limpiar
-                                        </button>
+                                        <span className="me-2">para "{searchTerm}"</span>
+                                        <ClearSearchButton onClick={clearSearch} title="Limpiar búsqueda">
+                                            <FaTimes />
+                                        </ClearSearchButton>
+                                    </SearchResultsInfo>
+                                ) : (
+                                    <div className="d-flex align-items-center">
+                                        <span className="me-2 text-muted">Mostrando {filteredProducts.length} productos</span>
                                     </div>
                                 )}
                             </div>
                             <div className="d-flex">
                                 <div className="me-3">
                                     <select 
-                                        className="form-select"
+                                        className="form-select shadow-sm"
                                         value={sortOption}
                                         onChange={(e) => setSortOption(e.target.value)}
                                         style={{ 
                                             borderColor: '#dee2e6', 
-                                            borderRadius: '5px',
+                                            borderRadius: '8px',
                                             padding: '8px 12px',
-                                            height: '40px'
+                                            height: '40px',
+                                            minWidth: '180px'
                                         }}
                                     >
                                         <option value="default">Ordenar por</option>
@@ -208,25 +264,23 @@ const ProductosUsers = () => {
                                         <option value="fecha_desc">Fecha más reciente</option>
                                     </select>
                                 </div>  
-                                <div className="btn-group">
+                                <div className="btn-group shadow-sm">
                                     <button 
-                                        className={`btn btn-outline-secondary ${viewMode === 'grid' ? 'active' : ''}`}
+                                        className={`btn ${viewMode === 'grid' ? 'btn-success' : 'btn-outline-secondary'}`}
                                         onClick={() => setViewMode('grid')}
                                         style={{ 
-                                            padding: '5px 10px',
-                                            borderWidth: '1px',
-                                            borderColor: viewMode === 'grid' ? '#0d6efd' : '#dee2e6'
+                                            padding: '8px 12px',
+                                            borderWidth: '1px'
                                         }}
                                     >
                                         <FaTh />
                                     </button>
                                     <button 
-                                        className={`btn btn-outline-secondary ${viewMode === 'list' ? 'active' : ''}`}
+                                        className={`btn ${viewMode === 'list' ? 'btn-success' : 'btn-outline-secondary'}`}
                                         onClick={() => setViewMode('list')}
                                         style={{
-                                            padding: '5px 10px',
-                                            borderWidth: '1px',
-                                            borderColor: viewMode === 'list' ? '#0d6efd' : '#dee2e6'
+                                            padding: '8px 12px',
+                                            borderWidth: '1px'
                                         }}
                                     >
                                         <FaListUl />
@@ -236,88 +290,85 @@ const ProductosUsers = () => {
                         </div>
                         <div className="row">
                             {sortedProducts.length > 0 ? sortedProducts.map((product, index) => (
-                                <div className={viewMode === 'grid' ? 'col-lg-3 col-md-4 col-6 mb-4' : 'col-12 mb-4'} key={index}>
-                                    <div className={`product-box-items position-relative ${viewMode === 'list' ? 'd-flex' : ''}`}
-                                         style={viewMode === 'list' ? { 
-                                             maxHeight: '200px', 
-                                             padding: '15px',
-                                             backgroundColor: '#fff',
-                                             borderRadius: '10px',
-                                             boxShadow: '0 0 10px rgba(0,0,0,0.05)'
-                                         } : {}}>
-                                         
-                                        <div className="product-image" 
-                                             style={{ 
-                                                 display: 'flex', 
-                                                 justifyContent: 'center', 
-                                                 alignItems: 'center',
-                                                 flex: viewMode === 'list' ? '0 0 180px' : 'auto'
-                                             }}>
-                                            {product.imagenPrincipalUrl ? (
-                                                <img 
-                                                    src={product.imagenPrincipalUrl} 
-                                                    alt={product.titulo} 
-                                                    className="img-fluid"
-                                                    style={{ 
-                                                        padding: '5px', 
-                                                        height: viewMode === 'list' ? '150px' : '180px', 
-                                                        width: 'auto', 
-                                                        objectFit: 'cover' 
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div className="bg-secondary d-flex align-items-center justify-content-center" 
-                                                     style={{ 
-                                                         height: viewMode === 'list' ? '150px' : '200px',
-                                                         width: viewMode === 'list' ? '180px' : '100%',
-                                                         minWidth: viewMode === 'list' ? '180px' : 'auto'
-                                                     }}>
-                                                    <span>Sin imagen</span>
-                                                </div>
-                                            )}
+                                <div 
+                                    className={viewMode === 'grid' ? 'col-lg-4 col-md-6 mb-4' : 'col-12 mb-4'} 
+                                    key={index}
+                                >
+                                    <Card className={`bg-white rounded shadow-sm overflow-hidden h-100 ${viewMode === 'list' ? 'd-flex' : ''}`}>
+                                        <div className="position-relative" style={{ flex: viewMode === 'list' ? '0 0 220px' : 'auto' }}>
+                                            <ProductImageContainer listView={viewMode === 'list'}>
+                                                {product.imagenPrincipalUrl ? (
+                                                    <ProductImage 
+                                                        src={product.imagenPrincipalUrl} 
+                                                        alt={product.titulo} 
+                                                    />
+                                                ) : (
+                                                    <div className="d-flex flex-column align-items-center justify-content-center text-muted">
+                                                        <FaSearch size={24} className="mb-2" />
+                                                        <span>Imagen no disponible</span>
+                                                    </div>
+                                                )}
+                                            </ProductImageContainer>
                                         </div>
-                                        <div className={`product-content p-3 ${viewMode === 'list' ? 'd-flex flex-column justify-content-center' : ''}`}>
-                                            <h6 className="product-name" style={viewMode === 'list' ? { fontSize: '1.2rem' } : {}}>
-                                               <Link to={`/productous/${encodeURIComponent(product.ruta)}`}>{product.titulo}</Link>
-                                            </h6>
-                                            {viewMode === 'list' && (
-                                                <div className="mt-2">
-                                                    <p className="mb-1" style={{ fontSize: '0.9rem' }}>
+                                        
+                                        <div className={`p-3 ${viewMode === 'list' ? 'd-flex flex-column justify-content-between flex-grow-1' : ''}`}>
+                                            <div>
+                                                <h5 className="mb-2">
+                                                    <Link 
+                                                        to={`/productous/${encodeURIComponent(product.ruta)}`}
+                                                        className="text-decoration-none text-dark"
+                                                    >
+                                                        {product.titulo}
+                                                    </Link>
+                                                </h5>
+                                                
+                                                {viewMode === 'list' && (
+                                                    <p className="text-muted mb-3">
                                                         {product.descripcion && product.descripcion.length > 120 
                                                          ? `${product.descripcion.substring(0, 120)}...` 
                                                          : product.descripcion}
                                                     </p>
-                                                    <div>
-                                                        <span className="badge">
-                                                            {product.clasificacion}
-                                                        </span>
-                                                        <span className="badge">
-                                                            {product.fechaCreacion}
-                                                        </span>
-                                                    </div>
+                                                )}
+                                            </div>
+                                            
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span className="badge bg-light text-dark me-2">
+                                                        {product.clasificacion}
+                                                    </span>
+                                                    <span className="badge bg-light text-dark">
+                                                        {product.fechaCreacion}
+                                                    </span>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Card>
                                 </div>
                             )) : (
-                                <div className="col-12 text-center py-5">
+                                <EmptyStateContainer className="col-12 rounded shadow-sm">
                                     {searchTerm ? (
                                         <>
-                                            <FaSearch size={48} className="text-muted mb-3" />
-                                            <h4>No se encontraron productos</h4>
-                                            <p className="text-muted">No hay resultados para "{searchTerm}"</p>
+                                            <FaSearch size={64} className="text-muted mb-4" />
+                                            <h4 className="mb-3">No se encontraron productos</h4>
+                                            <p className="text-muted mb-4">
+                                                No hay resultados para "{searchTerm}"
+                                            </p>
                                             <button 
                                                 onClick={clearSearch}
-                                                className="btn btn-primary mt-2"
+                                                className="btn btn-success px-4 py-2"
                                             >
                                                 Mostrar todos los productos
                                             </button>
                                         </>
                                     ) : (
-                                        <p>No se encontraron productos activos.</p>
+                                        <>
+                                            <h4 className="mb-3">No hay productos disponibles</h4>
+                                            <p className="text-muted">
+                                                No se encontraron productos activos en el sistema.
+                                            </p>
+                                        </>
                                     )}
-                                </div> 
+                                </EmptyStateContainer>
                             )}
                         </div>
                     </div>

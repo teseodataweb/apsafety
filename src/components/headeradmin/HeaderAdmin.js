@@ -118,7 +118,6 @@ const HeaderAdmin = (props) => {
                                         style={{
                                             backgroundColor: '#04871c', 
                                             color: '#fff',
-                                            height: '20px',
                                             borderRadius: '4px'
                                         }}
                                     >
