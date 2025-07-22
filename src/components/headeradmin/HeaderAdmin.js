@@ -116,7 +116,8 @@ const HeaderAdmin = (props) => {
                                         onClick={handleLogout} 
                                         className="theme-btn" 
                                         style={{
-                                            backgroundColor: '#4CAF50', 
+                                            backgroundColor: '#04871c', 
+                                            color: '#fff',
                                             borderRadius: '4px'
                                         }}
                                     >

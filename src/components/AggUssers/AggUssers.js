@@ -184,9 +184,10 @@ const AggUssers = () => {
   const [validator] = useState(new SimpleReactValidator());
   const [, forceUpdate] = useState();
   const [canAdd, setCanAdd] = useState(true);
+  const [isEditing, setIsEditing] = useState(false); // Editado: se convirtió en estado
+  const [editingUserId, setEditingUserId] = useState(null); // Nuevo: ID de usuario en modo edición
   const navigate = useNavigate();
   const location = useLocation();
-  const isEditing = !!location.state?.user;
 
   // Estados para los modales
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -196,16 +197,41 @@ const AggUssers = () => {
   const [modalTitle, setModalTitle] = useState('');
 
   useEffect(() => {
-    if (isEditing) {
-      const { name, userType, email } = location.state.user;
+    // Obtener usuario desde location.state o params
+    if (location.state?.user) {
+      const { id, name, userType, email } = location.state.user;
       setFormData({ name, userType, email, password: '' });
+      setEditingUserId(id); // Guardamos el ID para edición
+      setIsEditing(true);
       validator.hideMessages();
       forceUpdate(1);
+    } 
+    // Obtener desde parámetros URL
+    else {
+      const searchParams = new URLSearchParams(location.search);
+      const userParam = searchParams.get('user');
+      
+      if (userParam) {
+        try {
+          const user = JSON.parse(decodeURIComponent(userParam));
+          const { id, name, userType, email } = user;
+          setFormData({ name, userType, email, password: '' });
+          setEditingUserId(id); // Guardamos el ID para edición
+          setIsEditing(true);
+          validator.hideMessages();
+          forceUpdate(1);
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      } else {
+        setIsEditing(false);
+      }
     }
-  }, [location.state, isEditing, validator]);
+  }, [location.state, location.search, validator]);
 
   useEffect(() => {
     (async () => {
+      // Solo verificar límite si estamos agregando nuevo usuario
       if (!isEditing) {
         const usersCollection = collection(db, "users");
         const snapshot = await getDocs(usersCollection);
@@ -224,6 +250,7 @@ const AggUssers = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     
+    // Validación de límite solo para nuevos usuarios
     if (!canAdd && !isEditing) {
       setModalTitle('Límite alcanzado');
       setModalMessage('No se pueden agregar más usuarios. El límite es de 5 usuarios.');
@@ -231,6 +258,7 @@ const AggUssers = () => {
       return;
     }
 
+    // Validación de campos
     if (!validator.allValid()) {
       validator.showMessages();
       forceUpdate(1);
@@ -238,8 +266,10 @@ const AggUssers = () => {
     }
 
     try {
+      // MODO EDICIÓN
       if (isEditing) {
-        const userDocRef = doc(db, "users", location.state.user.id);
+        const userDocRef = doc(db, "users", editingUserId);
+        
         await setDoc(
           userDocRef,
           {
@@ -248,71 +278,50 @@ const AggUssers = () => {
           },
           { merge: true }
         );
+        
+        // Campo de contraseña opcional en edición
+        if (formData.password) {
+          console.log("Lógica para actualizar contraseña iría aquí");
+        }
+        
         setModalTitle('Usuario actualizado');
         setModalMessage('El usuario ha sido actualizado correctamente.');
         setShowSuccessModal(true);
-      } else {
+      } 
+      // MODO CREACIÓN
+      else {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           formData.email,
           formData.password
         );
+        
         const user = userCredential.user;
         const userDocRef = doc(db, "users", user.uid);
+        
         await setDoc(userDocRef, {
           uid: user.uid,
           name: formData.name,
           userType: formData.userType,
           email: formData.email,
         });
+        
         setModalTitle('Usuario creado');
         setModalMessage('El usuario ha sido creado correctamente.');
         setShowSuccessModal(true);
       }
       
+      // Resetear formulario después de éxito
       setFormData({ name: '', userType: '', email: '', password: '' });
       validator.hideMessages();
       forceUpdate(1);
+      
     } catch (error) {
+      // Manejo de errores
       if (error.code === 'auth/email-already-in-use') {
         setModalTitle('Correo en uso');
         setModalMessage('El correo electrónico ya está en uso, por favor intenta con otro');
         setShowErrorModal(true);
-        
-        try {
-          const usersCollection = collection(db, "users");
-          const querySnapshot = await getDocs(usersCollection);
-          let existingDocId = null;
-          let existingData = null;
-          
-          querySnapshot.forEach(docSnap => {
-            const data = docSnap.data();
-            if (data.email === formData.email) {
-              existingDocId = docSnap.id;
-              existingData = data;
-            }
-          });
-          
-          if (existingDocId) {
-            await setDoc(
-              doc(db, "users", existingDocId),
-              {
-                ...existingData,
-                name: formData.name,
-                userType: formData.userType,
-              },
-              { merge: true }
-            );
-            setModalTitle('Usuario actualizado');
-            setModalMessage('Se actualizó el usuario existente con los nuevos datos.');
-            setShowSuccessModal(true);
-          }
-        } catch (firestoreError) {
-          console.error("Error al actualizar en Firestore:", firestoreError);
-          setModalTitle('Error');
-          setModalMessage('Ocurrió un error al actualizar el usuario.');
-          setShowErrorModal(true);
-        }
       } else {
         console.error("Error al crear/editar usuario:", error);
         setModalTitle('Error');
@@ -370,8 +379,9 @@ const AggUssers = () => {
                 onChange={handleChange}
                 placeholder="Correo electrónico"
                 readOnly={isEditing}
+                disabled={isEditing}
               />
-              {validator.message('email', formData.email, 'required|email')}
+              {validator.message('email', formData.email, isEditing ? '' : 'required|email')}
             </div>
           </div>
           <div className="col-lg-6">
@@ -382,7 +392,7 @@ const AggUssers = () => {
                 id="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Contraseña"
+                placeholder={isEditing ? "Nueva contraseña (opcional)" : "Contraseña"}
               />
               {validator.message('password', formData.password, isEditing ? '' : 'required|min:6')}
               {isEditing && <small>Dejar en blanco si no desea cambiar la contraseña.</small>}
@@ -394,7 +404,7 @@ const AggUssers = () => {
                 type="submit"
                 className="theme-btn"
                 disabled={!canAdd && !isEditing}>
-                {isEditing ? 'Actualizar Usuario' : 'Agregar usuario'}
+                {isEditing ? 'Actualizar Usuario' : 'Agregar usuario'} {/* Botón dinámico */}
               </button>
               <button type="button" className="theme-btn" onClick={handleCancel}>
                 Cancelar
@@ -404,15 +414,15 @@ const AggUssers = () => {
         </div>
       </form>
 
-      {/* Modal de Éxito */}
+      {/* Modales de respuesta */}
       {showSuccessModal && (
-        <ModalOverlay>
-          <ModalContainer>
+        <ModalOverlay onClick={() => setShowSuccessModal(false)}>
+          <ModalContainer onClick={e => e.stopPropagation()}>
             <SuccessModalHeader>
               <SuccessIcon>
                 <FaCheckCircle />
               </SuccessIcon>
-              <h3 style={{ letterSpacing: '0.6px', color: 'white', margin: 2 }}>{modalTitle}</h3>
+              <h3 style={{ letterSpacing: '0.6px', margin: 2 }}>{modalTitle}</h3>
             </SuccessModalHeader>
             <ModalBody>
               <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>
@@ -431,15 +441,14 @@ const AggUssers = () => {
         </ModalOverlay>
       )}
 
-      {/* Modal de Error */}
       {showErrorModal && (
-        <ModalOverlay>
-          <ModalContainer>
+        <ModalOverlay onClick={() => setShowErrorModal(false)}>
+          <ModalContainer onClick={e => e.stopPropagation()}>
             <ModalHeader>
               <WarningIcon>
                 <FaExclamationTriangle />
               </WarningIcon>
-              <h3 style={{ letterSpacing: '0.6px', color: 'white', margin: 2 }}>{modalTitle}</h3>
+              <h3 style={{ letterSpacing: '0.6px', margin: 2 }}>{modalTitle}</h3>
             </ModalHeader>
             <ModalBody>
               <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>
@@ -455,15 +464,14 @@ const AggUssers = () => {
         </ModalOverlay>
       )}
 
-      {/* Modal Informativo */}
       {showInfoModal && (
-        <ModalOverlay>
-          <ModalContainer>
+        <ModalOverlay onClick={() => setShowInfoModal(false)}>
+          <ModalContainer onClick={e => e.stopPropagation()}>
             <InfoModalHeader>
               <InfoIcon>
                 <FaExclamationTriangle />
               </InfoIcon>
-              <h3 style={{ letterSpacing: '0.6px', color: 'white', margin: 2 }}>{modalTitle}</h3>
+              <h3 style={{ letterSpacing: '0.6px', margin: 2 }}>{modalTitle}</h3>
             </InfoModalHeader>
             <ModalBody>
               <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>

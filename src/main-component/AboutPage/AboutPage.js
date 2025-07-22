@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import NavbarS2 from '../../components/NavbarS2/NavbarS2';
+import NavbarS2 from '../../components/Navbar/Navbar';
 import PageTitle from '../../components/pagetitle/PageTitle'
 import About2 from '../../components/about2/about2';
 import MarqueeSection from '../../components/MarqueeSection/MarqueeSection';
