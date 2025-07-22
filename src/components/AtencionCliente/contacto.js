@@ -7,8 +7,7 @@ import FormularioC2 from '../ContactFrom/FormularioC2';
 import FormularioC3 from '../ContactFrom/FormularioC3';
 import FormularioC4 from '../ContactFrom/FormularioC4';
 import './contacto.css';
-import footerS3 from '../footerS3/footerS4';
-import FooterS4 from '../footerS3/footerS4';
+import Footer from '../../components/footer/Footer';
 
 
 
@@ -220,7 +219,7 @@ const Contacto = () =>{
                                     </div>
                                 </section>
                                 <div>
-                                    <FooterS4/>
+                                  <Footer />
                                 </div>
 
 

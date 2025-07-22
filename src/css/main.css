@@ -9676,3 +9676,7 @@ input.main-search-input::placeholder {
   }
 }/*# sourceMappingURL=main.css.map */
 
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+

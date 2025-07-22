@@ -4,14 +4,11 @@
     color: #333;
 }
 
-/* Color morado principal */
 :root {
     --purple-primary: #1b0a26;
     --purple-light: #9c27b0;
     --purple-dark: #4a148c;
 }
-
-/* Iconos morados */
 .purple-icon {
     filter: brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(2000%) hue-rotate(270deg) brightness(90%) contrast(90%);
     width: 50px;
@@ -74,7 +71,6 @@
     background: var(--purple-primary);
 }
 
-/* Texto introductorio */
 .intro-text {
     font-size: 1.1rem;
     line-height: 1.8;
@@ -83,7 +79,6 @@
     text-align: center;
 }
 
-/* Tarjetas de servicios */
 .service-card {
     background: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -113,7 +108,7 @@
     color: var(--purple-primary);
 }
 
-/* Lista de beneficios */
+
 .benefits-container {
     background: #f9f5ff;
     padding: 2rem;
@@ -135,7 +130,6 @@
     color: var(--purple-primary);
 }
 
-/* Botones */
 .purple-btn {
     background-color: var(--purple-primary);
     border: none;
@@ -149,13 +143,11 @@
     transform: translateY(-2px);
 }
 
-/* CTA Box */
 .cta-box {
     background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
     border-left: 5px solid var(--purple-primary);
 }
 
-/* Formulario */
 .contact-form-items {
     background: white;
     box-shadow: 0 5px 30px rgba(0,0,0,0.1);

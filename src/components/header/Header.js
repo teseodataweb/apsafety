@@ -81,7 +81,6 @@ const Header = (props) => {
                                                 </Link>
                                                 <ul className="submenu">
                                                       <li><Link onClick={ClickHandler} to="/checkout">Videos</Link></li> 
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Noticias</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog AP</Link></li>
 
                                                 </ul>

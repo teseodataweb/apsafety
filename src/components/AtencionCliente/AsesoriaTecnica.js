@@ -4,6 +4,7 @@ import InfIcon2 from '../../img/icon/12.svg';
 import InfIcon3 from '../../img/icon/13.svg';
 import ContactForm from '../ContactFrom/ContactForm';
 import { Link } from 'react-router-dom';
+import Footer from '../../components/footer/Footer';
 import './AsesoriaTecnica.css';
 
 const AsesoriaTecnica = () => {
@@ -143,6 +144,7 @@ const AsesoriaTecnica = () => {
                     </div>
                 </div>
             </section>
+            <Footer />
         </div>
     );
 }

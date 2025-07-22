@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Footer from '../../components/footer/Footer';
 
 const Alltab = () => {
   const [activeTab, setActiveTab] = useState('Tab2');
@@ -307,6 +308,7 @@ const manualesInstrucciones = [
         </a>
       </div>
     </div>
+    
   );
 };
 

@@ -9678,3 +9678,13 @@ input.main-search-input::placeholder {
     transform: translateX(-200%);
   }
 }/*# sourceMappingURL=main.css.map */
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+body {
+  font-family: 'Rajdhani', sans-serif; /* Texto general */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif; /* Títulos */
+}
