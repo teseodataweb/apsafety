@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { FaEdit, FaTrash, FaTh, FaListUl, FaExclamationTriangle } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaTh, FaListUl, FaExclamationTriangle, FaSearch, FaTimes } from 'react-icons/fa';
 import ShopSidebar from "./ShopSidebar";
 import styled, { keyframes } from 'styled-components';
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -117,7 +118,6 @@ const SecondaryButton = styled.button`
 `;
 
 const WarningIcon = styled.div`
-
   font-size: 2rem;
   margin-left: 28px;
   color: #fff;
@@ -126,6 +126,7 @@ const WarningIcon = styled.div`
 
 const Productos = () => {
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -143,7 +144,6 @@ const Productos = () => {
                 setLoading(true);
                 const url = new URL('http://localhost:5000/listar_productos.php');
                 
-                if (searchTerm) url.searchParams.append('query', searchTerm);
                 if (selectedCategory) url.searchParams.append('clasificacion', selectedCategory);
 
                 const response = await fetch(url);
@@ -164,6 +164,7 @@ const Productos = () => {
                     }));
                     
                     setProducts(processedProducts);
+                    setFilteredProducts(processedProducts);
                 } else {
                     setError(result.message || 'Error al cargar productos');
                 }
@@ -177,17 +178,33 @@ const Productos = () => {
 
         const timer = setTimeout(fetchProducts, 300);
         return () => clearTimeout(timer);
-    }, [searchTerm, selectedCategory]);
+    }, [selectedCategory]);
 
-    const filteredAndSortedProducts = useMemo(() => {
+    // Efecto para filtrar productos cuando cambia el término de búsqueda o el estado activo
+    useEffect(() => {
         let filtered = [...products];
+        
+        // Aplicar filtro de estado activo/inactivo
         if (activeStatusFilter !== 'all') {
             filtered = filtered.filter(product => 
                 activeStatusFilter === 'active' ? product.activo : !product.activo
             );
         }
+        
+        // Aplicar filtro de búsqueda
+        if (searchTerm.trim() !== '') {
+            const term = searchTerm.toLowerCase();
+            filtered = filtered.filter(product => 
+                product.titulo.toLowerCase().includes(term) ||
+                (product.descripcion && product.descripcion.toLowerCase().includes(term))
+            );
+        }
+        
+        setFilteredProducts(filtered);
+    }, [searchTerm, products, activeStatusFilter]);
 
-        return filtered.sort((a, b) => {
+    const filteredAndSortedProducts = useMemo(() => {
+        return [...filteredProducts].sort((a, b) => {
             switch(sortOption) {
                 case 'nombre_asc': return a.titulo.localeCompare(b.titulo);
                 case 'nombre_desc': return b.titulo.localeCompare(a.titulo);
@@ -196,7 +213,7 @@ const Productos = () => {
                 default: return 0;
             }
         });
-    }, [products, sortOption, activeStatusFilter]);
+    }, [filteredProducts, sortOption]);
 
     const handleEdit = (product) => {
         navigate('/formProducto', { 
@@ -224,6 +241,7 @@ const Productos = () => {
             const result = await response.json();
             if (result.success) {
                 setProducts(prev => prev.filter(p => p.ruta !== productToDelete.ruta));
+                setFilteredProducts(prev => prev.filter(p => p.ruta !== productToDelete.ruta));
                 alert('Producto eliminado exitosamente');
             } else {
                 throw new Error(result.message || 'Error al eliminar');
@@ -243,6 +261,10 @@ const Productos = () => {
     const openModal = (product) => {
         setProductToDelete(product);
         setShowModal(true);
+    };
+
+    const clearSearch = () => {
+        setSearchTerm('');
     };
 
     if (loading) return (
@@ -270,24 +292,44 @@ const Productos = () => {
                             selectedCategory={selectedCategory}
                             onStatusFilterChange={handleStatusFilterChange}
                             activeStatusFilter={activeStatusFilter}
+                            searchTerm={searchTerm}
                         />
                     </div>
 
                     <div className="col-xl-9 col-lg-8 order-1 order-md-2">
                         <div className="d-flex justify-content-between align-items-center mb-4">
-                            <div>
-                                <span className="me-2">Filtrar por:</span>
-                                <div className="btn-group btn-group-sm">
-                                    {['all', 'active', 'inactive'].map(status => (
-                                        <button
-                                            key={status}
-                                            className={`btn ${activeStatusFilter === status ? 'btn-primary' : 'btn-outline-secondary'}`}
-                                            onClick={() => handleStatusFilterChange(status)}
+                            <div className="d-flex align-items-center">
+                                {searchTerm && (
+                                    <div className="search-results-info d-flex align-items-center">
+                                        <span className="badge bg-primary me-2">
+                                            {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'}
+                                        </span>
+                                        <span className="me-2">para "{searchTerm}"</span>
+                                        <button 
+                                            onClick={clearSearch}
+                                            className="btn btn-sm btn-outline-secondary"
+                                            title="Limpiar búsqueda"
                                         >
-                                            {status === 'all' ? 'Todos' : status === 'active' ? 'Activos' : 'Inactivos'}
+                                            <FaTimes />
                                         </button>
-                                    ))}
-                                </div>
+                                    </div>
+                                )}
+                                {!searchTerm && (
+                                    <div>
+                                        <span className="me-2">Filtrar por:</span>
+                                        <div className="btn-group btn-group-sm">
+                                            {['all', 'active', 'inactive'].map(status => (
+                                                <button
+                                                    key={status}
+                                                    className={`btn ${activeStatusFilter === status ? 'btn-primary' : 'btn-outline-secondary'}`}
+                                                    onClick={() => handleStatusFilterChange(status)}
+                                                >
+                                                    {status === 'all' ? 'Todos' : status === 'active' ? 'Activos' : 'Inactivos'}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             
                             <div className="d-flex">
@@ -337,8 +379,26 @@ const Productos = () => {
                                     />
                                 ))
                             ) : (
-                                <div className="col-12 text-center">
-                                    <p>No se encontraron productos{activeStatusFilter !== 'all' ? ` ${activeStatusFilter === 'active' ? 'activos' : 'inactivos'}` : ''}.</p>
+                                <div className="col-12 text-center py-5">
+                                    {searchTerm ? (
+                                        <>
+                                            <FaSearch size={48} className="text-muted mb-3" />
+                                            <h4>No se encontraron productos</h4>
+                                            <p className="text-muted">
+                                                No hay resultados para "{searchTerm}"{activeStatusFilter !== 'all' ? 
+                                                ` en productos ${activeStatusFilter === 'active' ? 'activos' : 'inactivos'}` : ''}
+                                            </p>
+                                            <button 
+                                                onClick={clearSearch}
+                                                className="btn btn-primary mt-2"
+                                            >
+                                                Mostrar todos los productos
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <p>No se encontraron productos{activeStatusFilter !== 'all' ? 
+                                          ` ${activeStatusFilter === 'active' ? 'activos' : 'inactivos'}` : ''}.</p>
+                                    )}
                                 </div>
                             )}
                         </div>

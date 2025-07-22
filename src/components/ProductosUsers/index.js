@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { FaTrash, FaTh, FaListUl } from 'react-icons/fa';
+import { FaTrash, FaTh, FaListUl, FaSearch, FaTimes } from 'react-icons/fa';
 import ShopSidebar from "./ShopSidebar";
+
 const ProductosUsers = () => {
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -11,6 +13,7 @@ const ProductosUsers = () => {
     const [sortOption, setSortOption] = useState('default');
     const [viewMode, setViewMode] = useState('grid');
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -25,19 +28,29 @@ const ProductosUsers = () => {
                 const result = await response.json();
                 if (result.success) {
                     const processedProducts = result.productos.map(producto => {
-                        if (producto.imagenPrincipal && (producto.imagenPrincipal || 
-                            producto.imagenPrincipal)) {
+                        // Convertir el estado activo a booleano
+                        const isActive = typeof producto.activo === 'string' 
+                            ? producto.activo.toLowerCase() === 'true'
+                            : Boolean(producto.activo);
+                            
+                        if (producto.imagenPrincipal) {
                             return {
                                 ...producto,
-                                imagenPrincipalUrl: `data:image/jpeg;base64,${producto.imagenPrincipal}`
+                                imagenPrincipalUrl: `data:image/jpeg;base64,${producto.imagenPrincipal}`,
+                                activo: isActive
                             };
                         }
                         return {
                             ...producto,
-                            imagenPrincipalUrl: producto.imagenPrincipal || ''
+                            imagenPrincipalUrl: producto.imagenPrincipal || '',
+                            activo: isActive
                         };
                     });
-                    setProducts(processedProducts);
+                    
+                    // Filtrar solo los productos activos
+                    const activeProducts = processedProducts.filter(product => product.activo);
+                    setProducts(activeProducts);
+                    setFilteredProducts(activeProducts); // Inicialmente mostrar todos los productos activos
                 } else {
                     setError(result.message || 'Error al cargar productos');
                 }
@@ -46,11 +59,26 @@ const ProductosUsers = () => {
                 console.error('Error al obtener productos:', error);
             } finally {
                 setLoading(false);
-            }};
+            }
+        };
         fetchProducts();
     }, [searchTerm, selectedCategory]);
+
+    // Efecto para filtrar productos cuando cambia el término de búsqueda
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter(product => 
+                product.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (product.descripcion && product.descripcion.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
+            setFilteredProducts(filtered);
+        }
+    }, [searchTerm, products]);
+
     const sortedProducts = useMemo(() => {
-        return [...products].sort((a, b) => {
+        return [...filteredProducts].sort((a, b) => {
             switch(sortOption) {
                 case 'nombre_asc':
                     return a.titulo.localeCompare(b.titulo);
@@ -64,13 +92,17 @@ const ProductosUsers = () => {
                     return 0;
             }
         });
-    }, [products, sortOption]);
+    }, [filteredProducts, sortOption]);
+
     const handleEdit = (product) => {
         navigate('/formProducto', { 
             state: { 
                 producto: product,
                 isEditing: true
-            } }); };
+            } 
+        });
+    };
+
     const handleDelete = async (product) => {
         if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
             try {
@@ -85,18 +117,29 @@ const ProductosUsers = () => {
                 if (result.success) {
                     alert('Producto eliminado exitosamente');
                     setProducts(products.filter(p => p.ruta !== product.ruta));
+                    setFilteredProducts(filteredProducts.filter(p => p.ruta !== product.ruta));
                 } else {
                     alert(`Error: ${result.message}`);
-                }} catch (error) {
+                }
+            } catch (error) {
                 console.error('Error al eliminar el producto:', error);
                 alert('Error al conectar con el servidor');
-            }}};
+            }
+        }
+    };
+
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
+
     const handleCategoryChange = (category) => {
         setSelectedCategory(prev => prev === category ? '' : category);
     };
+
+    const clearSearch = () => {
+        setSearchTerm('');
+    };
+
     if (loading) {
         return (
             <div className="d-flex justify-content-center mt-5">
@@ -106,6 +149,7 @@ const ProductosUsers = () => {
             </div>
         );
     }
+
     if (error) {
         return (
             <div className="alert alert-danger mt-5 text-center">
@@ -113,6 +157,7 @@ const ProductosUsers = () => {
             </div>
         );
     }
+
     return (
         <section className="shop-page-section fix section-padding section-bg-2"> 
             <div className="container">
@@ -122,52 +167,71 @@ const ProductosUsers = () => {
                             onSearch={handleSearch} 
                             onCategoryChange={handleCategoryChange}
                             selectedCategory={selectedCategory}
+                            searchTerm={searchTerm}
                         />
                     </div>
                     <div className="col-xl-9 col-lg-8 order-1 order-md-2">
-                        <div className="d-flex justify-content-end mb-4">
-                            <div className="me-3">
-                                <select 
-                                    className="form-select"
-                                    value={sortOption}
-                                    onChange={(e) => setSortOption(e.target.value)}
-                                    style={{ 
-                                        borderColor: '#dee2e6', 
-                                        borderRadius: '5px',
-                                        padding: '8px 12px',
-                                        height: '40px'
-                                    }}
-                                >
-                                    <option value="default">Ordenar por</option>
-                                    <option value="nombre_asc">Nombre A-Z</option>
-                                    <option value="nombre_desc">Nombre Z-A</option>
-                                    <option value="fecha_asc">Fecha más antigua</option>
-                                    <option value="fecha_desc">Fecha más reciente</option>
-                                </select>
-                            </div>  
-                            <div className="btn-group">
-                                <button 
-                                    className={`btn btn-outline-secondary ${viewMode === 'grid' ? 'active' : ''}`}
-                                    onClick={() => setViewMode('grid')}
-                                    style={{ 
-                                        padding: '5px 10px',
-                                        borderWidth: '1px',
-                                        borderColor: viewMode === 'grid' ? '#0d6efd' : '#dee2e6'
-                                    }}
-                                >
-                                    <FaTh />
-                                </button>
-                                <button 
-                                    className={`btn btn-outline-secondary ${viewMode === 'list' ? 'active' : ''}`}
-                                    onClick={() => setViewMode('list')}
-                                    style={{
-                                        padding: '5px 10px',
-                                        borderWidth: '1px',
-                                        borderColor: viewMode === 'list' ? '#0d6efd' : '#dee2e6'
-                                    }}
-                                >
-                                    <FaListUl />
-                                </button>
+                        <div className="d-flex justify-content-between mb-4">
+                            <div className="d-flex align-items-center">
+                                {searchTerm && (
+                                    <div className="search-results-info">
+                                        <span className="badge bg-primary me-2">
+                                            {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'}
+                                        </span>
+                                        <span>para "{searchTerm}"</span>
+                                        <button 
+                                            onClick={clearSearch}
+                                            className="btn btn-sm btn-outline-secondary ms-2"
+                                        >
+                                            <FaTimes /> Limpiar
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="d-flex">
+                                <div className="me-3">
+                                    <select 
+                                        className="form-select"
+                                        value={sortOption}
+                                        onChange={(e) => setSortOption(e.target.value)}
+                                        style={{ 
+                                            borderColor: '#dee2e6', 
+                                            borderRadius: '5px',
+                                            padding: '8px 12px',
+                                            height: '40px'
+                                        }}
+                                    >
+                                        <option value="default">Ordenar por</option>
+                                        <option value="nombre_asc">Nombre A-Z</option>
+                                        <option value="nombre_desc">Nombre Z-A</option>
+                                        <option value="fecha_asc">Fecha más antigua</option>
+                                        <option value="fecha_desc">Fecha más reciente</option>
+                                    </select>
+                                </div>  
+                                <div className="btn-group">
+                                    <button 
+                                        className={`btn btn-outline-secondary ${viewMode === 'grid' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('grid')}
+                                        style={{ 
+                                            padding: '5px 10px',
+                                            borderWidth: '1px',
+                                            borderColor: viewMode === 'grid' ? '#0d6efd' : '#dee2e6'
+                                        }}
+                                    >
+                                        <FaTh />
+                                    </button>
+                                    <button 
+                                        className={`btn btn-outline-secondary ${viewMode === 'list' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('list')}
+                                        style={{
+                                            padding: '5px 10px',
+                                            borderWidth: '1px',
+                                            borderColor: viewMode === 'list' ? '#0d6efd' : '#dee2e6'
+                                        }}
+                                    >
+                                        <FaListUl />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="row">
@@ -237,13 +301,30 @@ const ProductosUsers = () => {
                                     </div>
                                 </div>
                             )) : (
-                                <div className="col-12 text-center">
-                                    <p>No se encontraron productos.</p>
-                                </div> )}
+                                <div className="col-12 text-center py-5">
+                                    {searchTerm ? (
+                                        <>
+                                            <FaSearch size={48} className="text-muted mb-3" />
+                                            <h4>No se encontraron productos</h4>
+                                            <p className="text-muted">No hay resultados para "{searchTerm}"</p>
+                                            <button 
+                                                onClick={clearSearch}
+                                                className="btn btn-primary mt-2"
+                                            >
+                                                Mostrar todos los productos
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <p>No se encontraron productos activos.</p>
+                                    )}
+                                </div> 
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    );};
+    );
+};
+
 export default ProductosUsers;
