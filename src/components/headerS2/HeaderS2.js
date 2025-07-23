@@ -178,7 +178,7 @@ const HeaderS2 = (props) => {
                                     <button 
                                         onClick={handleLogout} 
                                         className="theme-btn" 
-                                        style={{backgroundColor: '#4CAF50', border: 'none', cursor: 'pointer'}}
+                                        style={{backgroundColor: '#04871c', color: '#fff', border: 'none', cursor: 'pointer'}}
                                     >
                                         Cerrar Sesión
                                     </button>

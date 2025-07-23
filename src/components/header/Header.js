@@ -1,17 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
+import  auth  from '../login/firebase'; // Asegúrate de que esta ruta sea correcta
+import { onAuthStateChanged } from 'firebase/auth';
+
 const Header = (props) => {
     const SubmitHandler = (e) => {
-        e.preventDefault()
+        e.preventDefault();
     }
+
     const ClickHandler = () => {
         window.scrollTo(10, 0);
     }
+
     const { carts } = props;
     const [isSticky, setIsSticky] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const location = useLocation();
+
+    // Verificar estado de autenticación
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setIsLoggedIn(!!user);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    // Efecto para el scroll sticky
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 250) {
@@ -27,6 +45,9 @@ const Header = (props) => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    // No mostrar el botón si está logueado o en la página de login
+    const shouldShowLoginButton = !isLoggedIn && location.pathname !== '/login';
 
     return (
         <header className={props.hclass}>
@@ -49,7 +70,6 @@ const Header = (props) => {
                                                 <Link onClick={ClickHandler} to="/home">
                                                     Inicio
                                                 </Link>
-                                               
                                             </li>
                                             <li className="has-dropdown active d-xl-none">
                                                 <Link onClick={ClickHandler} to="/team" className="border-none">
@@ -63,17 +83,18 @@ const Header = (props) => {
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="/about">Nosotros</Link>
-                                                                                                <ul className="submenu">
+                                                <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/home-2">Distribuidores</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
-
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/productosusers">
-                                                    Productos
-                                                </Link>
+                                              <li>
+    <Link onClick={ClickHandler} to={isLoggedIn ? "/productos" : "/productosusers"}>
+        Productos
+    </Link>
+</li>
                                             </li>
                                             <li>
                                                 <Link onClick={ClickHandler} to="#">
@@ -92,25 +113,39 @@ const Header = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
-                                                    </ul>
-                                                    </li>
-
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div className="header-right d-flex justify-content-end align-items-center">
+                                {shouldShowLoginButton && (
+                                    <Link to="/login" className="theme-btn" style={{
+                                        backgroundColor: '#02871c', 
+                                        color: '#fff',
+                                        borderRadius: '4px',
+                                        padding: '15px 20px',
+                                            height: '50px',
+
+                                        textDecoration: 'none'
+                                    }}>
+                                        Iniciar Sesión
+                                    </Link>
+                                )}
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
         </header>
     )
 }
+
 const mapStateToProps = (state) => {
     return {
         carts: state.cartList.cart,
     };
 };
+
 export default connect(mapStateToProps, { removeFromCart })(Header);

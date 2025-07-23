@@ -205,7 +205,7 @@ const Login = () => {
                                     outline: 'none',
                                     boxShadow: 'none',
                                     border: 'none',
-                                    transition: 'background-color 0.3s ease' // Suaviza la transición de color
+                                    transition: 'background-color 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => e.target.style.backgroundColor = '#00A82D'}
                                 onMouseLeave={(e) => e.target.style.backgroundColor = '#008A1F'}
@@ -217,6 +217,27 @@ const Login = () => {
                                 onBlur={(e) => e.target.style.backgroundColor = '#008A1F'}
                             >
                                 Iniciar Sesión
+                            </button>
+                            
+                            <button 
+                            onClick={() => window.location.href = '/'}
+                                className="btn btn-primary py-3" 
+                                style={{ 
+                                    backgroundColor: '#008A1F', 
+                                    outline: 'none',
+                                    boxShadow: 'none',
+                                    border: 'none',
+                                    transition: 'background-color 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#00A82D'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#008A1F'}
+                                onFocus={(e) => {
+                                    e.target.style.backgroundColor = '#00A82D';
+                                    e.target.style.boxShadow = 'none';
+                                    e.target.style.outline = 'none';
+                                }}
+                                onBlur={(e) => e.target.style.backgroundColor = '#008A1F'}>
+                               Cancelar
                             </button>
                         </div>
                     </form>
