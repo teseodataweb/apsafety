@@ -41,30 +41,20 @@ const about = () => {
                         <div className="col-lg-6">
                             <div className="about-content">
                                 <div className="section-title">
-                                    <h2
-                                        className="wow fadeInUp"
-                                        data-wow-delay=".3s"
-                                        style={{ fontFamily: "'Montserrat', sans-serif" }}
-                                    >
+                                    <h2>
                                         ¿Tus proyectos industriales están desprotegidos?
                                     </h2>
                                 </div>
 
-                                <p
-                                    className="mt-3 mt-md-0 wow fadeInUp"
-                                    data-wow-delay=".5s"
-                                    style={{ fontFamily: "'Policarbonato', sans-serif" }}
-                                >
+                                <p>
                                     En sectores como minería, construcción o química, usar equipo de protección no certificado puede causar accidentes,
                                     multas o pérdidas operativas. Muchas empresas no logran abastecerse a tiempo, o confían en distribuidores sin respaldo técnico.
                                 </p>
 
-                                <p style={{ fontFamily: "'Policarbonato', sans-serif" }}>
+                                <p>
                                     En AP SAFETY entendemos los riesgos. Por eso, fabricamos y distribuimos EPP con
                                     normas NOM-STPS, ANSI y ISO, con entregas en 72 horas a zonas remotas.
                                 </p>
-
-                                {/* Botón alineado debajo del texto */}
                                 <div style={{ marginTop: '24px' }}>
                                     <Link
                                         to="/service"

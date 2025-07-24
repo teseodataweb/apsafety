@@ -1,51 +1,51 @@
-
 .asesoria-tecnica-page {
     font-family: 'Roboto', sans-serif;
-    color: #333;
+    color: #000;
 }
 
 :root {
-    --purple-primary: #1b0a26;
-    --purple-light: #9c27b0;
-    --purple-dark: #4a148c;
+    --black-primary: #000000;
+    --black-dark: #111111;
+    --green-light: #36C848;
 }
-.purple-icon {
-    filter: brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(2000%) hue-rotate(270deg) brightness(90%) contrast(90%);
+
+.green-icon {
+    filter: brightness(0) saturate(100%);
     width: 50px;
     height: 50px;
 }
 
-.info-card-purple {
+
+.info-card-green {
     background: white;
     border-radius: 10px;
     padding: 25px 15px;
-    box-shadow: 0 5px 15px rgba(106, 27, 154, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    border-top: 4px solid var(--purple-primary);
+    border-top: 4px solid var(--black-primary);
 }
 
-.info-card-purple:hover {
+.info-card-green:hover {
     transform: translateY(-5px);
 }
 
-.info-card-purple .icon {
+.info-card-green .icon {
     margin-bottom: 15px;
 }
 
-.info-card-purple h3 {
-    color: var(--purple-primary);
+.info-card-green h3 {
+    color: var(--black-primary);
     font-size: 1.3rem;
     margin-bottom: 10px;
 }
 
-.info-card-purple p {
-    color: #666;
+.info-card-green p {
+    color: #444;
     font-size: 1rem;
 }
 
-/* Títulos */
 .main-title {
-    color: var(--purple-primary);
+    color: var(--black-primary);
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
@@ -53,7 +53,7 @@
 }
 
 .section-subtitle {
-    color: var(--purple-dark);
+    color: var(--black-primary);
     font-size: 1.8rem;
     font-weight: 600;
     margin: 2rem 0 1.5rem;
@@ -68,13 +68,13 @@
     left: 0;
     width: 60px;
     height: 3px;
-    background: var(--purple-primary);
+    background: var(--black-primary);
 }
 
 .intro-text {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #444;
+    color: #000;
     margin-bottom: 2rem;
     text-align: center;
 }
@@ -89,28 +89,27 @@
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(106, 27, 154, 0.15);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
 .service-card h3 {
-    color: var(--purple-primary);
+    color: var(--black-primary);
     font-size: 1.2rem;
     margin-bottom: 15px;
 }
 
 .service-card p {
-    color: #666;
+    color: #444;
     font-size: 0.95rem;
     line-height: 1.6;
 }
 
 .service-icon {
-    color: var(--purple-primary);
+    color: var(--black-primary);
 }
 
-
 .benefits-container {
-    background: #f9f5ff;
+    background: #f1f1f1;
     padding: 2rem;
     border-radius: 10px;
 }
@@ -124,28 +123,30 @@
     font-size: 1.1rem;
     padding-left: 2rem;
     position: relative;
+    color: #000;
 }
 
-.purple-text {
-    color: var(--purple-primary);
+.green-text {
+    color: var(--black-primary);
 }
 
-.purple-btn {
-    background-color: var(--purple-primary);
+.green-btn {
+    background-color: #000;
     border: none;
     padding: 12px 30px;
     font-weight: 500;
     transition: all 0.3s ease;
+    color: #fff;
 }
 
-.purple-btn:hover {
-    background-color: var(--purple-dark);
+.green-btn:hover {
+    background-color: #333;
     transform: translateY(-2px);
 }
 
 .cta-box {
-    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-    border-left: 5px solid var(--purple-primary);
+    background: #eeeeee;
+    border-left: 5px solid var(--black-primary);
 }
 
 .contact-form-items {
@@ -153,7 +154,6 @@
     box-shadow: 0 5px 30px rgba(0,0,0,0.1);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .main-title {
         font-size: 2rem;

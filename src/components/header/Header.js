@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
-import  auth  from '../login/firebase'; // Asegúrate de que esta ruta sea correcta
+import  auth  from '../login/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 
 const Header = (props) => {
@@ -20,7 +20,6 @@ const Header = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const location = useLocation();
 
-    // Verificar estado de autenticación
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setIsLoggedIn(!!user);
@@ -82,7 +81,7 @@ const Header = (props) => {
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/about">Nosotros</Link>
+                                                <Link onClick={ClickHandler} to="#">Nosotros</Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/home-2">Distribuidores</Link></li>
@@ -102,7 +101,7 @@ const Header = (props) => {
                                                 </Link>
                                                 <ul className="submenu">
                                                       <li><Link onClick={ClickHandler} to="/checkout">Videos</Link></li> 
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog AP</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="#">Blog AP</Link></li>
 
                                                 </ul>
                                             </li>
