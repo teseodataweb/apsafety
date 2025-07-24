@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
-import  auth  from '../login/firebase'; // Asegúrate de que esta ruta sea correcta
+import auth from '../login/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const Header = (props) => {
@@ -46,6 +46,11 @@ const Header = (props) => {
         };
     }, []);
 
+    // Función para determinar si el enlace está activo
+    const isActive = (path) => {
+        return location.pathname === path;
+    }
+
     // No mostrar el botón si está logueado o en la página de login
     const shouldShowLoginButton = !isLoggedIn && location.pathname !== '/login';
 
@@ -67,52 +72,90 @@ const Header = (props) => {
                                     <nav id="mobile-menu">
                                         <ul>
                                             <li className="has-dropdown active menu-thumb">
-                                                <Link onClick={ClickHandler} to="/home">
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to="/home"
+                                                    style={{ color: isActive('/home') ? '#02871c' : '' }}
+                                                >
                                                     Inicio
                                                 </Link>
                                             </li>
                                             <li className="has-dropdown active d-xl-none">
-                                                <Link onClick={ClickHandler} to="/team" className="border-none">
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to="/team" 
+                                                    className="border-none"
+                                                    style={{ color: isActive('/team') ? '#02871c' : '' }}
+                                                >
                                                     Inicio
                                                 </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/home">Inicio</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/home-2">Inicio 2</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/home-3">Inicio 3</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home" style={{ color: isActive('/home') ? '#02871c' : '' }}>Inicio</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home-2" style={{ color: isActive('/home-2') ? '#02871c' : '' }}>Inicio 2</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home-3" style={{ color: isActive('/home-3') ? '#02871c' : '' }}>Inicio 3</Link></li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/about">Nosotros</Link>
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to="/about"
+                                                    style={{ color: isActive('/about') ? '#02871c' : '' }}
+                                                >
+                                                    Nosotros
+                                                </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/home-2">Distribuidores</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/service" style={{ color: isActive('/service') ? '#02871c' : '' }}>Nosotros</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/home-2" style={{ color: isActive('/home-2') ? '#02871c' : '' }}>Distribuidores</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing" style={{ color: isActive('/service-details/Sticker-printing') ? '#02871c' : '' }}>Laboratorio</Link></li>
                                                 </ul>
                                             </li>
                                             <li>
-                                              <li>
-    <Link onClick={ClickHandler} to={isLoggedIn ? "/productos" : "/productosusers"}>
-        Productos
-    </Link>
-</li>
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to={isLoggedIn ? "/productos" : "/productosusers"}
+                                                    style={{ 
+                                                        color: isActive('/productos') || isActive('/productosusers') ? '#02871c' : '' 
+                                                    }}
+                                                >
+                                                    Productos
+                                                </Link>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="#">
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to="#"
+                                                    style={{ 
+                                                        color: location.pathname.startsWith('/checkout') || 
+                                                               location.pathname.startsWith('/blog-single') || 
+                                                               location.pathname.startsWith('/blog') ? '#02871c' : '' 
+                                                    }}
+                                                >
                                                     Contenido
                                                 </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/checkout">Videos</Link></li> 
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Noticias</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Blog AP</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/checkout" style={{ color: isActive('/checkout') ? '#02871c' : '' }}>Videos</Link></li> 
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food" style={{ color: location.pathname.startsWith('/blog-single') ? '#02871c' : '' }}>Noticias</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food" style={{ color: location.pathname.startsWith('/blog-single') ? '#02871c' : '' }}>Blog AP</Link></li>
                                                 </ul>
                                             </li>
                                             <li className="has-dropdown">
-                                                <Link onClick={ClickHandler} to="#">Atención al cliente</Link>
+                                                <Link 
+                                                    onClick={ClickHandler} 
+                                                    to="#"
+                                                    style={{ 
+                                                        color: location.pathname.startsWith('/contacto') || 
+                                                               location.pathname.startsWith('/asesoria-tecnica') || 
+                                                               location.pathname.startsWith('/shop-details') || 
+                                                               location.pathname.startsWith('/quejas') ? '#02871c' : '' 
+                                                    }}
+                                                >
+                                                    Atención al cliente
+                                                </Link>
                                                 <ul className="submenu">
-                                                    <li><Link onClick={ClickHandler} to="/contacto">Contacto</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design">Información Técnica</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/contacto" style={{ color: isActive('/contacto') ? '#02871c' : '' }}>Contacto</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/asesoria-tecnica" style={{ color: isActive('/asesoria-tecnica') ? '#02871c' : '' }}>Asesoría Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/shop-details/Calendar-printing-design" style={{ color: isActive('/shop-details/Calendar-printing-design') ? '#02871c' : '' }}>Información Técnica</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="/quejas" style={{ color: isActive('/quejas') ? '#02871c' : '' }}>Quejas</Link></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -126,8 +169,7 @@ const Header = (props) => {
                                         color: '#fff',
                                         borderRadius: '4px',
                                         padding: '15px 20px',
-                                            height: '50px',
-
+                                        height: '50px',
                                         textDecoration: 'none'
                                     }}>
                                         Iniciar Sesión
