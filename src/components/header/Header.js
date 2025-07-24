@@ -95,7 +95,7 @@ const Header = (props) => {
                                                 </ul>
                                             </li>
                                             <li>
-                                                <Link onClick={ClickHandler} to="/about">Nosotros</Link>
+                                                <Link onClick={ClickHandler} to="#">Nosotros</Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/service" style={{ color: isActive('/service') ? '#02871c' : '' }}>Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/home-2" style={{ color: isActive('/home-2') ? '#02871c' : '' }}>Distribuidores</Link></li>
@@ -127,8 +127,7 @@ const Header = (props) => {
                                                 </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/checkout">Videos</Link></li> 
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Noticias</Link></li>
-                                                    <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn't-About-Food">Blog AP</Link></li>
+                                                    <li><Link onClick={ClickHandler} to="#">Blog AP</Link></li>
                                                 </ul>
                                             </li>
                                             <li className="has-dropdown">
