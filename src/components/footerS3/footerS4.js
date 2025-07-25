@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Services from "../../api/Services";
-
+import fot4 from './fot4.css';
 import Bgimg from '../../img/footer/footer-bg-2.jpg'
 import Shape1 from '../../img/footer/line-shape.png'
 // import Shape2 from '../../img/footer/star.png'
@@ -60,8 +60,11 @@ const FooterS4 = () => {
                                         Estamos comprometidos con brindarte atención de calidad, 
                                         asesoría personalizada y soluciones a la medida de tus necesidades.
                                     </p>
-                                    <Link to="/distribuidores" className="theme-btn btn-white">
-                                        Conoce nuestra red de distribuidores
+                                    <Link
+                                    to="/home-2"
+                                    className="theme-btn btn-white footer-distributor-btn"
+                                    >
+                                    Conoce nuestra red de distribuidores
                                     </Link>
                                     <div className="social-icon d-flex align-items-center">
                                         <Link onClick={ClickHandler} to="#"><i className="fab fa-facebook-f"></i></Link>

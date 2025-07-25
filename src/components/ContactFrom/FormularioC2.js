@@ -75,10 +75,10 @@ const FormularioC2= () => {
                     
 
                 {/* Botón de envío */}
-                <div className="col-lg-6">
-                    <button type="submit" className="theme-btn">
-                        <i className="fal fa-paper-plane"></i> Enviar Mensaje
-                    </button>
+                <div className="boton-container">
+                <button type="submit" className="theme-btn">
+                    <i className="fal fa-paper-plane"></i> Enviar Mensaje
+                </button>
                 </div>
 
                 

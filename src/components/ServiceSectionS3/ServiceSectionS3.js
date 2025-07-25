@@ -65,7 +65,7 @@ useEffect(() =>{
                                 <div className="service-box-items">
                                     <h3><Link onClick={ClickHandler} to={`/service-details/${service.slug}`}>Printing Service</Link></h3>
                                     <div className="service-image">
-                                        
+                                        <img src={service.sImg} alt="img" />
                                     </div>
                                     <div className="service-content">
                                         <p>

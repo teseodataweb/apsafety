@@ -1,0 +1,14 @@
+.footer-distributor-btn {
+  display: block;
+  margin: 0 auto;
+  font-size: 10px;              /* Texto pequeño */
+  padding: 6px 10px;            /* Menor espacio interior */
+  width: max-content;           /* Solo lo necesario para el texto */
+  max-width: 270px;             /* Límite máximo opcional */
+  text-align: center;
+  line-height: 1.2;
+  border-radius: 15px;
+  white-space: normal;          /* Permite salto de línea si hace falta */
+  font-weight: 500;
+  box-sizing: border-box;
+}

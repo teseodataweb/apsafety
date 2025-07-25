@@ -109,12 +109,11 @@ const Formulary= () => {
                     </div>
 
                 {/* Botón */}
-                    <div className="boton-container">
-                    <button type="submit" className="theme-btn small">
-                       <i className="fal fa-paper-plane"></i> Enviar
-                   </button>
-                   </div>
-
+                    <div className="form-clt">
+                        <button type="submit" className="theme-btn">
+                        <i className="fal fa-paper-plane"></i> Enviar Queja
+                        </button>
+                    </div>
 
                     <small style={{ display: 'block', textAlign: 'center', marginTop: '10px' }}>
                         Todos los campos son obligatorios, excepto donde se indique.

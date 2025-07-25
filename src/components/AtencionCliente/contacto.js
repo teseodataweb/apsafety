@@ -7,7 +7,6 @@ import FormularioC2 from '../ContactFrom/FormularioC2';
 import FormularioC3 from '../ContactFrom/FormularioC3';
 import FormularioC4 from '../ContactFrom/FormularioC4';
 import './contacto.css';
-import footerS3 from '../footerS3/footerS4';
 import FooterS4 from '../footerS3/footerS4';
 
 
@@ -15,7 +14,7 @@ import FooterS4 from '../footerS3/footerS4';
 
 const Contacto = () =>{
     return(
-           <div className="asesoria-tecnica-page">
+           <div className="contacto-page">
                     <Helmet>
                         <title>Contacto | Oficinas y Atención al Cliente |AP SAFETY</title>
                         <meta
@@ -43,57 +42,58 @@ const Contacto = () =>{
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <section className="about-section section-padding">
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-lg-10 mx-auto">
-                                                <div className="about-content">
-                                                    <h2 className="wow fadeInUp section-subtitle" data-wow-delay=".3s">Oficina Coorporativa - México</h2>
-                                                    <div className="wow fadeInUp" data-wow-delay=".2s">
-                                                        <p className="wow fadeInUp" data-wow-delay=".4s">
-                                                            <strong>Dirección:</strong> Cerro Chimalpa, Manzana 50, Lote 674, Col. Lázaro Cárdenas 1ra. Sección,
-                                                            <p>Tlalnepantla de Baz, Estado de México, C.P. 54189a</p>
-                                                        </p>
-                                                        <p className="wow fadeInUp" data-wow-delay=".4s">
-                                                            <strong>Teléfonos:</strong> <p>+52 55 5718 1075</p>
-                                                            <p>+52 55 5718 4035</p>
-                                                            <p>+52 55 5384 6159</p>
-                                                            <p>+52 55 8952 0360</p>
-                                                            <p>+52 55 8952 0385</p>                                                            
-                                                        </p>
-                                                        <p className="wow fadeInUp" data-wow-delay=".4s">
-                                                            <strong>Correos Electrónicos:</strong> 
-                                                            <p>direccion@apmascarillas.com.mx</p>
-                                                            <p>ccomercial@apmascarillas.com.mx</p>
-                                                            <p>ccomercialsh@apmascarillas.com.mx</p>
-                                                        </p>
-                                                    </div>
+                                         <div className="about-content">
+                                            <h2 className="wow fadeInUp section-subtitle" data-wow-delay=".3s">
+                                                Oficina Coorporativa - México
+                                            </h2>
+
+                                            <div className="direccion">
+                                                <strong>Dirección:</strong><br />
+                                                Cerro Chimalpa, Manzana 50, Lote 674, Col. Lázaro Cárdenas 1ra. Sección,<br />
+                                                Tlalnepantla de Baz, Estado de México, C.P. 54189a
+                                            </div>
+
+                                            <div className="contact-container">
+                                                <div className="contact-box telefonos">
+                                                <strong>Teléfonos:</strong>
+                                                <ul>
+                                                    <li>+52 55 5718 1075</li>
+                                                    <li>+52 55 5718 4035</li>
+                                                    <li>+52 55 5384 6159</li>
+                                                    <li>+52 55 8952 0360</li>
+                                                    <li>+52 55 8952 0385</li>
+                                                </ul>
+                                                </div>
+
+                                                <div className="contact-box correos">
+                                                <strong>Correos Electrónicos:</strong>
+                                                <ul>
+                                                    <li>direccion@apmascarillas.com.mx</li>
+                                                    <li>ccomercial@apmascarillas.com.mx</li>
+                                                    <li>ccomercialsh@apmascarillas.com.mx</li>
+                                                </ul>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <section className="contact-section section-padding pt-0 section-bg-2">
-                                    <div className="container">
-                                        <div className="row justify-content-center">
-                                            <div className="col-lg-8">
-                                                <div className="contact-form-items p-4 rounded">
-                                                    <div className="contact-title text-center mb-5">
-                                                        <h3 className="wow fadeInUp" data-wow-delay=".3s">
-                                                            Formulario
-                                                        </h3>
-                                                    </div>
-                                                    <FormularioC/>
-                                                </div>
                                             </div>
+
+                                                    <div className="container">
+                                                        <div className="row justify-content-center">
+                                                            <div className="col-lg-8">
+                                                                <div className="contact-form-items p-4 rounded">
+                                                                    <div className="contact-title text-center mb-5">
+                                                                        <h3 className="wow fadeInUp" data-wow-delay=".3s">
+                                                                            Formulario
+                                                                        </h3>
+                                                                    </div>
+                                                                    <FormularioC/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
                                         </div>
                                     </div>
-                                </section>
-                                <section className="about-section section-padding">
-                                    <div className="container">
+                               
+                        
                                         <div className="row">
                                             <div className="col-lg-10 mx-auto">
                                                 <div className="about-content">
@@ -122,10 +122,8 @@ const Contacto = () =>{
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
-                                 <section className="about-section section-padding">
-                                    <div className="container">
+                                 
+                          
                                         <div className="row">
                                             <div className="col-lg-10 mx-auto">
                                                 <div className="about-content">
@@ -151,10 +149,7 @@ const Contacto = () =>{
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
-                                <section className="about-section section-padding">
-                                    <div className="container">
+                                  
                                         <div className="row">
                                             <div className="col-lg-10 mx-auto">
                                                 <div className="about-content">
@@ -183,10 +178,7 @@ const Contacto = () =>{
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
-                                <section className="about-section section-padding">
-                                    <div className="container">
+                                    
                                         <div className="row">
                                             <div className="col-lg-10 mx-auto">
                                                 <div className="about-content">
@@ -217,7 +209,7 @@ const Contacto = () =>{
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                   
                                 </section>
                                 <div>
                                     <FooterS4/>
