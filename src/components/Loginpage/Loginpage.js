@@ -1,13 +1,14 @@
 import React from 'react';
 import Login from '../login/login';
 import Navbar  from '../Navbar/Navbar';
+import Footer from '../../components/footer/Footer';
+
 const Loginpage = () => {
  return (
         <div>
     <Navbar />
 
             <section className="contact-section section-padding">
-
                 <div className="container">
 
                     <div className="contact-area">
@@ -24,6 +25,7 @@ const Loginpage = () => {
                     </div>
                 </div>
             </section>
+                <Footer />
         </div>
     )}
 export default Loginpage;

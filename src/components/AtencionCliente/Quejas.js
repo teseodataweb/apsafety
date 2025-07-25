@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '../../components/Navbar/Navbar';
-import ContactForm from '../ContactFrom/Formulary';
-import { Link } from 'react-router-dom';
+
 import './Quejas.css';
 import Formulary from '../ContactFrom/Formulary';
-import FooterS4 from '../footerS3/footerS4';
+import Footer from '../../components/footer/Footer';
 
 const Quejas = () => {
     return (
@@ -106,7 +105,7 @@ const Quejas = () => {
                 </div>
             </section>
             <div>
-                <FooterS4/>
+               <Footer />
             </div>
         </div>
     );

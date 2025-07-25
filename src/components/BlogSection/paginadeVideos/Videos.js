@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Navbar from '../../components/Navbar/Navbar'
-import Footer from '../../components/footer/Footer'; // Asegúrate de tener un Footer si lo usas
+import Footer from '../../components/footer/Footer'; 
 
 const BlogPage = () => {
   const videoLinks = [

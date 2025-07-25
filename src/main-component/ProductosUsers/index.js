@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import PageTitle from '../../components/pagetitle/PageTitle'
 import { addToCart } from "../../store/actions/action";
 import ProductosUs from '../../components/ProductosUsers/index';
 import api from "../../api";
@@ -14,7 +13,6 @@ const ProductosUsers = ({ addToCart }) => {
     return (
         <Fragment>
             <Navbar hclass={'header-section-2 style-two'} />
-            <PageTitle pagesub={'Productos'} />
             <ProductosUs
                 addToCartProduct={addToCartProduct}
                 products={products} />

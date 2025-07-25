@@ -1,28 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import blog3 from '../..//img/news/post-5.jpg'
-import blog4 from '../..//img/news/post-6.jpg'
-import blog5 from '../..//img/news/post-7.jpg'
-
-import blog6 from '../../img/news/comment.png'
-import gl1 from '../../img/news/comment-2.png'
+import { Link, useParams } from 'react-router-dom';
+import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/footer/Footer';
+import blog3 from '../../img/news/post-5.jpg';
+import blog4 from '../../img/news/post-6.jpg';
+import blog5 from '../../img/news/post-7.jpg';
+import blog6 from '../../img/news/comment.png';
+import gl1 from '../../img/news/comment-2.png';
 import blogs from '../../api/blogs';
-import { useParams } from 'react-router-dom'
-import BlogSidebar from '../BlogSidebar/BlogSidebar'
+import BlogSidebar from '../BlogSidebar/BlogSidebar';
 import ContactForm from './Contact';
 
-const BlogSingle = (props) => {
+const BlogSingle = () => {
+  const { slug } = useParams();
+  const BlogDetails = blogs.find(item => item.slug === slug);
 
-    const { slug } = useParams()
-
-    const BlogDetails = blogs.find(item => item.slug === slug)
-
-    const submitHandler = (e) => {
-        e.preventDefault()
-    }
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
 
     return (
         <section className="news-section-3 section-padding section-bg-2">
+            <Navbar hclass={'header-section'} />
             <div className="container">
                 <div className="news-details-wrapper">
                     <div className="row g-5">
@@ -191,6 +190,7 @@ const BlogSingle = (props) => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </section>
     )
 

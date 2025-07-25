@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from "react-redux";
 import Navbar from '../../components/Navbar/Navbar'
 import PageTitle from '../../components/pagetitle/PageTitle';
-import FooterS3 from '../../components/footerS3/FooterS3';
+import Footer from '../../components/footer/Footer';
 import CursorMaus from '../../components/CursorMaus/CursorMaus';
 import { addToCart } from "../../store/actions/action";
 import Product from './product';
@@ -37,7 +37,7 @@ useEffect(() => {
                     </div>
                 </div>
             </section>
-            <FooterS3 />
+            <Footer />
             <CursorMaus />
         </Fragment>
     );

@@ -9678,3 +9678,15 @@ input.main-search-input::placeholder {
     transform: translateX(-200%);
   }
 }/*# sourceMappingURL=main.css.map */
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body, p, span, li, a, input, textarea, button {
+  font-family: 'Exo 2', sans-serif;
+}
+
+
+

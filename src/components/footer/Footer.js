@@ -1,154 +1,61 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Services from "../../api/Services";
-import Fi2 from '../../img/footer/footer-shape-1.png'
-import Logo from '../../img/logo/black-logo.svg'
-import Fi4 from '../../img/QRcode.png'
-import Fi5 from '../../img/apple.png'
-import Fi6 from '../../img/play-store.png'
-import Fi7 from '../../img/card.png'
-const ClickHandler = () => {
-    window.scrollTo(10, 0);
-}
+import Logo from '../../img/footer/Logo-fondo-transparente.png';
+
 const Footer = () => {
-    return (
-        <footer className="footer-section" style={{backgroundColor: "#fff"}}>
-            <div className="dot-shape">
-            </div>
-            <div className="footer-shape-1">
-                <img src={Fi2} alt="img" />
-            </div>
-            <div className="footer-shape-2">
-            </div>
-            <div className="container">
-                <div className="footer-widgets-wrapper">
-                    <div className="row">
-                        <div className="col-xl-3 col-sm-6 col-md-6 col-lg-4" >
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <Link onClick={ClickHandler} to="/home">
-                                        <img src={Logo} alt="logo-img" />
-                                    </Link>
-                                </div>
-                                <div className="footer-content">
-                                    <p>
-                                        A new way to make the payments easy,
-                                        reliable and 100% secure. claritatem itamconse quat. Exerci tation ullamcorper.
-                                    </p>
-                                    <ul className="contact-list">
-                                        <li>
-                                            <i className="fa-sharp fa-solid fa-phone-volume"></i>
-                                            <a href="tel:+8060008899">+806 (000) 88 99</a>
-                                        </li>
-                                        <li>
-                                            <i className="fa-sharp fa-solid fa-envelope"></i>
-                                            <a onClick={ClickHandler} href="mailto:contact@info.com" className="link">contact@info.com</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 ps-lg-5 col-sm-6 col-md-6 col-lg-4">
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Usefull Links</h3>
-                                </div>
-                                <ul className="list-items">
-                                    {Services.slice(0, 5).map((service, sitem) => (
-                                        <li key={sitem}>
-                                        <Link onClick={ClickHandler} to={`/service-details/${service.slug}`}>
-                                                {service.title}
-                                        </Link>
-                                    </li>
-                                    ))} 
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 ps-lg-4 col-sm-6 col-md-6 col-lg-4" >
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Community</h3>
-                                </div>
-                                <ul className="list-items">
-                                    <li>
-                                        <Link onClick={ClickHandler} to="/contact">
-                                            Help Center
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link onClick={ClickHandler} to="/contact">
-                                            Partners
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link onClick={ClickHandler} to="/contact">
-                                            Suggestions
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link onClick={ClickHandler} to="/news">
-                                            Blog
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link onClick={ClickHandler} to="/contact">
-                                            Newsletters
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-sm-6 col-md-6 col-lg-4">
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Get In Touch</h3>
-                                </div>
-                                <div className="footer-content">
-                                    <div className="scan-items">
-                                        <div className="scan-img">
-                                            <img src={Fi4} alt="img" />
-                                        </div>
-                                        <ul className="store-list">
-                                            <li>
-                                                <Link onClick={ClickHandler} to="/contact">
-                                                    <img src={Fi5} alt="img" />
-                                                    App Store
-                                                </Link>
-                                            </li>
-                                            <li className="active">
-                                                <Link onClick={ClickHandler} to="/contact">
-                                                    <img src={Fi6} alt="img" />
-                                                    Google play
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="brand-logo">
-                                        <img src={Fi7} alt="img" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <Link onClick={ClickHandler} to="/" id="scrollUp" className="scroll-icon">
-                        <i className="fa-solid fa-chevrons-up"></i>
-                    </Link>
-                    <div className="footer-wrapper d-flex align-items-center justify-content-between">
-                        <p className="fadeInLeft color-2" >
-                            Copyright <span>@2024</span> <Link onClick={ClickHandler} to="/">wpoceans</Link> All Rights Reserved
-                        </p>
-                        <div className="social-icon d-flex align-items-center fadeInRight" >
-                            <Link onClick={ClickHandler} to="/"><i className="fab fa-facebook-f"></i></Link>
-                            <Link onClick={ClickHandler} to="/"><i className="fa-brands fa-vimeo-v"></i></Link>
-                            <Link onClick={ClickHandler} to="/"><i className="fab fa-twitter"></i></Link>
-                            <Link onClick={ClickHandler} to="/"><i className="fa-brands fa-linkedin-in"></i></Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    );
+  return (
+    <footer style={{ backgroundColor: '#f8f9fa', padding: '3rem 1rem' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+
+          <div style={{ flex: '1 1 250px', marginBottom: '2rem' }}>
+            <img src={Logo} alt="AP Mascarillas Logo" style={{ width: '180px', marginBottom: '1rem' }} />
+            <p style={{ color: '#555', maxWidth: '350px' }}>
+              Calle Cerro Chimalpa Manzana 50 Lote 674, Lázaro Cárdenas 1ra Secc,<br />
+              54189 Tlalnepantla, Méx.
+            </p>
+          </div>
+
+          <div style={{ flex: '1 1 250px', marginBottom: '2rem' }}>
+            <h4 style={{ marginBottom: '1rem', color: '#2c3e50' }}>Contacto Directo</h4>
+            <ul style={{ listStyle: 'none', padding: 0, color: '#555' }}>
+              <li><strong>Correo:</strong> <a href="mailto:direccion@apmascarillas.com.mx" style={{ color: '#3a78c9' }}>direccion@apmascarillas.com.mx</a></li>
+              <li><strong>Teléfonos:</strong></li>
+              <li>+52 55 5718 1075</li>
+              <li>+52 55 5718 4035</li>
+              <li>+52 55 5384 5169</li>
+              <li><strong>WhatsApp:</strong> +52 1 791 110 1246</li>
+            </ul>
+          </div>
+
+          <div style={{ flex: '1 1 250px', marginBottom: '2rem' }}>
+            <h4 style={{ marginBottom: '1rem', color: '#2c3e50' }}>Redes Sociales</h4>
+            <ul style={{ listStyle: 'none', padding: 0, color: '#555' }}>
+              <li><strong>Facebook:</strong> <a href="https://facebook.com/APsafety1" target="_blank" rel="noopener noreferrer">@APsafety1</a></li>
+              <li><strong>Instagram:</strong> <a href="https://instagram.com/apmascarillas" target="_blank" rel="noopener noreferrer">@apmascarillas</a></li>
+            </ul>
+          </div>
+
+          <div style={{ flex: '1 1 250px', marginBottom: '2rem' }}>
+            <h4 style={{ marginBottom: '1rem', color: '#2c3e50' }}></h4>
+            <p style={{ color: '#555' }}>
+          
+            </p>
+          </div>
+        </div>
+
+        <div style={{
+          textAlign: 'center',
+          paddingTop: '2rem',
+          borderTop: '1px solid #ddd',
+          fontSize: '0.9rem',
+          color: '#999',
+        }}>
+          © {new Date().getFullYear()} AP Mascarillas. Todos los derechos reservados.
+        </div>
+      </div>
+    </footer>
+  );
 };
+
 export default Footer;

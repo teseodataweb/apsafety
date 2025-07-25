@@ -8,7 +8,12 @@ const ContactForm = () => {
         message: ''
     });
 
-    const simpleValidator = useRef(new SimpleReactValidator());
+    const simpleValidator = useRef(new SimpleReactValidator({
+        messages: {
+            required: 'Este campo es obligatorio',
+            email: 'El correo electrónico no es válido',
+        }
+    }));
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,7 +41,7 @@ const ContactForm = () => {
                             type="text"
                             name="name"
                             id="name"
-                            placeholder="Your Name*"
+                            placeholder="Tu Nombre*"
                             value={formData.name}
                             onChange={handleChange}
                         />
@@ -52,7 +57,7 @@ const ContactForm = () => {
                             type="email"
                             name="email"
                             id="email"
-                            placeholder="Email Address*"
+                            placeholder="Correo Electrónico*"
                             value={formData.email}
                             onChange={handleChange}
                         />
@@ -67,7 +72,7 @@ const ContactForm = () => {
                         <textarea
                             name="message"
                             id="message"
-                            placeholder="Enter Your Message here"
+                            placeholder="Escribe tu mensaje aquí"
                             value={formData.message}
                             onChange={handleChange}
                         ></textarea>
@@ -79,7 +84,7 @@ const ContactForm = () => {
                 </div>
                 <div className="col-lg-6">
                     <button type="submit" className="theme-btn">
-                        <i className="fal fa-paper-plane"></i> Get In Touch
+                        <i className="fal fa-paper-plane"></i> Enviar mensaje
                     </button>
                 </div>
             </div>

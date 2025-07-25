@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { connect } from "react-redux";
 import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
@@ -11,6 +11,7 @@ import { logout } from '../../services/authService';
 
 const HeaderS2 = (props) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const SubmitHandler = (e) => {
         e.preventDefault();
     }
@@ -46,6 +47,13 @@ const HeaderS2 = (props) => {
         };
     }, []);
 
+    // Función para verificar si la ruta está activa
+    const isActive = (path) => {
+        return location.pathname === path || 
+               (path === '/home' && location.pathname === '/') ||
+               (path === '/home' && location.pathname.startsWith('/home'));
+    };
+
     return (
         <header className={props.hclass}>
             <div id="header-sticky" className={isSticky ? 'header-1 style-2 sticky' : 'header-1 style-2'}>
@@ -63,8 +71,8 @@ const HeaderS2 = (props) => {
                                 <div className="main-menu">
                                     <nav id="mobile-menu">
                                         <ul>
-                                            <li className="has-dropdown active menu-thumb">
-                                                <Link onClick={ClickHandler} to="/home">
+                                            <li className={`has-dropdown ${isActive('/home') ? 'active' : ''} menu-thumb`}>
+                                                <Link onClick={ClickHandler} to="/home" style={isActive('/home') ? {color: 'green'} : {}}>
                                                     Inicio
                                                 </Link>
                                                 <ul className="submenu has-homemenu">
@@ -119,8 +127,8 @@ const HeaderS2 = (props) => {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="has-dropdown active d-xl-none">
-                                                <Link onClick={ClickHandler} to="/team" className="border-none">
+                                            <li className={`has-dropdown ${isActive('/home') ? 'active' : ''} d-xl-none`}>
+                                                <Link onClick={ClickHandler} to="/team" className="border-none" style={isActive('/home') ? {color: 'green'} : {}}>
                                                     Inicio
                                                 </Link>
                                                 <ul className="submenu">
@@ -129,21 +137,23 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/home-3">Inicio 3</Link></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <Link onClick={ClickHandler} to="/about">Nosotros</Link>
+                                            <li className={isActive('/about') || isActive('/service') || isActive('/service-details/Sticker-printing') ? 'active' : ''}>
+                                                <Link onClick={ClickHandler} to="/about" style={isActive('/about') || isActive('/service') || isActive('/service-details/Sticker-printing') ? {color: 'green'} : {}}>
+                                                    Nosotros
+                                                </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/service">Nosotros</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Distribuidores</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/service-details/Sticker-printing">Laboratorio</Link></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <Link onClick={ClickHandler} to="/productos">
+                                            <li className={isActive('/productos') ? 'active' : ''}>
+                                                <Link onClick={ClickHandler} to="/productos" style={isActive('/productos') ? {color: 'green'} : {}}>
                                                     Productos
                                                 </Link>
                                             </li>
-                                            <li>
-                                                <Link onClick={ClickHandler} to="#">
+                                            <li className={isActive('/news') || isActive('/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food') ? 'active' : ''}>
+                                                <Link onClick={ClickHandler} to="#" style={isActive('/news') || isActive('/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food') ? {color: 'green'} : {}}>
                                                     Contenido
                                                 </Link>
                                                 <ul className="submenu">
@@ -152,8 +162,10 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/blog-single/How-To-Teach-Kids-Ramadan-Isn’t-About-Food">Blog AP</Link></li>
                                                 </ul>
                                             </li>
-                                            <li className="has-dropdown">
-                                                <Link onClick={ClickHandler} to="#">Atención al cliente</Link>
+                                            <li className={`has-dropdown ${isActive('/contacto') || isActive('/asesoria-tecnica') || isActive('/shop-details/Calendar-printing-design') || isActive('/quejas') ? 'active' : ''}`}>
+                                                <Link onClick={ClickHandler} to="#" style={isActive('/contacto') || isActive('/asesoria-tecnica') || isActive('/shop-details/Calendar-printing-design') || isActive('/quejas') ? {color: 'green'} : {}}>
+                                                    Atención al cliente
+                                                </Link>
                                                 <ul className="submenu">
                                                     <li><Link onClick={ClickHandler} to="/contacto">Contacto</Link></li>
                                                     <li><Link onClick={ClickHandler} to="/asesoria-tecnica">Asesoría Técnica</Link></li>
@@ -161,8 +173,8 @@ const HeaderS2 = (props) => {
                                                     <li><Link onClick={ClickHandler} to="/quejas">Quejas</Link></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <Link onClick={ClickHandler} to="/admin">
+                                            <li className={isActive('/admin') ? 'active' : ''}>
+                                                <Link onClick={ClickHandler} to="/admin" style={isActive('/admin') ? {color: 'green'} : {}}>
                                                     Administrar Usuarios
                                                 </Link>
                                             </li>

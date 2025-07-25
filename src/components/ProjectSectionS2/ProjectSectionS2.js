@@ -1,54 +1,62 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import Project from "../../api/Portfolio";
+import mapaUbicacion from '../../img/about/descarga (3).png'; 
 
-const ProjectSectionS2 = (props) => {
-    const ClickHandler = () => {
-        window.scrollTo(10, 0);
-    };
-const  {ShowSectionTitle = true } = props
-    return (
-        <section className={"" +props.hclass}>
-            {ShowSectionTitle && (
-            <div className="container">
-                <div className="section-title-area">
-                    <div className="section-title">
-                        <h6 className="wow fadeInUp">Digital printing Service</h6>
-                        <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                            Our Popular Print Service <br />
-                            Complete Solution
-                        </h2>
-                    </div>
-                    <Link onClick={ClickHandler} to="/about" className="theme-btn wow fadeInUp" data-wow-delay=".5s">
-                        more about us
-                    </Link>
-                </div>
+const ProjectSectionS2 = () => {
+  const companyLocation = {
+    name: "AP Mascarillas / Ironguy",
+    address: "Calle Cerro Chimalpa Manzana 50 Lote 674, Lázaro Cárdenas 1ra Secc, 54189 Tlalnepantla, Méx.",
+  };
+
+  return (
+    <section
+      className="wpb-container"
+      style={{ paddingTop: '5rem', paddingBottom: '5rem' }}
+    >
+      <div className="container">
+        <div className="section-title-area">
+          <div className="section-title center">
+            <h2 className="wow fadeInUp" data-wow-delay=".3s">
+              Nuestra red de distribución en México
+            </h2>
+            <h5 className="wow fadeInUp" data-wow-delay=".4s">
+              Contamos con distribuidores en diversas regiones del país, incluyendo Ciudad de México, Guadalajara, Monterrey, Veracruz y más.
+            </h5>
+
+            <div className="wow fadeInUp" data-wow-delay=".5s" style={{ marginTop: '30px' }}>
+              <div style={{
+                backgroundColor: '#f8f9fa',
+                padding: '20px',
+                borderRadius: '8px',
+                marginBottom: '20px',
+                borderLeft: '4px solid #3a78c9'
+              }}>
+                <h3 style={{ marginTop: '0', color: '#2c3e50' }}>{companyLocation.name}</h3>
+                <p style={{ marginBottom: '0' }}>
+                  <i className="fa fa-map-marker" style={{ marginRight: '8px', color: '#e74c3c' }}></i>
+                  {companyLocation.address}
+                </p>
+              </div>
+
+              <div style={{
+                maxWidth: '800px',
+                margin: '0 auto',
+                position: 'relative',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                borderRadius: '8px',
+                overflow: 'hidden'
+              }}>
+                <img
+                  src={mapaUbicacion}
+                  alt="Mapa de ubicación AP Mascarillas"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
             </div>
-            )}
-            <div className="container-fluid">
-                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}>
-                    <Masonry>
-                        {Project.slice(4, 12).map((project, item) => (
-                            <div className="item" key={item}>
-                                <div className="project-image">
-                                    <img src={project.pimg1} alt={project.title} style={{ width: '100%', display: 'block' }} />
-                                    <div className="portfolio-content">
-                                        <h3>
-                                            <Link onClick={ClickHandler} to={`/project-details/${project.slug}`}>
-                                                {project.title}
-                                            </Link>
-                                        </h3>
-                                        <h4>AI</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Masonry>
-                </ResponsiveMasonry>
-            </div>
-        </section>
-    );
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ProjectSectionS2;

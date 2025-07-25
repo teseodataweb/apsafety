@@ -2,10 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar'
 import PageTitle from '../../components/pagetitle/PageTitle';
-import FooterS3 from '../../components/footerS3/FooterS3';
-import InfIcon1 from '../../img/icon/location.png';
-import InfIcon2 from '../../img/icon/12.svg';
-import InfIcon3 from '../../img/icon/13.svg';
+import Footer from '../../components/footer/Footer';
+import InfIcon1 from '../../img/icon/location_8563980.png';
+import InfIcon2 from '../../img/icon/phone_17470591.png';
+import InfIcon3 from '../../img/icon/mail_10335208.png';
 import LabImage from '../../img/AP.Safetty.png';
 import FiltracionImg from '../../img/AP.Safetty.png';
 import AjusteImg from '../../img/apsafety.png';
@@ -261,7 +261,7 @@ const ServiceSinglePage = () => {
 
             <div style={{ textAlign: 'center', marginTop: '4rem' }}>
               <Link
-                to="/contact"
+                to="/contacto"
                 style={btnStyle}
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
@@ -273,7 +273,7 @@ const ServiceSinglePage = () => {
         </div>
       </section>
 
-      <FooterS3 />
+      <Footer />
     </Fragment>
   );
 };

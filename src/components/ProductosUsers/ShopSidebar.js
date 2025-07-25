@@ -1,41 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const ShopSidebar = ({ onSearch, onCategoryChange, selectedCategory }) => {
-    const [searchInput, setSearchInput] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSearch(searchInput);
-    };
-
+const ShopSidebar = ({ onCategoryChange, selectedCategory }) => {
     const categories = [
         'Todos los productos',
         'Detección de gas',
         'Productos POP',
         'Protección personal',
         'Protección respiratoria',
-
     ];
 
     return (
         <div className="shop-main-sidebar">
-            <div className="single-sidebar-widget">
-                <div className="wid-title">
-                    <h4>Buscar Producto</h4>
-                </div>
-                <div className="search_widget">
-                    <form onSubmit={handleSubmit}>
-                        <input 
-                            type="text" 
-                            placeholder="Buscar producto" 
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                        />
-                        <button type="submit"><i className="fal fa-search"></i></button>
-                    </form>
-                </div>
-            </div>
             <div className="single-sidebar-widget">
                 <div className="wid-title">
                     <h4>Categorías</h4>
