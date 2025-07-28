@@ -290,11 +290,11 @@ const AggUssers = () => {
       } 
       // MODO CREACIÓN
       else {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
+  const userCredential = await createUserWithEmailAndPassword(
+  auth,
+  formData.email,
+  formData.password
+);
         
         const user = userCredential.user;
         const userDocRef = doc(db, "users", user.uid);

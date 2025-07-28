@@ -334,6 +334,19 @@ const StatusBadge = styled.span`
   font-weight: 600;
 `;
 
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-left: -18px; 
+  
+  @media (max-width: 768px) {
+    gap: 3px;
+    margin-left: -3px;
+  }
+`;
+
 const ActionButton = styled.button`
   width: 36px;
   height: 36px;
@@ -345,19 +358,37 @@ const ActionButton = styled.button`
   cursor: pointer;
   transition: all 0.2s;
   color: white;
+  margin: 2px;
   
   &:hover {
     transform: scale(1.1);
+  }
+
+  @media (max-width: 992px) {
+    width: 34px;
+    height: 34px;
+  }
+
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
   }
 `;
 
 const EditButton = styled(ActionButton)`
   background: #28a745;
-  margin-bottom: 8px;
+  &:hover {
+    background: #218838;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+  }
 `;
 
 const DeleteButton = styled(ActionButton)`
   background: #dc3545;
+  &:hover {
+    background: #c82333;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+  }
 `;
 
 const EmptyStateContainer = styled.div`
@@ -885,12 +916,15 @@ const Productos = () => {
                                                     </div>
                                                     
                                                     <div className="d-flex">
-                                                        <EditButton onClick={() => handleEdit(product)} title="Editar producto">
-                                                            <FaEdit size={14} />
-                                                        </EditButton>
-                                                        <DeleteButton onClick={() => openModal(product)} title="Eliminar producto" className="ms-2">
-                                                            <FaTrash size={14} />
-                                                        </DeleteButton>
+                                                      
+<ActionButtonsContainer>
+        <EditButton onClick={() => handleEdit(product)} title="Editar producto">
+          <FaEdit size={14} />
+        </EditButton>
+        <DeleteButton onClick={() => openModal(product)} title="Eliminar producto">
+          <FaTrash size={14} />
+        </DeleteButton>
+      </ActionButtonsContainer>
                                                     </div>
                                                 </div>
                                             </div>

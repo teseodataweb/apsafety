@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import Swiper from 'swiper';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import 'swiper/swiper-bundle.min.css';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { db } from '../../components/login/firebase';
+import { getAuth, deleteUser } from "firebase/auth";
 import { 
   FaExclamationTriangle, 
   FaCheckCircle, 
@@ -26,7 +25,6 @@ import {
 import styled, { keyframes, css } from 'styled-components';
 import { debounce } from 'lodash';
 
-// ==================== CONSTANTS ====================
 const VIEW_MODES = {
   SMALL_GRID: 'small-grid',
   LIST: 'list'
@@ -43,7 +41,6 @@ const USER_TYPES = {
   DEFAULT: 'default'
 };
 
-// ==================== ANIMATIONS ====================
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -89,7 +86,6 @@ const glow = keyframes`
   100% { box-shadow: 0 0 5px rgba(4, 15, 28, 0.5); }
 `;
 
-// ==================== STYLED COMPONENTS ====================
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -118,7 +114,7 @@ const ModalContainer = styled.div`
 
 const ModalHeader = styled.div`
   padding: 24px;
-   background: linear-gradient(9deg, #ff4d4d, #d93636);
+  background: linear-gradient(9deg, #ff4d4d, #d93636);
   color: white;
   display: flex;
   align-items: center;
@@ -220,7 +216,6 @@ const ErrorIcon = styled.div`
   ${() => css`animation: ${pulse} 2s infinite;`}
 `;
 
-// ==================== CONTROL PANEL COMPONENTS ====================
 const ControlPanel = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -229,7 +224,6 @@ const ControlPanel = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  
   padding: 20px;
   background: linear-gradient(145deg, #ffffff, #f8f9fa);
   border-radius: 16px;
@@ -433,40 +427,33 @@ const RefreshButton = styled.button`
   }
 `;
 
-// ==================== USER CARD COMPONENTS ====================
 const UserCardContainer = styled.div`
+  width: 380px;
   margin: 15px;
-  border-radius: 8px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  transform: translateY(0);
-
-  @media (max-width: 768px) {
-    margin: 10px 5px;
-  }
-
+  transform: scale(0.98);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  z-index: 1;
+  
   &:hover {
     transform: translateY(-10px);
-    ${() => css`animation: ${float} 4s ease-in-out infinite;`}
+    ${() => css`animation: ${float} 3s ease-in-out infinite;`}
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 15px 0;
   }
 `;
 
 const UserCardHeader = styled.div`
   padding: 25px;
-  
-  ${'' /* background: linear-gradient(135deg, 
-    ${props => 
-      props.$userType === USER_TYPES.ADMIN ? '#036016, #04871c' : 
-      props.$userType === USER_TYPES.SECONDARY ? '#15d405, #34a44c' : '#ff9a9e, #fad0c4'});
-  */}
   background: #2c2c2c;
   display: flex;
-   color: #fff;
+  color: #fff;
   align-items: center;
   gap: 15px;
   background-size: 200% 200%;
@@ -476,7 +463,6 @@ const UserCardHeader = styled.div`
     font-size: 1.8rem;
     color: #15d405;
     flex-shrink: 0;
-    ${'' /* filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); */}
   }
   
   h3 {
@@ -484,7 +470,7 @@ const UserCardHeader = styled.div`
     font-size: 1.4rem;
     font-weight: 600;
     white-space: nowrap;
-     color: #fff;
+    color: #fff;
     overflow: hidden;
     text-overflow: ellipsis;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -533,7 +519,7 @@ const UserCardFooter = styled.div`
   gap: 15px;
   
   @media (max-width: 480px) {
-    flex-direction: inline;
+    flex-direction: column;
     gap: 10px;
   }
 `;
@@ -575,7 +561,6 @@ const ActionButton = styled.button`
   }
 `;
 
-// ==================== LIST VIEW COMPONENTS ====================
 const ListContainer = styled.div`
   width: 100%;
   padding: 0 20px;
@@ -687,6 +672,20 @@ const ListItemActions = styled.div`
   }
 `;
 
+const CardsGridContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+`;
+
 // ==================== MAIN COMPONENT ====================
 const Admin = (props) => {
   // State
@@ -703,6 +702,8 @@ const Admin = (props) => {
   const [sortBy, setSortBy] = useState(SORT_OPTIONS.NAME);
   const [sortOrder, setSortOrder] = useState('asc');
   const [viewMode, setViewMode] = useState(VIEW_MODES.SMALL_GRID);
+
+  const navigate = useNavigate();
 
   // Memoized user type display
   const getUserTypeDisplay = useCallback((userType) => {
@@ -780,28 +781,24 @@ const Admin = (props) => {
     debouncedSearch(term);
   }, [debouncedSearch]);
 
-  // Handle sort option selection
   const handleSortChange = useCallback((e) => {
     setSortBy(e.target.value);
   }, []);
 
-  // Toggle sort order
   const toggleSortOrder = useCallback(() => {
     setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
   }, []);
 
-  // Confirm delete user
   const confirmDelete = useCallback((userId, email, userType) => {
     const adminUsers = users.filter(u => u.userType === USER_TYPES.ADMIN);
     const secondaryUsers = users.filter(u => u.userType === USER_TYPES.SECONDARY);
-    
-    // Validation checks
+
     if (userType === USER_TYPES.ADMIN && adminUsers.length <= 1 && secondaryUsers.length === 0) {
       setErrorMessage("No se puede eliminar el último administrador principal del sistema");
       setShowErrorModal(true);
       return;
     }
-    
+  
     if (userType === USER_TYPES.ADMIN && adminUsers.length <= 1 && secondaryUsers.length > 0) {
       setErrorMessage("Debe haber al menos un administrador principal.");
       setShowErrorModal(true);
@@ -812,89 +809,53 @@ const Admin = (props) => {
     setShowDeleteModal(true);
   }, [users]);
 
-  // Delete user
-  const handleDeleteUser = useCallback(async () => {
-    if (!userToDelete) return;
+const handleDeleteUser = useCallback(async () => {
+  if (!userToDelete) return;
+
+  try {
+    const auth = getAuth();
     
-    const remainingUsers = users.filter(u => u.id !== userToDelete.id);
-    const remainingAdmins = remainingUsers.filter(u => u.userType === USER_TYPES.ADMIN);
-    const remainingSecondaries = remainingUsers.filter(u => u.userType === USER_TYPES.SECONDARY);
+    // 1. Borrar de Firestore (la ficha de usuario)
+    await deleteDoc(doc(db, "users", userToDelete.id));
 
-    if (userToDelete.userType === USER_TYPES.ADMIN) {
-      if (remainingAdmins.length === 0 && remainingSecondaries.length > 0) {
-        setErrorMessage("Operación cancelada: El sistema quedaría sin administradores principales");
-        setShowErrorModal(true);
-        setShowDeleteModal(false);
-        setUserToDelete(null);
-        return;
-      }
-
-      if (remainingAdmins.length === 0 && remainingSecondaries.length === 0) {
-        setErrorMessage("Operación cancelada: No se puede eliminar el último usuario del sistema");
-        setShowErrorModal(true);
-        setShowDeleteModal(false);
-        setUserToDelete(null);
-        return;
+    // 2. Intentar borrar de Auth (la cuenta de acceso)
+    if (userToDelete.uid) { // Si tenemos el ID mágico
+      try {
+        // Solo funciona si es el usuario actual
+        if (auth.currentUser?.uid === userToDelete.uid) {
+          await deleteUser(auth.currentUser);
+          navigate("/login"); // Lo echamos a la página de inicio
+        }
+      } catch (authError) {
+        console.log("No se pudo borrar de Auth:", authError);
       }
     }
 
-    try {
-      await deleteDoc(doc(db, "users", userToDelete.id));
-      setShowDeleteModal(false);
-      setShowSuccessModal(true);
-      loadUsers();
-    } catch (error) {
-      console.error("Error deleting user: ", error);
-      setErrorMessage(`Error al eliminar usuario: ${error.message}`);
-      setShowErrorModal(true);
-    } finally {
-      setUserToDelete(null);
-    }
-  }, [userToDelete, users, loadUsers]);
+    // ¡Éxito! Mostrar globito de "todo bien"
+    setShowDeleteModal(false);
+    setShowSuccessModal(true);
+    loadUsers(); // Recargar la lista
+  } catch (error) {
+    // Mostrar globito de error
+    setErrorMessage(`Oops: ${error.message}`);
+    setShowErrorModal(true);
+  }
+}, [userToDelete, loadUsers, navigate]);
 
-  // Initialize and update swiper
-  useEffect(() => {
-    if (viewMode !== VIEW_MODES.LIST) {
-      const swiper = new Swiper('.service-slider', {
-        spaceBetween: 30,
-        speed: 500,
-        loop: false,
-        pagination: { el: '.dot', clickable: true },
-        navigation: { nextEl: '.array-next', prevEl: '.array-prev' },
-        breakpoints: {
-          1399: { slidesPerView: viewMode === VIEW_MODES.SMALL_GRID ? 5 : 3 },
-          1199: { slidesPerView: viewMode === VIEW_MODES.SMALL_GRID ? 4 : 3 },
-          991:  { slidesPerView: viewMode === VIEW_MODES.SMALL_GRID ? 3 : 2 },
-          767:  { slidesPerView: 2 },
-          575:  { slidesPerView: 2 },
-          0:    { slidesPerView: 1 },
-        },
-      });
-
-      return () => {
-        swiper.destroy(true, true);
-      };
-    }
-  }, [viewMode, filteredUsers]);
-
-  // Load users on mount and when sort changes
   useEffect(() => {
     loadUsers();
   }, [loadUsers, sortBy, sortOrder]);
 
-  // Cleanup debounce on unmount
   useEffect(() => {
     return () => {
       debouncedSearch.cancel();
     };
   }, [debouncedSearch]);
 
-  // Scroll to top handler
   const ClickHandler = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  // Render user cards based on view mode
   const renderUserCards = () => {
     if (loading) {
       return (
@@ -911,7 +872,6 @@ const Admin = (props) => {
         </div>
       );
     }
-
     if (filteredUsers.length === 0) {
       return (
         <div style={{ 
@@ -949,7 +909,7 @@ const Admin = (props) => {
                 <ActionButton
                   onClick={() => {
                     ClickHandler();
-                   Navigate('/formUsser', { state: { user } });
+                    navigate('/formUsser', { state: { user } });
                   }}
                 >
                   <FaEdit /> Editar
@@ -965,43 +925,45 @@ const Admin = (props) => {
         </ListContainer>
       );
     }
-
-    return filteredUsers.map((user) => (
-      <div className="swiper-slide" key={user.id}>
-        <UserCardContainer>
-          <UserCardHeader $userType={user.userType}>
-            {getUserIcon(user.userType)}
-            <h3>{user.name}</h3>
-          </UserCardHeader>
-          <UserCardBody>
-            <p>
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p>
-              <strong>Tipo:</strong> {getUserTypeDisplay(user.userType)}
-            </p>
-            <p>
-              <strong>Contraseña:</strong> ********
-            </p>
-          </UserCardBody>
-          <UserCardFooter>
-            <ActionButton
-              onClick={() => {
-                ClickHandler();
-                window.location.href = `/formUsser?user=${encodeURIComponent(JSON.stringify(user))}`;
-              }}
-            >
-              <FaEdit /> Editar
-            </ActionButton>
-            <ActionButton 
-              onClick={() => confirmDelete(user.id, user.email, user.userType)}
-            >
-              <FaTrash /> Eliminar
-            </ActionButton>
-          </UserCardFooter>
-        </UserCardContainer>
-      </div>
-    ));
+    
+    return (
+      <CardsGridContainer>
+        {filteredUsers.map((user) => (
+          <UserCardContainer key={user.id}>
+            <UserCardHeader $userType={user.userType}>
+              {getUserIcon(user.userType)}
+              <h3>{user.name}</h3>
+            </UserCardHeader>
+            <UserCardBody>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+              <p>
+                <strong>Tipo:</strong> {getUserTypeDisplay(user.userType)}
+              </p>
+              <p>
+                <strong>Contraseña:</strong> ********
+              </p>
+            </UserCardBody>
+            <UserCardFooter>
+              <ActionButton
+                onClick={() => {
+                  ClickHandler();
+                  navigate('/formUsser', { state: { user } });
+                }}
+              >
+                <FaEdit /> Editar
+              </ActionButton>
+              <ActionButton 
+                onClick={() => confirmDelete(user.id, user.email, user.userType)}
+              >
+                <FaTrash /> Eliminar
+              </ActionButton>
+            </UserCardFooter>
+          </UserCardContainer>
+        ))}
+      </CardsGridContainer>
+    );
   };
 
   return (
@@ -1012,7 +974,6 @@ const Admin = (props) => {
         </div>
       </div>
 
-      {/* Control Panel */}
       <div className="container" style={{ marginBottom: '30px' }}>
         <ControlPanel>
           <SearchInput>
@@ -1099,19 +1060,10 @@ const Admin = (props) => {
       </div>
 
       {/* Users List */}
-      <div className="service-wrapper">
-        {viewMode === VIEW_MODES.LIST ? (
-          renderUserCards()
-        ) : (
-          <div className="swiper service-slider">
-            <div className="swiper-wrapper" style={{ gap: '15px' }}>
-              {renderUserCards()}
-            </div>
-          </div>
-        )}
+      <div className="service-wrapper" style={{ padding: '20px 0', overflow: 'visible' }}>
+        {renderUserCards()}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <ModalOverlay>
           <ModalContainer>
@@ -1140,8 +1092,6 @@ const Admin = (props) => {
           </ModalContainer>
         </ModalOverlay>
       )}
-
-      {/* Success Modal */}
       {showSuccessModal && (
         <ModalOverlay>
           <ModalContainer>
@@ -1164,8 +1114,6 @@ const Admin = (props) => {
           </ModalContainer>
         </ModalOverlay>
       )}
-
-      {/* Error Modal */}
       {showErrorModal && (
         <ModalOverlay>
           <ModalContainer>
