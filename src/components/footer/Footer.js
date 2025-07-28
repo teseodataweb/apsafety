@@ -32,7 +32,8 @@ const Footer = () => {
             <h4 style={{ marginBottom: '1rem', color: '#2c3e50' }}>Redes Sociales</h4>
             <ul style={{ listStyle: 'none', padding: 0, color: '#555' }}>
               <li><strong>Facebook:</strong> <a href="https://facebook.com/APsafety1" target="_blank" rel="noopener noreferrer">@APsafety1</a></li>
-              <li><strong>Instagram:</strong> <a href="https://instagram.com/apmascarillas" target="_blank" rel="noopener noreferrer">@apmascarillas</a></li>
+              <li><strong>Instagram:</strong> <a href="https://www.instagram.com/ap.safety/" target="_blank" rel="noopener noreferrer">@apmascarillas</a></li>
+               <li><strong>Tik tok:</strong> <a href="https://www.tiktok.com/@apsafety" target="_blank" rel="noopener noreferrer">@APsafety1</a></li>
             </ul>
           </div>
 

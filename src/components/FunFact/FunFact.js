@@ -14,12 +14,12 @@ const FunFact = (props) => {
                 >
                     <div
                       className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
-                      data-wow-delay=".2s"
+                      data-wow-delay=".4s"
                       style={{ flex: '0 1 300px', maxWidth: '300px' }}
                     >
                         <div className="counter-items" style={{ textAlign: 'center' }}>
-                            <div className="counter-title">
-                                <h2>NOM-STPS</h2>
+                            <div className="counter-title bg-3">
+                                <h3>NOM-STPS</h3>
                             </div>
                             <p>Normas Oficiales Mexicanas</p>
                         </div>
@@ -30,20 +30,20 @@ const FunFact = (props) => {
                       style={{ flex: '0 1 300px', maxWidth: '300px' }}
                     >
                         <div className="counter-items" style={{ textAlign: 'center' }}>
-                            <div className="counter-title bg-2">
-                                <h2>ANSI Z87, Z89</h2>
+                            <div className="counter-title bg-3">
+                                <h3>ANSI Z87, Z89</h3>
                             </div>
                             <p>Estándares estadounidenses de seguridad visual y de casco</p>
                         </div>
                     </div>
                     <div
                       className="col-xl-3 col-lg-6 col-md-6 wow fadeInUp"
-                      data-wow-delay=".6s"
+                      data-wow-delay=".4s"
                       style={{ flex: '0 1 300px', maxWidth: '300px' }}
                     >
                         <div className="counter-items" style={{ textAlign: 'center' }}>
                             <div className="counter-title bg-3">
-                                <h2>ISO - 11612</h2>
+                                <h3>ISO - 11612</h3>
                             </div>
                             <p>Resistencia térmica para ropa de protección</p>
                         </div>

@@ -14,7 +14,8 @@ const FormularioC= () => {
         file: null
     });
 
-    const simpleValidator = useRef(new SimpleReactValidator());
+    const simpleValidator = useRef(new SimpleReactValidator()); 
+    
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;

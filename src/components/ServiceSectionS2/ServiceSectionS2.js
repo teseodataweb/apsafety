@@ -7,18 +7,19 @@ const ClickHandler = () => {
 
 const testimonios = [
   {
-    texto: `"Desde que me uní a AP SAFETY, he visto un crecimiento significativo en mi negocio gracias al respaldo y la calidad de sus productos."`,
+    texto: `"Desde que trabajo con AP SAFETY, he podido ofrecer mejores productos a mis clientes. La calidad hace que regresen."`,
     autor: "— Juan Pérez, Distribuidor en Monterrey",
   },
   {
-    texto: `"La atención personalizada y el material promocional que recibimos nos han ayudado a destacar frente a la competencia."`,
+    texto: `"Nos han apoyado con material promocional útil y respuestas rápidas. Eso ha marcado la diferencia en nuestras ventas."`,
     autor: "— Laura Martínez, Distribuidora en Guadalajara",
   },
   {
-    texto: `"Con AP SAFETY no solo vendemos EPP, ofrecemos confianza y seguridad a nuestros clientes."`,
+    texto: `"Con AP SAFETY tenemos productos confiables. Eso nos permite enfocarnos en atender bien al cliente sin estar resolviendo fallas."`,
     autor: "— Roberto López, Distribuidor en CDMX",
   },
 ];
+
 
 const ServiceSectionS2 = () => {
   return (

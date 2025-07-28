@@ -133,7 +133,7 @@ const AsesoriaTecnica = () => {
             <section className="contact-section section-padding pt-0 section-bg-2">
                 <div className="container">
                     <div className="row justify-content-center">
-                        <div className="col-lg-8">
+                        <div className="col-lg-6">
                             <div className="contact-form-items p-4 rounded">
                                 <div className="contact-title text-center mb-5">
                                     <h3 className="wow fadeInUp" data-wow-delay=".3s">

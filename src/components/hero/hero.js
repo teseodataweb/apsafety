@@ -2,6 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Abimg7 from '../../img/descarga__6_-removebg-preview (1).png';
 
+const greenButtonStyle = {
+  backgroundColor: '#2e9e3b',
+  color: '#fff',
+  padding: '12px 24px',
+  borderRadius: '12px',
+  textDecoration: 'none',
+  fontWeight: 'bold',
+  fontSize: '1.1rem',
+  display: 'inline-block',
+  transition: 'all 0.3s ease',
+};
+
+const handleHover = (e, isHovering) => {
+  e.currentTarget.style.backgroundColor = isHovering ? '#36C848' : '#2e9e3b';
+};
+
 const Hero = () => {
   const ClickHandler = () => {
     window.scrollTo(10, 0);
@@ -40,7 +56,6 @@ const Hero = () => {
         </div>
 
         <div className="row align-items-center">
-
           <div className="col-md-6 text-md-start text-center">
             <div className="hero-content">
               <h6 style={{ fontWeight: "bold", color: "#333" }}>AP Safety</h6>
@@ -59,48 +74,21 @@ const Hero = () => {
                 <a
                   href="https://drive.google.com/file/d/1uj61CFRqrfQ6_exclcC-5YRTuQ6LBdOv/view?usp=sharing"
                   download
-                  style={{
-                    backgroundColor: '#0a0a0a',
-                    color: '#fff',
-                    padding: '12px 24px',
-                    borderRadius: '12px',
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem',
-                    display: 'inline-block',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#1a1a1a')}
-                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#0a0a0a')}
+                  style={greenButtonStyle}
+                  onMouseOver={(e) => handleHover(e, true)}
+                  onMouseOut={(e) => handleHover(e, false)}
                 >
                   Descargar Catálogo
                 </a>
 
                 <Link
-                  to="/shop"
+                  to="/productosusers"
                   onClick={ClickHandler}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    color: '#0a0a0a',
-                    padding: '12px 24px',
-                    border: '2px solid #0a0a0a',
-                    borderRadius: '12px',
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem',
-                    display: 'inline-block',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#0a0a0a';
-                    e.currentTarget.style.color = '#ffffff';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = '#ffffff';
-                    e.currentTarget.style.color = '#0a0a0a';
-                  }}
+                  style={greenButtonStyle}
+                  onMouseOver={(e) => handleHover(e, true)}
+                  onMouseOut={(e) => handleHover(e, false)}
                 >
-                  Explorar Productos
+                  Explorar productos
                 </Link>
               </div>
             </div>

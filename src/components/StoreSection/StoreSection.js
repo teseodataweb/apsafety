@@ -12,10 +12,10 @@ const StoreSection = () => {
 
   const btnStyle = {
     display: 'inline-block',
-    backgroundColor: hover ? '#222' : '#000',
+    backgroundColor: hover ? '#36C848' : '#2e9e3b',
     color: '#fff',
     padding: '12px 30px',
-    borderRadius: '8px',
+    borderRadius: '12px',
     textDecoration: 'none',
     fontWeight: 600,
     fontSize: '1.1rem',
