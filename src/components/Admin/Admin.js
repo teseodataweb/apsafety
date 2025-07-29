@@ -809,38 +809,42 @@ const Admin = (props) => {
     setShowDeleteModal(true);
   }, [users]);
 
-const handleDeleteUser = useCallback(async () => {
-  if (!userToDelete) return;
+  const handleDeleteUser = useCallback(async () => {
+    if (!userToDelete) return;
+    const remainingUsers = users.filter(u => u.id !== userToDelete.id);
+    const remainingAdmins = remainingUsers.filter(u => u.userType === USER_TYPES.ADMIN);
+    const remainingSecondaries = remainingUsers.filter(u => u.userType === USER_TYPES.SECONDARY);
 
-  try {
-    const auth = getAuth();
-    
-    // 1. Borrar de Firestore (la ficha de usuario)
-    await deleteDoc(doc(db, "users", userToDelete.id));
+    if (userToDelete.userType === USER_TYPES.ADMIN) {
+      if (remainingAdmins.length === 0 && remainingSecondaries.length > 0) {
+        setErrorMessage("Operación cancelada: El sistema quedaría sin administradores principales");
+        setShowErrorModal(true);
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+        return;
+      }
 
-    // 2. Intentar borrar de Auth (la cuenta de acceso)
-    if (userToDelete.uid) { // Si tenemos el ID mágico
-      try {
-        // Solo funciona si es el usuario actual
-        if (auth.currentUser?.uid === userToDelete.uid) {
-          await deleteUser(auth.currentUser);
-          navigate("/login"); // Lo echamos a la página de inicio
-        }
-      } catch (authError) {
-        console.log("No se pudo borrar de Auth:", authError);
+      if (remainingAdmins.length === 0 && remainingSecondaries.length === 0) {
+        setErrorMessage("Operación cancelada: No se puede eliminar el último usuario del sistema");
+        setShowErrorModal(true);
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+        return;
       }
     }
-
-    // ¡Éxito! Mostrar globito de "todo bien"
-    setShowDeleteModal(false);
-    setShowSuccessModal(true);
-    loadUsers(); // Recargar la lista
-  } catch (error) {
-    // Mostrar globito de error
-    setErrorMessage(`Oops: ${error.message}`);
-    setShowErrorModal(true);
-  }
-}, [userToDelete, loadUsers, navigate]);
+    try {
+      await deleteDoc(doc(db, "users", userToDelete.id));
+      setShowDeleteModal(false);
+      setShowSuccessModal(true);
+      loadUsers();
+    } catch (error) {
+      console.error("Error deleting user: ", error);
+      setErrorMessage(`Error al eliminar usuario: ${error.message}`);
+      setShowErrorModal(true);
+    } finally {
+      setUserToDelete(null);
+    }
+  }, [userToDelete, users, loadUsers]);
 
   useEffect(() => {
     loadUsers();
