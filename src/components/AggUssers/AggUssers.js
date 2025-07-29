@@ -8,7 +8,176 @@ import { db } from '../login/firebase';
 import { FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
 
-// Animaciones para el modal
+const FormContainer = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+`;
+
+const FormTitle = styled.h2`
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 20px;
+  position: relative;
+`;
+
+const FormLabel = styled.label`
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+`;
+
+const FormInput = styled.input`
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.3s;
+  color: #333;
+  
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+    color: #333;
+  }
+  
+  &:disabled {
+    background-color: #f8f9fa;
+    opacity: 1;
+    color: #333; 
+  }
+`;
+const FormSelect = styled.select`
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.3s;
+  color: #333;
+  font-weight: normal !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const ErrorMessage = styled.span`
+  display: block;
+  margin-top: 8px;
+  color: #dc3545;
+  font-size: 14px;
+`;
+
+const PrivacyLink = styled.a`
+  color: #007bff;
+  text-decoration: underline;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  label {
+    cursor: pointer;
+    user-select: none;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+`;
+
+const PrimaryButton = styled.button`
+  background: linear-gradient(135deg, #28a745, #218838);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 16px;
+  flex: 1;
+  
+  &:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+`;
+
+const SecondaryButton = styled.button`
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 16px;
+  flex: 1;
+  
+  &:hover {
+    background: #02871c;
+    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const RequiredField = styled.span`
+  color: #dc3545;
+  margin-left: 4px;
+`;
+
+const PasswordHint = styled.small`
+  display: block;
+  margin-top: 5px;
+  color: #6c757d;
+  font-size: 13px;
+`;
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -31,7 +200,6 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Componentes estilizados
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -61,7 +229,7 @@ const ModalContainer = styled.div`
 const ModalHeader = styled.div`
   padding: 22px;
   background: linear-gradient(9deg, #ff4d4d, #d93636);
-  color: white;
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -111,7 +279,7 @@ const DangerButton = styled.button`
   }
 `;
 
-const SecondaryButton = styled.button`
+const ModalSecondaryButton = styled.button`
   background: #000;
   color: #fff;
   border: none;
@@ -181,11 +349,23 @@ const AggUssers = () => {
     password: '',
   });
   
-  const [validator] = useState(new SimpleReactValidator());
+  const [validator] = useState(
+    new SimpleReactValidator({
+      autoForceUpdate: this,
+      messages: {
+        required: 'Este campo es obligatorio',
+        email: 'Debe ser un correo electrónico válido',
+        min: 'La contraseña debe tener al menos 6 caracteres',
+        alpha_space: 'Solo se permiten letras y espacios'
+      },
+      element: message => <ErrorMessage>{message}</ErrorMessage>
+    })
+  );
+  
   const [, forceUpdate] = useState();
   const [canAdd, setCanAdd] = useState(true);
-  const [isEditing, setIsEditing] = useState(false); // Editado: se convirtió en estado
-  const [editingUserId, setEditingUserId] = useState(null); // Nuevo: ID de usuario en modo edición
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingUserId, setEditingUserId] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -195,18 +375,22 @@ const AggUssers = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [touchedFields, setTouchedFields] = useState({
+    name: false,
+    userType: false,
+    email: false,
+    password: false
+  });
 
   useEffect(() => {
-    // Obtener usuario desde location.state o params
     if (location.state?.user) {
       const { id, name, userType, email } = location.state.user;
       setFormData({ name, userType, email, password: '' });
-      setEditingUserId(id); // Guardamos el ID para edición
+      setEditingUserId(id); 
       setIsEditing(true);
       validator.hideMessages();
       forceUpdate(1);
     } 
-    // Obtener desde parámetros URL
     else {
       const searchParams = new URLSearchParams(location.search);
       const userParam = searchParams.get('user');
@@ -216,7 +400,7 @@ const AggUssers = () => {
           const user = JSON.parse(decodeURIComponent(userParam));
           const { id, name, userType, email } = user;
           setFormData({ name, userType, email, password: '' });
-          setEditingUserId(id); // Guardamos el ID para edición
+          setEditingUserId(id); 
           setIsEditing(true);
           validator.hideMessages();
           forceUpdate(1);
@@ -231,7 +415,6 @@ const AggUssers = () => {
 
   useEffect(() => {
     (async () => {
-      // Solo verificar límite si estamos agregando nuevo usuario
       if (!isEditing) {
         const usersCollection = collection(db, "users");
         const snapshot = await getDocs(usersCollection);
@@ -243,6 +426,14 @@ const AggUssers = () => {
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setTouchedFields({ ...touchedFields, [name]: true });
+    validator.showMessageFor(name);
+    forceUpdate(1);
+  };
+
+  const handleBlur = e => {
+    const { name } = e.target;
+    setTouchedFields({ ...touchedFields, [name]: true });
     validator.showMessageFor(name);
     forceUpdate(1);
   };
@@ -250,7 +441,6 @@ const AggUssers = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     
-    // Validación de límite solo para nuevos usuarios
     if (!canAdd && !isEditing) {
       setModalTitle('Límite alcanzado');
       setModalMessage('No se pueden agregar más usuarios. El límite es de 5 usuarios.');
@@ -258,15 +448,25 @@ const AggUssers = () => {
       return;
     }
 
-    // Validación de campos
+    setTouchedFields({
+      name: true,
+      userType: true,
+      email: true,
+      password: true
+    });
+
     if (!validator.allValid()) {
       validator.showMessages();
       forceUpdate(1);
+      
+      setModalTitle('Error de validación');
+      setModalMessage('Por favor complete todos los campos.');
+      setShowErrorModal(true);
+      
       return;
     }
 
     try {
-      // MODO EDICIÓN
       if (isEditing) {
         const userDocRef = doc(db, "users", editingUserId);
         
@@ -279,7 +479,6 @@ const AggUssers = () => {
           { merge: true }
         );
         
-        // Campo de contraseña opcional en edición
         if (formData.password) {
           console.log("Lógica para actualizar contraseña iría aquí");
         }
@@ -288,13 +487,12 @@ const AggUssers = () => {
         setModalMessage('El usuario ha sido actualizado correctamente.');
         setShowSuccessModal(true);
       } 
-      // MODO CREACIÓN
       else {
-  const userCredential = await createUserWithEmailAndPassword(
-  auth,
-  formData.email,
-  formData.password
-);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
         
         const user = userCredential.user;
         const userDocRef = doc(db, "users", user.uid);
@@ -313,19 +511,28 @@ const AggUssers = () => {
       
       // Resetear formulario después de éxito
       setFormData({ name: '', userType: '', email: '', password: '' });
+      setTouchedFields({
+        name: false,
+        userType: false,
+        email: false,
+        password: false
+      });
       validator.hideMessages();
       forceUpdate(1);
       
     } catch (error) {
-      // Manejo de errores
       if (error.code === 'auth/email-already-in-use') {
         setModalTitle('Correo en uso');
         setModalMessage('El correo electrónico ya está en uso, por favor intenta con otro');
         setShowErrorModal(true);
+      } else if (error.code === 'auth/weak-password') {
+        setModalTitle('Contraseña débil');
+        setModalMessage('La contraseña debe tener al menos 6 caracteres');
+        setShowErrorModal(true);
       } else {
         console.error("Error al crear/editar usuario:", error);
         setModalTitle('Error');
-        setModalMessage('Ocurrió un error al procesar la solicitud.');
+        setModalMessage('Ocurrió un error al procesar la solicitud: ' + error.message);
         setShowErrorModal(true);
       }
     }
@@ -336,85 +543,115 @@ const AggUssers = () => {
   };
 
   return (
-    <>
+    <div className="container">
       <form id="contact-form" onSubmit={handleSubmit}>
         <div className="row g-4">
           <div className="col-lg-6">
-            <div className="form-clt">
-              <input
+            <FormGroup>
+              <FormLabel htmlFor="name">
+                Nombre completo <RequiredField>*</RequiredField>
+              </FormLabel>
+              <FormInput
                 type="text"
                 name="name"
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Nombre de usuario"
+                onBlur={handleBlur}
+                placeholder="Ej: Eduardo Soto"
               />
-              {validator.message('name', formData.name, 'required|alpha_space')}
-            </div>
+              {(touchedFields.name || validator.message('name', formData.name, 'required|alpha_space'))}
+            </FormGroup>
           </div>
 
           <div className="col-lg-6">
-            <div className="form-clt">
-              <select
+            <FormGroup>
+              <FormLabel htmlFor="userType">
+                Tipo de usuario <RequiredField>*</RequiredField>
+              </FormLabel>
+              <FormSelect
                 name="userType"
                 id="userType"
                 value={formData.userType}
                 onChange={handleChange}
-                className="form-control">
+                onBlur={handleBlur}
+              >
                 <option value="">Seleccionar tipo de usuario</option>
                 <option value="admin">Administrador Principal</option>
                 <option value="secundario">Administrador Secundario</option>
-              </select>
-              {validator.message('userType', formData.userType, 'required')}
-            </div>
+              </FormSelect>
+              {(touchedFields.userType || validator.message('userType', formData.userType, 'required'))}
+            </FormGroup>
           </div>
 
           <div className="col-lg-6">
-            <div className="form-clt">
-              <input
+            <FormGroup>
+              <FormLabel htmlFor="email">
+                Correo electrónico {!isEditing && <RequiredField>*</RequiredField>}
+              </FormLabel>
+              <FormInput
                 type="email"
                 name="email"
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Correo electrónico"
+                onBlur={handleBlur}
+                placeholder="Ej: apsafety@gmail.com"
                 readOnly={isEditing}
                 disabled={isEditing}
               />
-              {validator.message('email', formData.email, isEditing ? '' : 'required|email')}
-            </div>
+              {!isEditing && (touchedFields.email || validator.message('email', formData.email, 'required|email'))}
+            </FormGroup>
           </div>
+          
           <div className="col-lg-6">
-            <div className="form-clt">
-              <input
+            <FormGroup>
+              <FormLabel htmlFor="password">
+                {isEditing ? 'Nueva contraseña' : 'Contraseña'} {!isEditing && <RequiredField>*</RequiredField>}
+              </FormLabel>
+              <FormInput
                 type="password"
                 name="password"
                 id="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder={isEditing ? "Nueva contraseña (opcional)" : "Contraseña"}
+                onBlur={handleBlur}
+                placeholder={isEditing ? "Opcional" : "Mínimo 6 caracteres"}
               />
-              {validator.message('password', formData.password, isEditing ? '' : 'required|min:6')}
-              {isEditing && <small>Dejar en blanco si no desea cambiar la contraseña.</small>}
-            </div>
+              {!isEditing && (touchedFields.password || validator.message('password', formData.password, 'required|min:6'))}
+              {isEditing && <PasswordHint>Dejar en blanco si no desea cambiar la contraseña</PasswordHint>}
+            </FormGroup>
           </div>
+          
           <div className="col-lg-12">
-            <div className="d-flex justify-content-between">
-              <button
+            <CheckboxContainer>
+              <input 
+                type="checkbox" 
+                id="termsCheckbox" 
+                required
+              />
+              <label htmlFor="termsCheckbox">
+                Acepto términos y <PrivacyLink href="/">aviso de privacidad</PrivacyLink> <RequiredField>*</RequiredField>
+              </label>
+            </CheckboxContainer>
+          </div>
+          
+          <div className="col-lg-12">
+            <ButtonGroup>
+              <PrimaryButton
                 type="submit"
-                className="theme-btn"
-                disabled={!canAdd && !isEditing}>
-                {isEditing ? 'Actualizar Usuario' : 'Agregar usuario'} {/* Botón dinámico */}
-              </button>
-              <button type="button" className="theme-btn" onClick={handleCancel}>
+                disabled={!canAdd && !isEditing}
+              >
+                {isEditing ? 'Actualizar Usuario' : 'Agregar Usuario'}
+              </PrimaryButton>
+              <SecondaryButton type="button" onClick={handleCancel}>
                 Cancelar
-              </button>
-            </div>
+              </SecondaryButton>
+            </ButtonGroup>
           </div>
         </div>
       </form>
 
-      {/* Modales de respuesta */}
       {showSuccessModal && (
         <ModalOverlay onClick={() => setShowSuccessModal(false)}>
           <ModalContainer onClick={e => e.stopPropagation()}>
@@ -456,9 +693,9 @@ const AggUssers = () => {
               </p>
             </ModalBody>
             <ModalFooter>
-              <SecondaryButton onClick={() => setShowErrorModal(false)}>
+              <ModalSecondaryButton onClick={() => setShowErrorModal(false)}>
                 Aceptar
-              </SecondaryButton>
+              </ModalSecondaryButton>
             </ModalFooter>
           </ModalContainer>
         </ModalOverlay>
@@ -479,14 +716,14 @@ const AggUssers = () => {
               </p>
             </ModalBody>
             <ModalFooter>
-              <SecondaryButton onClick={() => setShowInfoModal(false)}>
+              <ModalSecondaryButton onClick={() => setShowInfoModal(false)}>
                 Aceptar
-              </SecondaryButton>
+              </ModalSecondaryButton>
             </ModalFooter>
           </ModalContainer>
         </ModalOverlay>
       )}
-    </>
+    </div>
   );
 };
 

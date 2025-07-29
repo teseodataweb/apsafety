@@ -6,9 +6,9 @@ import Footer from '../../components/footer/Footer';
 import { FaArrowLeft, FaFilePdf, FaTags, FaInfoCircle, FaCheck, FaCertificate, FaFileDownload, FaRuler, FaCalendarAlt, FaDownload, FaAward, FaLeaf, FaShieldAlt } from 'react-icons/fa';
 
 const colors = {
-  primary: '#27ae60',
-  primaryLight: '#58e68e',
-  primaryDark: '#1e8449',
+  primary: '#04871c',
+  primaryLight: '#04871c',
+  primaryDark: '#145c24',
   secondary: '#3498db',
   accent: '#9b59b6',
   dark: '#2c3e50',
@@ -775,7 +775,7 @@ const BackButton = styled(Link)`
   }
 
   &:hover {
-    background: ${colors.dark};
+    background: #04871c;
     color: ${colors.white};
     transform: translateX(-8px);
     box-shadow: 0 12px 20px rgba(0,0,0,0.15);

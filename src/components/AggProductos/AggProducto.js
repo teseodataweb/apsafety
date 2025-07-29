@@ -4,7 +4,32 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa';
 import styled, { keyframes } from 'styled-components';
 
-// Animaciones para los modales
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  label {
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  a {
+    color: #0066cc;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -27,7 +52,6 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Componentes estilizados para los modales
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -211,8 +235,9 @@ const AggProducto = () => {
   const [aplicacionesPlaceholder, setAplicacionesPlaceholder] = useState(
     'Aplicaciones (cara, interiores, etc)'
   );
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
 
-  // Estados para los modales
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -221,7 +246,12 @@ const AggProducto = () => {
   const [confirmAction, setConfirmAction] = useState(null);
   const [confirmMessage, setConfirmMessage] = useState('');
 
-  const [validator] = useState(new SimpleReactValidator());
+  const [validator] = useState(new SimpleReactValidator({
+    autoForceUpdate: this,
+    messages: {
+      required: 'Este campo es obligatorio',
+    }
+  }));
   const [, forceUpdate] = useState();
 
   const navigate = useNavigate();
@@ -315,8 +345,10 @@ const AggProducto = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((f) => ({ ...f, [name]: value }));
-    validator.showMessageFor(name);
-    forceUpdate(1);
+    if (showValidationErrors) {
+      validator.showMessageFor(name);
+      forceUpdate(1);
+    }
   };
 
   const handleFileChange = (e, field) => {
@@ -387,7 +419,17 @@ const AggProducto = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowValidationErrors(true);
+    
+    if (!termsAccepted) {
+      setErrorMessage('Debes aceptar los términos y políticas de privacidad');
+      setShowErrorModal(true);
+      return;
+    }
+
     if (!validator.allValid()) {
+      setErrorMessage('Por favor complete todos los campos');
+      setShowErrorModal(true);
       validator.showMessages();
       forceUpdate(1);
       return;
@@ -481,7 +523,7 @@ const AggProducto = () => {
                 onChange={handleChange}
                 placeholder="Nombre del producto"
               />
-              {validator.message('titulo', formData.titulo, 'required')}
+              {showValidationErrors && validator.message('titulo', formData.titulo, 'required')}
             </div>
           </div>
           {/* Descripción */}
@@ -494,7 +536,7 @@ const AggProducto = () => {
                 onChange={handleChange}
                 placeholder="Descripción del producto"
               />
-              {validator.message('descripcion', formData.descripcion, 'required')}
+              {showValidationErrors && validator.message('descripcion', formData.descripcion, 'required')}
             </div>
           </div>
           {/* Unidad de medida */}
@@ -515,7 +557,7 @@ const AggProducto = () => {
                 <option value="Segundo">Segundo</option>
                 <option value="Grado">Grado</option>
               </select>
-              {validator.message('unidadMedida', formData.unidadMedida, 'required')}
+              {showValidationErrors && validator.message('unidadMedida', formData.unidadMedida, 'required')}
             </div>
           </div>
           {/* Clasificación */}
@@ -535,7 +577,7 @@ const AggProducto = () => {
                 <option value="Productos retail">Productos retail</option>
                 <option value="Productos POP">Productos POP</option>
               </select>
-              {validator.message('clasificacion', formData.clasificacion, 'required')}
+              {showValidationErrors && validator.message('clasificacion', formData.clasificacion, 'required')}
             </div>
           </div>
           {/* Ventajas */}
@@ -550,7 +592,7 @@ const AggProducto = () => {
                 placeholder={ventajasPlaceholder}
                 onFocus={() => clearInterval(ventajasIntervalRef.current)}
               />
-              {validator.message('ventajas', formData.ventajas, 'required')}
+              {showValidationErrors && validator.message('ventajas', formData.ventajas, 'required')}
             </div>
           </div>
           {/* Aplicaciones */}
@@ -565,7 +607,7 @@ const AggProducto = () => {
                 placeholder={aplicacionesPlaceholder}
                 onFocus={() => clearInterval(aplicacionesIntervalRef.current)}
               />
-              {validator.message('aplicaciones', formData.aplicaciones, 'required')}
+              {showValidationErrors && validator.message('aplicaciones', formData.aplicaciones, 'required')}
             </div>
           </div>
           {/* Tipo o subcategoría */}
@@ -583,7 +625,7 @@ const AggProducto = () => {
                 <option value="Tipo3">Tipo3</option>
                 <option value="Tipo4">Tipo4</option>
               </select>
-              {validator.message('tipo', formData.tipo, 'required')}
+              {showValidationErrors && validator.message('tipo', formData.tipo, 'required')}
             </div>
           </div>
           {/* Ficha Técnica */}
@@ -598,7 +640,7 @@ const AggProducto = () => {
               {fichaTecnicaNombre && (
                 <p className="small text-muted mt-1">{fichaTecnicaNombre}</p>
               )}
-              {validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'required')}
+              {showValidationErrors && validator.message('fichaTecnica', formData.fichaTecnica, isEditing ? '' : 'required')}
               {isEditing && formData.fichaTecnica === 'existing' && (
                 <button
                   type="button"
@@ -658,7 +700,7 @@ const AggProducto = () => {
                   </button>
                 </div>
               )}
-              {validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'required')}
+              {showValidationErrors && validator.message('imagenPrincipal', formData.imagenPrincipal, isEditing ? '' : 'required')}
             </div>
           </div>
           {/* Sellos */}
@@ -690,7 +732,7 @@ const AggProducto = () => {
                   </div>
                 ))}
               </div>
-              {validator.message('sellos', formData.sellos, isEditing ? '' : 'required')}
+              {showValidationErrors && validator.message('sellos', formData.sellos, isEditing ? '' : 'required')}
             </div>
           </div>
           {/* Imágenes */}
@@ -722,7 +764,7 @@ const AggProducto = () => {
                   </div>
                 ))}
               </div>
-              {validator.message('imagenes', formData.imagenes, isEditing ? '' : 'required')}
+              {showValidationErrors && validator.message('imagenes', formData.imagenes, isEditing ? '' : 'required')}
             </div>
           </div>
           {/* Fecha de Creación */}
@@ -735,7 +777,7 @@ const AggProducto = () => {
                 value={formData.fechaCreacion}
                 onChange={handleChange}
               />
-              {validator.message('fechaCreacion', formData.fechaCreacion, 'required')}
+              {showValidationErrors && validator.message('fechaCreacion', formData.fechaCreacion, 'required')}
             </div>
           </div>
           {/* Estado */}
@@ -751,9 +793,29 @@ const AggProducto = () => {
                 <option value={true}>Activo</option>
                 <option value={false}>No Activo</option>
               </select>
-              {validator.message('activo', formData.activo, 'required')}
+              {showValidationErrors && validator.message('activo', formData.activo, 'required')}
             </div>
           </div>
+          
+          {/* Checkbox de términos y condiciones */}
+          <div className="col-lg-12">
+            <CheckboxContainer>
+              <input 
+                type="checkbox" 
+                id="termsCheckbox" 
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                required
+              />
+              <label htmlFor="termsCheckbox">
+                Acepto los <a href="/">términos y políticas de privacidad</a>
+              </label>
+            </CheckboxContainer>
+            {showValidationErrors && !termsAccepted && (
+              <div className="text-danger small mb-3">Este campo es obligatorio</div>
+            )}
+          </div>
+          
           {/* Botones */}
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">

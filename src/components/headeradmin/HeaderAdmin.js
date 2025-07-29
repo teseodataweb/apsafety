@@ -214,7 +214,7 @@ const HeaderAdmin = (props) => {
                     --bg-color: #fff;
                     --transition: all 0.3s ease;
                     --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                    --border-radius: 8px;
+                    --border-radius: 4px;
                 }
 
                 /* Importar Montserrat */
@@ -370,6 +370,7 @@ const HeaderAdmin = (props) => {
                 .logout-button:hover {
                     background-color: #026a17;
                     transform: translateY(-2px);
+                    color: #fff;
                     box-shadow: var(--box-shadow);
                 }
 
