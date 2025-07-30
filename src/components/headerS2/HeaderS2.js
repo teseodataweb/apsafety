@@ -13,6 +13,7 @@ const HeaderS2 = (props) => {
     const [isSticky, setIsSticky] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeSubmenu, setActiveSubmenu] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     const handleScroll = () => {
         setIsSticky(window.scrollY > 250);
@@ -27,9 +28,18 @@ const HeaderS2 = (props) => {
         }
     };
 
+    const checkIfMobile = () => {
+        setIsMobile(window.innerWidth <= 991);
+    };
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('resize', checkIfMobile);
+        checkIfMobile(); // Verificar al cargar
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', checkIfMobile);
+        };
     }, []);
 
     useEffect(() => {
@@ -133,13 +143,15 @@ const HeaderS2 = (props) => {
                                             <>
                                                 <div className="menu-item-container">
                                                     <Link to={item.path}>{item.title}</Link>
-                                                    <button 
-                                                        className="submenu-toggle" 
-                                                        onClick={() => toggleSubmenu(index)}
-                                                        aria-label={`Toggle ${item.title} submenu`}
-                                                    >
-                                                        {activeSubmenu === index ? <FaChevronUp /> : <FaChevronDown />}
-                                                    </button>
+                                                    {isMobile && (
+                                                        <button 
+                                                            className="submenu-toggle" 
+                                                            onClick={() => toggleSubmenu(index)}
+                                                            aria-label={`Toggle ${item.title} submenu`}
+                                                        >
+                                                            {activeSubmenu === index ? <FaChevronUp /> : <FaChevronDown />}
+                                                        </button>
+                                                    )}
                                                 </div>
                                                 <ul className={`sub-menu ${activeSubmenu === index ? 'active' : ''}`}>
                                                     {item.submenu.map((subItem, subIndex) => (
@@ -306,6 +318,7 @@ const HeaderS2 = (props) => {
                     opacity: 1;
                     visibility: visible;
                     transform: translateY(0);
+                    color: #fff;
                 }
 
                 .sub-menu li a {
@@ -345,6 +358,8 @@ const HeaderS2 = (props) => {
                     background-color: #026a17;
                     transform: translateY(-2px);
                     box-shadow: var(--box-shadow);
+                    color: #fff;
+
                 }
 
                 /* Header Actions */
@@ -453,6 +468,8 @@ const HeaderS2 = (props) => {
                         opacity: 1;
                         visibility: visible;
                         transform: none;
+                    color: #fff;
+
                     }
 
                     .add-product-btn {
