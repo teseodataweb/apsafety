@@ -797,7 +797,6 @@ const AggProducto = () => {
             </div>
           </div>
           
-          {/* Checkbox de términos y condiciones */}
           <div className="col-lg-12">
             <CheckboxContainer>
               <input 
@@ -808,7 +807,7 @@ const AggProducto = () => {
                 required
               />
               <label htmlFor="termsCheckbox">
-                Acepto los <a href="/">términos y políticas de privacidad</a>
+                Acepto términos y <a href="https://drive.google.com/file/d/1wa8vCbADtDX_1QTV4CGDYam73scUGrQI/view"> políticas de privacidad</a>
               </label>
             </CheckboxContainer>
             {showValidationErrors && !termsAccepted && (
@@ -816,7 +815,6 @@ const AggProducto = () => {
             )}
           </div>
           
-          {/* Botones */}
           <div className="col-lg-12">
             <div className="d-flex justify-content-between">
               <button type="submit" className="theme-btn">
@@ -829,8 +827,6 @@ const AggProducto = () => {
           </div>
         </div>
       </form>
-
-      {/* Modal de Error */}
       {showErrorModal && (
         <ModalOverlay>
           <ModalContainer>
@@ -853,8 +849,6 @@ const AggProducto = () => {
           </ModalContainer>
         </ModalOverlay>
       )}
-
-      {/* Modal de Confirmación */}
       {showConfirmModal && (
         <ModalOverlay>
           <ModalContainer>
@@ -880,8 +874,6 @@ const AggProducto = () => {
           </ModalContainer>
         </ModalOverlay>
       )}
-
-      {/* Modal de Éxito */}
       {showSuccessModal && (
         <ModalOverlay>
           <ModalContainer>

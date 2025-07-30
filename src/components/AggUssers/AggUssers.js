@@ -631,7 +631,7 @@ const AggUssers = () => {
                 required
               />
               <label htmlFor="termsCheckbox">
-                Acepto términos y <PrivacyLink href="/">aviso de privacidad</PrivacyLink> <RequiredField>*</RequiredField>
+                Acepto términos y <PrivacyLink href="https://drive.google.com/file/d/1wa8vCbADtDX_1QTV4CGDYam73scUGrQI/view">aviso de privacidad</PrivacyLink> <RequiredField>*</RequiredField>
               </label>
             </CheckboxContainer>
           </div>
