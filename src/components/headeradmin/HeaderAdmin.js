@@ -30,6 +30,7 @@ const HeaderAdmin = (props) => {
     const { carts } = props;
     const [isSticky, setIsSticky] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeSubmenu, setActiveSubmenu] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -54,13 +55,17 @@ const HeaderAdmin = (props) => {
 
     useEffect(() => {
         setIsMobileMenuOpen(false);
+        setActiveSubmenu(null);
     }, [location]);
+
+    const toggleSubmenu = (index) => {
+        setActiveSubmenu(activeSubmenu === index ? null : index);
+    };
 
     const isActive = (path) => location.pathname === path;
 
     return (
         <>
-            {/* Overlay para el menú móvil */}
             <div 
                 className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -76,7 +81,6 @@ const HeaderAdmin = (props) => {
                                 </Link>
                             </div>
 
-                            {/* Menú principal */}
                             <div className={`main-navigation ${isMobileMenuOpen ? 'active' : ''}`}>
                                 <ul className="menu">
                                     <li>
@@ -88,8 +92,11 @@ const HeaderAdmin = (props) => {
                                             Inicio
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Nosotros</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 0 ? 'active' : ''}`}>
+                                        <Link to="#" onClick={(e) => {
+                                            e.preventDefault();
+                                            toggleSubmenu(0);
+                                        }}>Nosotros</Link>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -129,8 +136,11 @@ const HeaderAdmin = (props) => {
                                             Productos
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Contenido</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 1 ? 'active' : ''}`}>
+                                        <Link to="#" onClick={(e) => {
+                                            e.preventDefault();
+                                            toggleSubmenu(1);
+                                        }}>Contenido</Link>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link to="/news" onClick={ClickHandler}>Videos</Link>
@@ -140,8 +150,11 @@ const HeaderAdmin = (props) => {
                                             </li>
                                         </ul>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Atención al cliente</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 2 ? 'active' : ''}`}>
+                                        <Link to="#" onClick={(e) => {
+                                            e.preventDefault();
+                                            toggleSubmenu(2);
+                                        }}>Atención al cliente</Link>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -192,7 +205,6 @@ const HeaderAdmin = (props) => {
                                     Cerrar Sesión
                                 </button>
                                 
-                                {/* Botón de menú para móviles */}
                                 <button 
                                     className="menu-toggle"
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -220,12 +232,16 @@ const HeaderAdmin = (props) => {
                 /* Importar Montserrat */
                 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-                /* Estilos base */
                 * {
-                    box-sizing: border-box;
                     margin: 0;
                     padding: 0;
-                    font-family: 'Montserrat', sans-serif;
+                    box-sizing: border-box;
+                }
+
+                html, body {
+                    width: 100%;
+                    height: 100%;
+                    overflow-x: hidden;
                 }
 
                 .header {
@@ -247,6 +263,7 @@ const HeaderAdmin = (props) => {
                     right: 0;
                     animation: slideDown 0.5s ease;
                     box-shadow: var(--box-shadow);
+                    z-index: 1000;
                 }
 
                 .container {
@@ -399,7 +416,7 @@ const HeaderAdmin = (props) => {
                     right: 0;
                     bottom: 0;
                     background: rgba(0, 0, 0, 0.5);
-                    z-index: 998;
+                    z-index: 999;
                     opacity: 0;
                     visibility: hidden;
                     transition: var(--transition);
@@ -419,7 +436,7 @@ const HeaderAdmin = (props) => {
                     .main-navigation {
                         position: fixed;
                         top: 0;
-                        right: -100%;
+                        right: -320px;
                         width: 320px;
                         height: 100vh;
                         background: var(--bg-color);
@@ -447,6 +464,20 @@ const HeaderAdmin = (props) => {
 
                     .menu > li > a {
                         padding: 15px 0;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .menu-item-has-children > a:after {
+                        content: '+';
+                        display: inline-block;
+                        margin-left: 10px;
+                        transition: var(--transition);
+                    }
+
+                    .menu-item-has-children.active > a:after {
+                        content: '-';
                     }
 
                     .sub-menu {
@@ -460,6 +491,7 @@ const HeaderAdmin = (props) => {
                         background: transparent;
                         width: 100%;
                         animation: none;
+                        margin-top: 10px;
                     }
 
                     .menu-item-has-children.active .sub-menu {
@@ -476,11 +508,20 @@ const HeaderAdmin = (props) => {
                     .header-actions {
                         gap: 5px;
                     }
+                    
+                    .logout-button {
+                        padding: 8px 12px;
+                        font-size: 14px;
+                    }
                 }
 
                 @media (max-width: 480px) {
                     .main-navigation {
                         width: 280px;
+                    }
+                    
+                    .logo img {
+                        width: 70px;
                     }
                 }
 
@@ -494,6 +535,8 @@ const HeaderAdmin = (props) => {
             <style jsx global>{`
                 body.menu-open {
                     overflow: hidden;
+                    position: fixed;
+                    width: 100%;
                 }
             `}</style>
         </>

@@ -5,7 +5,7 @@ import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
 import auth from '../login/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
-import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const Header = (props) => {
     const SubmitHandler = (e) => {
@@ -20,6 +20,7 @@ const Header = (props) => {
     const [isSticky, setIsSticky] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeSubmenu, setActiveSubmenu] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
@@ -45,22 +46,29 @@ const Header = (props) => {
 
     useEffect(() => {
         if (isMobileMenuOpen) {
-            document.body.classList.add('menu-open');
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         } else {
-            document.body.classList.remove('menu-open');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            setActiveSubmenu(null); 
         }
     }, [isMobileMenuOpen]);
 
     useEffect(() => {
         setIsMobileMenuOpen(false);
+        setActiveSubmenu(null);
     }, [location]);
+
+    const toggleSubmenu = (index) => {
+        setActiveSubmenu(activeSubmenu === index ? null : index);
+    };
 
     const isActive = (path) => location.pathname === path;
     const shouldShowLoginButton = !isLoggedIn && location.pathname !== '/login';
 
     return (
         <>
-            {/* Overlay para el menú móvil */}
             <div 
                 className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -76,7 +84,6 @@ const Header = (props) => {
                                 </Link>
                             </div>
 
-                            {/* Menú principal */}
                             <div className={`main-navigation ${isMobileMenuOpen ? 'active' : ''}`}>
                                 <ul className="menu">
                                     <li>
@@ -88,8 +95,11 @@ const Header = (props) => {
                                             Inicio
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Nosotros</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 0 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger" onClick={() => toggleSubmenu(0)}>
+                                            <span>Nosotros</span>
+                                            {activeSubmenu === 0 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -129,8 +139,11 @@ const Header = (props) => {
                                             Productos
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Contenido</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 1 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger" onClick={() => toggleSubmenu(1)}>
+                                            <span>Contenido</span>
+                                            {activeSubmenu === 1 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link to="/checkout" onClick={ClickHandler}>Videos</Link>
@@ -140,8 +153,11 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Atención al cliente</Link>
+                                    <li className={`menu-item-has-children ${activeSubmenu === 2 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger" onClick={() => toggleSubmenu(2)}>
+                                            <span>Atención al cliente</span>
+                                            {activeSubmenu === 2 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -196,6 +212,7 @@ const Header = (props) => {
                                     className="menu-toggle"
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                     aria-label="Toggle menu"
+                                    aria-expanded={isMobileMenuOpen}
                                 >
                                     {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                                 </button>
@@ -221,10 +238,15 @@ const Header = (props) => {
 
                 /* Estilos base */
                 * {
-                    box-sizing: border-box;
                     margin: 0;
                     padding: 0;
-                    font-family: 'Montserrat', sans-serif;
+                    box-sizing: border-box;
+                }
+
+                html, body {
+                    width: 100%;
+                    height: 100%;
+                    overflow-x: hidden;
                 }
 
                 .header {
@@ -246,6 +268,7 @@ const Header = (props) => {
                     right: 0;
                     animation: slideDown 0.5s ease;
                     box-shadow: var(--box-shadow);
+                    z-index: 1000;
                 }
 
                 .container {
@@ -415,6 +438,26 @@ const Header = (props) => {
                     visibility: visible;
                 }
 
+                /* Submenu triggers para móvil */
+                .submenu-trigger {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    cursor: pointer;
+                    padding: 15px 0;
+                    color: var(--text-color);
+                }
+
+                .submenu-trigger span {
+                    pointer-events: none;
+                }
+
+                .submenu-icon {
+                    margin-left: 8px;
+                    font-size: 14px;
+                    transition: var(--transition);
+                }
+
                 /* Responsive - Tablet y Mobile */
                 @media (max-width: 991px) {
                     .menu-toggle {
@@ -429,8 +472,8 @@ const Header = (props) => {
                         height: 100vh;
                         background: var(--bg-color);
                         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                        transition: var(--transition);
-                        z-index: 1000;
+                        transition: right 0.3s ease;
+                        z-index: 999;
                         margin: 0;
                         padding: 80px 20px 20px;
                         overflow-y: auto;
@@ -452,6 +495,7 @@ const Header = (props) => {
 
                     .menu > li > a {
                         padding: 15px 0;
+                        display: block;
                     }
 
                     .sub-menu {
@@ -460,15 +504,17 @@ const Header = (props) => {
                         opacity: 1;
                         visibility: visible;
                         transform: none;
-                        display: none;
-                        padding-left: 20px;
+                        max-height: 0;
+                        overflow: hidden;
+                        padding-left: 15px;
                         background: transparent;
                         width: 100%;
-                        animation: none;
+                        transition: max-height 0.3s ease;
                     }
 
                     .menu-item-has-children.active .sub-menu {
-                        display: block;
+                        max-height: 500px;
+                        padding: 0 0 10px 15px;
                     }
 
                     .login-button span {
@@ -502,12 +548,6 @@ const Header = (props) => {
                 @keyframes slideDown {
                     from { transform: translateY(-100%); }
                     to { transform: translateY(0); }
-                }
-            `}</style>
-
-            <style jsx global>{`
-                body.menu-open {
-                    overflow: hidden;
                 }
             `}</style>
         </>
