@@ -24,17 +24,16 @@ const ServiceSinglePage = () => {
   const [hover, setHover] = useState(false);
 
   const btnStyle = {
-    display: 'inline-block',
-    backgroundColor: hover ? '#222' : '#000',
-    color: '#fff',
-    padding: '12px 30px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: 600,
-    fontSize: '1.1rem',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
+  backgroundColor: hover ? '#36C848' : '#2e9e3b',
+  color: '#fff',
+  padding: '0.75rem 1.5rem',
+  fontSize: '1.1rem',
+  fontWeight: '600',
+  borderRadius: '12px',
+  textDecoration: 'none',
+  display: 'inline-block',
+  transition: 'background-color 0.3s ease',
+};
   const catalogoLink = 'https://drive.google.com/file/d/1P6Wq2vFjvqcY8q5EMs9-BgUWjwbBm_kq/view';
   const videoLinks = [
   'https://www.youtube.com/embed/MsEPAIP0m9I',
@@ -261,14 +260,13 @@ const ServiceSinglePage = () => {
 
             <div style={{ textAlign: 'center', marginTop: '4rem' }}>
               <Link
-                to="/contacto"
-                style={btnStyle}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-              >
-                Solicitar Información
-              </Link>
-            </div>
+              to="/contacto"
+              style={btnStyle}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)} >
+                → Solicitar Información
+                </Link>
+                </div>
           </div>
         </div>
       </section>

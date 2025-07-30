@@ -3,15 +3,10 @@ import Footer from '../../components/footer/Footer';
 
 const Alltab = () => {
   const [activeTab, setActiveTab] = useState('Tab2');
-  const [openCategory, setOpenCategory] = useState(null);
 
   useEffect(() => {
     setActiveTab('Tab2');
   }, []);
-
-  const Alltab = (category) => {
-    setOpenCategory(openCategory === category ? null : category);
-  };
 
   const fichaStyle = {
     display: 'flex',
@@ -25,14 +20,18 @@ const Alltab = () => {
     boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
   };
 
-  const btnVerStyle = {
-    backgroundColor: '#000',
+  const btnStyle = {
+    backgroundColor: '#2e9e3b',
     color: '#fff',
     padding: '6px 14px',
     borderRadius: '6px',
     textDecoration: 'none',
     fontSize: '0.9rem',
     fontWeight: 600,
+    border: 'none',
+    cursor: 'pointer',
+    display: 'inline-block',
+    transition: 'all 0.3s ease',
   };
 
   const sectionTitleStyle = {
@@ -41,7 +40,15 @@ const Alltab = () => {
     fontSize: '1.2rem',
   };
 
-const categorias = [
+  const tabs = [
+    { label: 'Fichas Técnicas', id: 'Tab1' },
+    { label: 'Normativas Oficiales Cumplidas', id: 'Tab2' },
+    { label: 'Certificaciones de Calidad', id: 'Tab3' },
+    { label: 'Tablas Comparativas', id: 'Tab4' },
+    { label: 'Manuales e Instrucciones', id: 'Tab5' },
+  ];
+
+  const categorias = [
   {
     nombre: 'Respiradores Desechables',
     fichas: [
@@ -126,7 +133,7 @@ const normativas = [
   },
 ];
 
-const certificaciones = [
+ const certificaciones = [
   {
     nombre: 'ISO 9001:2015',
     vigencia: 'Vigente',
@@ -164,7 +171,6 @@ const tablasComparativas = [
     link: 'https://drive.google.com/file/d/1kPrrPLVOZTZrZBNaHRU8hEFt4iux8eie/view',
   },
 ];
-
 const manualesInstrucciones = [
   {
     nombre: 'Instrucciones de uso – Respiradores desechables',
@@ -187,26 +193,15 @@ const manualesInstrucciones = [
 
   return (
     <div className="single-tab" style={{ padding: '2rem 1rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2rem' }}>
-        {[
-          { label: 'Fichas Técnicas', id: 'Tab1' },
-          { label: 'Normativas Oficiales Cumplidas', id: 'Tab2' },
-          { label: 'Certificaciones de Calidad', id: 'Tab3' },
-          { label: 'Tablas Comparativas', id: 'Tab4' },
-          { label: 'Manuales e Instrucciones', id: 'Tab5' },
-        ].map((tab) => (
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             style={{
-              backgroundColor: activeTab === tab.id ? '#000' : '#f1f1f1',
+              ...btnStyle,
+              backgroundColor: activeTab === tab.id ? '#2e9e3b' : '#e9f7ef',
               color: activeTab === tab.id ? '#fff' : '#333',
-              border: 'none',
-              padding: '10px 20px',
-              borderRadius: '6px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
             }}
           >
             {tab.label}
@@ -214,7 +209,7 @@ const manualesInstrucciones = [
         ))}
       </div>
 
-      {/* TAB 1 – Fichas Técnicas */}
+      {/* CONTENIDO POR TAB */}
       {activeTab === 'Tab1' && (
         <div>
           {categorias.map((cat, index) => (
@@ -224,19 +219,18 @@ const manualesInstrucciones = [
                 {cat.fichas.map((ficha, i) => (
                   <div key={i} style={fichaStyle}>
                     <span>📄 {ficha.nombre}</span>
-                    <a href={ficha.link} target="_blank" rel="noopener noreferrer" style={btnVerStyle}>
-                      Ver
-                    </a>
+                    <a href={ficha.link} target="_blank" rel="noopener noreferrer" style={btnStyle}>Ver</a>
                   </div>
                 ))}
               </div>
             </div>
           ))}
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <a href="/productos" style={btnVerStyle}>→ Explorar productos relacionados</a>
+            <a href="/productos" style={{ ...btnStyle, fontSize: '1rem' }}>→ Explorar productos relacionados</a>
           </div>
         </div>
       )}
+
       {activeTab === 'Tab2' && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
@@ -244,14 +238,13 @@ const manualesInstrucciones = [
               <div key={index} style={{ ...fichaStyle, flexDirection: 'column', alignItems: 'flex-start' }}>
                 <strong style={{ fontSize: '1rem' }}>{norma.nombre}</strong>
                 <p style={{ margin: '8px 0' }}>{norma.descripcion}</p>
-                <a href={norma.link} target="_blank" rel="noopener noreferrer" style={btnVerStyle}>Ver más</a>
+                <a href={norma.link} target="_blank" rel="noopener noreferrer" style={btnStyle}>Ver más</a>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* TAB 3 – Certificaciones */}
       {activeTab === 'Tab3' && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
@@ -260,42 +253,40 @@ const manualesInstrucciones = [
                 <div style={{ fontSize: '2rem' }}>📄</div>
                 <strong>{cert.nombre}</strong>
                 <p style={{ marginBottom: '8px', fontSize: '0.9rem', color: '#555' }}>{cert.vigencia}</p>
-                <a href={cert.link} target="_blank" rel="noopener noreferrer" style={btnVerStyle}>Descargar</a>
+                <a href={cert.link} target="_blank" rel="noopener noreferrer" style={btnStyle}>Descargar</a>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* TAB 4 – Tablas Comparativas */}
       {activeTab === 'Tab4' && (
         <div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
             {tablasComparativas.map((tabla, index) => (
               <div key={index} style={fichaStyle}>
                 <span>📊 {tabla.nombre}</span>
-                <a href={tabla.link} target="_blank" rel="noopener noreferrer" style={btnVerStyle}>Descargar</a>
+                <a href={tabla.link} target="_blank" rel="noopener noreferrer" style={btnStyle}>Descargar</a>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* TAB 5 – Manuales e Instrucciones */}
       {activeTab === 'Tab5' && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
             {manualesInstrucciones.map((manual, index) => (
               <div key={index} style={fichaStyle}>
                 <span>📘 {manual.nombre}</span>
-                <a href={manual.link} target="_blank" rel="noopener noreferrer" style={btnVerStyle}>Descargar</a>
+                <a href={manual.link} target="_blank" rel="noopener noreferrer" style={btnStyle}>Descargar</a>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* BLOQUE FINAL DE CONTACTO TÉCNICO */}
+      {/* CTA FINAL */}
       <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #ddd', textAlign: 'center' }}>
         <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: '600' }}>
           ¿Tienes dudas sobre alguna ficha o normativa?
@@ -303,19 +294,12 @@ const manualesInstrucciones = [
         <p style={{ marginBottom: '1.5rem', color: '#555' }}>
           Nuestro equipo técnico puede ayudarte.
         </p>
-        <a href="/asesoria-tecnica" style={{ ...btnVerStyle, fontSize: '1rem' }}>
+        <a href="/asesoria-tecnica" style={{ ...btnStyle, fontSize: '1rem' }}>
           → Solicita asesoría técnica
         </a>
       </div>
     </div>
-    
   );
 };
 
 export default Alltab;
-
-/* 
-🟦 SEO RECOMENDADO:
-<title>Información Técnica de Equipos de Protección | AP SAFETY</title>
-<meta name="description" content="Accede a fichas técnicas, normativas, certificados y manuales oficiales de nuestros productos de protección industrial. Todo validado por nuestro laboratorio acreditado.">
-*/

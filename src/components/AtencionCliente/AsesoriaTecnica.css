@@ -1,169 +1,95 @@
-.asesoria-tecnica-page {
-    font-family: 'Roboto', sans-serif;
-    color: #000;
-}
-
-:root {
-    --black-primary: #000000;
-    --black-dark: #111111;
-    --green-light: #36C848;
-}
-
-.green-icon {
-    filter: brightness(0) saturate(100%);
-    width: 50px;
-    height: 50px;
-}
-
-
-.info-card-green {
+/* ===== ESTILOS PARA TARJETAS DE CONTACTO ===== */
+.contact-info-items {
     background: white;
+    padding: 2rem;
     border-radius: 10px;
-    padding: 25px 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    border-top: 4px solid var(--black-primary);
+    transition: all 0.3s ease;
+    border-top: 4px solid #36C848; /* Verde principal */
 }
 
-.info-card-green:hover {
+.contact-info-items:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-top-color: #2e9e3b; /* Verde oscuro en hover */
+}
+
+/* Iconos */
+.green-icon {
+    height: 60px;
+    width: auto;
 }
 
 .info-card-green .icon {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
+/* Textos */
 .info-card-green h3 {
-    color: var(--black-primary);
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+    color: #333; /* Gris oscuro (mejor legibilidad) */
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .info-card-green p {
-    color: #444;
-    font-size: 1rem;
+    color: #555; /* Gris medio (secundario) */
+    margin-bottom: 0;
 }
 
-.main-title {
-    color: var(--black-primary);
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.section-subtitle {
-    color: var(--black-primary);
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin: 2rem 0 1.5rem;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.section-subtitle:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: var(--black-primary);
-}
-
-.intro-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #000;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.service-card {
-    background: white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    border: none;
-    text-align: center;
-}
-
-.service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-.service-card h3 {
-    color: var(--black-primary);
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-}
-
-.service-card p {
-    color: #444;
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
-
-.service-icon {
-    color: var(--black-primary);
-}
-
-.benefits-container {
-    background: #f1f1f1;
-    padding: 2rem;
-    border-radius: 10px;
-}
-
-.benefits-list {
-    list-style: none;
-    padding-left: 0;
-}
-
-.benefits-list li {
-    font-size: 1.1rem;
-    padding-left: 2rem;
-    position: relative;
-    color: #000;
-}
-
-.green-text {
-    color: var(--black-primary);
-}
-
+/* ===== BOTONES VERDES ===== */
 .green-btn {
-    background-color: #000;
-    border: none;
-    padding: 12px 30px;
+    background-color: #36C848; /* Verde brillante */
+    border-color: #2e9e3b; /* Verde oscuro (borde) */
+    color: white;
+    padding: 0.5rem 1.5rem;
     font-weight: 500;
     transition: all 0.3s ease;
-    color: #fff;
 }
 
 .green-btn:hover {
-    background-color: #333;
+    background-color: #2e9e3b; /* Verde oscuro (hover) */
+    border-color: #258432; /* Verde más oscuro */
+    color: white;
     transform: translateY(-2px);
 }
 
-.cta-box {
-    background: #eeeeee;
-    border-left: 5px solid var(--black-primary);
+/* Efectos hover en tarjetas */
+.contact-info-items:hover .green-icon {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
-.contact-form-items {
-    background: white;
-    box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+/* ===== RESPONSIVIDAD ===== */
+@media (max-width: 767.98px) {
+    .contact-info-items {
+        padding: 1.5rem;
+    }
+    .green-icon {
+        height: 50px;
+    }
 }
 
-@media (max-width: 768px) {
-    .main-title {
-        font-size: 2rem;
+@media (max-width: 575.98px) {
+    .contact-info-items {
+        padding: 1.25rem;
     }
-    
-    .section-subtitle {
-        font-size: 1.5rem;
+    .green-icon {
+        height: 40px;
     }
-    
-    .service-card {
-        margin-bottom: 20px;
+    .info-card-green h3 {
+        font-size: 1.1rem;
     }
+    .info-card-green p {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== CLASES UTILITARIAS VERDES ===== */
+.green-text {
+    color: #36C848 !important; /* Texto verde */
+}
+
+.service-card:hover {
+    border-color: #36C848; /* Borde verde al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(54, 200, 72, 0.1); /* Sombra verde suave */
 }

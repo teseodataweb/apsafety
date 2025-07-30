@@ -8,6 +8,8 @@ const ContactForm = () => {
         message: ''
     });
 
+    const [hover, setHover] = useState(false);
+
     const simpleValidator = useRef(new SimpleReactValidator({
         messages: {
             required: 'Este campo es obligatorio',
@@ -26,10 +28,26 @@ const ContactForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (simpleValidator.current.allValid()) {
+            // Aquí puedes manejar el envío real
         } else {
             simpleValidator.current.showMessages();
             setFormData({ ...formData });
         }
+    };
+
+    const buttonStyle = {
+        backgroundColor: hover ? '#36C848' : '#2e9e3b',
+        color: '#fff',
+        padding: '1rem 2.2rem',
+        fontSize: '1.15rem',
+        fontWeight: '600',
+        borderRadius: '12px',
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.5rem',
     };
 
     return (
@@ -83,7 +101,12 @@ const ContactForm = () => {
                     </div>
                 </div>
                 <div className="col-lg-6">
-                    <button type="submit" className="theme-btn">
+                    <button
+                        type="submit"
+                        style={buttonStyle}
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                    >
                         <i className="fal fa-paper-plane"></i> Enviar mensaje
                     </button>
                 </div>

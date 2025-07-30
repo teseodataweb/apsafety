@@ -19,17 +19,15 @@ const Quejas = () => {
 
             <Navbar hclass={'header-section'} />
 
-            {/* Sección principal de asesoría */}
-            <section className="about-section section-padding">
+            <section className="about-section section-padding" style={{ paddingBottom: '30px' }}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8 mx-auto">
+                        <div className="col-lg-12 mx-auto">
                             <div className="about-content">
                                 <h1 className="wow fadeInUp main-title">Tu opinión nos importa</h1>
                                 <div className="wow fadeInUp" data-wow-delay=".2s">
                                     <p className="intro-text">
-                                        En AP SAFETY, valoramos tus comentarios y estamos comprometidos con la mejora continua de nuestros productos y servicios. 
-                                        <p>Si has tenido alguna experiencia que no cumplió con tus expectativas, por favor, háznoslo saber.</p>
+                                        En AP SAFETY, valoramos tus comentarios y estamos comprometidos con la mejora continua de nuestros productos y servicios. Si has tenido alguna experiencia que no cumplió con tus expectativas, por favor, háznoslo saber.
                                     </p>
                                 </div>
                             </div>
@@ -38,24 +36,24 @@ const Quejas = () => {
                 </div>
             </section>
 
-            <section className="contact-section section-padding pt-0 section-bg-2">
+            <section className="contact-section section-padding pt-0 section-bg-2" style={{ paddingTop: '0px', paddingBottom: '30px' }}>
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8">
-                            <div className="contact-form-items p-4 rounded">
-                                <div className="contact-title text-center mb-5">
+                            <div className="contact-form-items p-4 rounded" style={{ backgroundColor: '#fff' }}>
+                                <div className="contact-title text-center mb-4">
                                     <h3 className="wow fadeInUp" data-wow-delay=".2s">
                                         Completa el formulario y un asesor técnico se pondrá en contacto en menos de 24 horas
                                     </h3>
                                 </div>
-                                <Formulary/>
+                                <Formulary />
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="about-section section-padding">
+            <section className="about-section section-padding" style={{ paddingTop: '20px' }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-10 mx-auto">
@@ -93,8 +91,9 @@ const Quejas = () => {
                                         <h2 className="wow fadeInUp section-subtitle" data-wow-delay=".3s">Nuestro Compromiso</h2>
                                         <div className="wow fadeInUp" data-wow-delay=".2s">
                                             <p className="wow fadeInUp" data-wow-delay=".4s">
-                                                En AP SAFETY, nos esforzamos por ofrecer productos y servicios de la más alta calidad. 
-                                                Tus comentarios son esenciales para ayudarnos a identificar áreas de mejora y garantizar la satisfacción de nuestros clientes.
+                                                En AP SAFETY, nos esforzamos por ofrecer productos y servicios de la más alta calidad.
+                                                Tus comentarios son esenciales para ayudarnos a identificar áreas de mejora y garantizar
+                                                la satisfacción de nuestros clientes.
                                             </p>
                                         </div>
                                     </div>
@@ -104,11 +103,10 @@ const Quejas = () => {
                     </div>
                 </div>
             </section>
-            <div>
-               <Footer />
-            </div>
+
+            <Footer />
         </div>
     );
-}
+};
 
 export default Quejas;
