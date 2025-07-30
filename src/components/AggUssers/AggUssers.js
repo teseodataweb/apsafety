@@ -341,6 +341,8 @@ const InfoIcon = styled.div`
   color: #fff;
 `;
 
+
+
 const AggUssers = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -349,9 +351,10 @@ const AggUssers = () => {
     password: '',
   });
   
+  const [, forceUpdate] = useState();
   const [validator] = useState(
     new SimpleReactValidator({
-      autoForceUpdate: this,
+      autoForceUpdate: { forceUpdate }, // Corrección clave aquí
       messages: {
         required: 'Este campo es obligatorio',
         email: 'Debe ser un correo electrónico válido',
@@ -362,7 +365,6 @@ const AggUssers = () => {
     })
   );
   
-  const [, forceUpdate] = useState();
   const [canAdd, setCanAdd] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editingUserId, setEditingUserId] = useState(null);
@@ -448,21 +450,26 @@ const AggUssers = () => {
       return;
     }
 
-    setTouchedFields({
-      name: true,
-      userType: true,
-      email: true,
-      password: true
-    });
+    // Validación condicional basada en si estamos editando o no
+    const isValid = isEditing 
+      ? validator.allValid({
+          name: 'required|alpha_space',
+          userType: 'required'
+        })
+      : validator.allValid({
+          name: 'required|alpha_space',
+          userType: 'required',
+          email: 'required|email',
+          password: 'required|min:6'
+        });
 
-    if (!validator.allValid()) {
+    if (!isValid) {
       validator.showMessages();
       forceUpdate(1);
       
       setModalTitle('Error de validación');
-      setModalMessage('Por favor complete todos los campos.');
+      setModalMessage('Por favor complete todos los campos requeridos correctamente.');
       setShowErrorModal(true);
-      
       return;
     }
 
@@ -560,7 +567,7 @@ const AggUssers = () => {
                 onBlur={handleBlur}
                 placeholder="Ej: Eduardo Soto"
               />
-              {(touchedFields.name || validator.message('name', formData.name, 'required|alpha_space'))}
+              {validator.message('name', formData.name, 'required|alpha_space')}
             </FormGroup>
           </div>
 
@@ -580,7 +587,7 @@ const AggUssers = () => {
                 <option value="admin">Administrador Principal</option>
                 <option value="secundario">Administrador Secundario</option>
               </FormSelect>
-              {(touchedFields.userType || validator.message('userType', formData.userType, 'required'))}
+              {validator.message('userType', formData.userType, 'required')}
             </FormGroup>
           </div>
 
@@ -600,7 +607,7 @@ const AggUssers = () => {
                 readOnly={isEditing}
                 disabled={isEditing}
               />
-              {!isEditing && (touchedFields.email || validator.message('email', formData.email, 'required|email'))}
+              {!isEditing && validator.message('email', formData.email, 'required|email')}
             </FormGroup>
           </div>
           
@@ -618,7 +625,7 @@ const AggUssers = () => {
                 onBlur={handleBlur}
                 placeholder={isEditing ? "Opcional" : "Mínimo 6 caracteres"}
               />
-              {!isEditing && (touchedFields.password || validator.message('password', formData.password, 'required|min:6'))}
+              {!isEditing && validator.message('password', formData.password, 'required|min:6')}
               {isEditing && <PasswordHint>Dejar en blanco si no desea cambiar la contraseña</PasswordHint>}
             </FormGroup>
           </div>
@@ -652,6 +659,7 @@ const AggUssers = () => {
         </div>
       </form>
 
+      {/* Modales se mantienen igual */}
       {showSuccessModal && (
         <ModalOverlay onClick={() => setShowSuccessModal(false)}>
           <ModalContainer onClick={e => e.stopPropagation()}>
