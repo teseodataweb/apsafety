@@ -67,137 +67,260 @@ const FormularioC = () => {
   };
 
   return (
-    <form id="complaint-form" onSubmit={handleSubmit}>
-      <div className="row g-4">
+    <>
+      <style>
+        {`
+          .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          
+          input, textarea {
+            background-color: #fff;
+            color: #000 !important; /* Forzar color negro */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nombre completo*"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('name', formData.name, 'required|alpha_space')}
-          </div>
-        </div>
+          input:focus, textarea:focus {
+            border-color: #2e9e3b;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 158, 59, 0.2);
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="company"
-              placeholder="Empresa*"
-              value={formData.company}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('company', formData.company, 'required')}
-          </div>
-        </div>
+          input::placeholder,
+          textarea::placeholder {
+            color: #888;
+            opacity: 1;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="direction"
-              placeholder="Dirección completa (Estado, Ciudad, Código Postal)*"
-              value={formData.direction}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('direction', formData.direction, 'required')}
-          </div>
-        </div>
+          textarea {
+            resize: vertical;
+            min-height: 120px;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="country"
-              placeholder="País*"
-              value={formData.country}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('country', formData.country, 'required')}
-          </div>
-        </div>
+          .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            accent-color: #2e9e3b;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="text"
-              name="phone"
-              placeholder="Teléfono*"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('phone', formData.phone, 'required|numeric|min:10|max:15')}
-          </div>
-        </div>
+          .form-check-label {
+            font-size: 0.95rem;
+            color: #000;
+            display: flex;
+            align-items: center;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt">
-            <input
-              type="email"
-              name="email"
-              placeholder="Correo electrónico*"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {simpleValidator.current.message('email', formData.email, 'required|email')}
-          </div>
-        </div>
+          .form-clt {
+            margin-bottom: 1.5rem;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-clt-big form-clt">
-            <textarea
-              name="comentary"
-              placeholder="Comentarios / Consulta*"
-              value={formData.comentary}
-              onChange={handleChange}
-            ></textarea>
-            {simpleValidator.current.message('comentary', formData.comentary, 'required|min:10|max:500')}
-          </div>
-        </div>
+          .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+          }
 
-        <div className="col-lg-12">
-          <div className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="acceptedPrivacy"
-              name="acceptedPrivacy"
-              checked={formData.acceptedPrivacy}
-              onChange={handleChange}
-            />
-            <label className="form-check-label" htmlFor="acceptedPrivacy">
-              Acepto el{' '}
-              <a
-                href="https://drive.google.com/file/d/1wa8vCbADtDX_1QTV4CGDYam73scUGrQI/view"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#007bff', textDecoration: 'underline' }} 
+          .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+          }
+
+          .col-lg-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding: 0 15px;
+          }
+
+          .text-center {
+            text-align: center;
+          }
+
+          .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2e9e3b;
+          }
+
+          @media (max-width: 768px) {
+            .form-container {
+              padding: 15px;
+            }
+            
+            input, textarea {
+              padding: 10px 12px;
+            }
+          }
+        `}
+      </style>
+
+      <div className="form-container">
+        <h2 className="form-title">Formulario de Contacto</h2>
+        
+        <form id="complaint-form" onSubmit={handleSubmit}>
+          <div className="row g-4">
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nombre completo*"
+                  value={formData.name}
+                  onChange={handleChange}
+                  style={{ color: '#000' }} // Asegurar color negro
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('name', formData.name, 'required|alpha_space')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Empresa*"
+                  value={formData.company}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('company', formData.company, 'required')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="text"
+                  name="direction"
+                  placeholder="Dirección completa (Estado, Ciudad, Código Postal)*"
+                  value={formData.direction}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('direction', formData.direction, 'required')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="País*"
+                  value={formData.country}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('country', formData.country, 'required')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Teléfono*"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('phone', formData.phone, 'required|numeric|min:10|max:15')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Correo electrónico*"
+                  value={formData.email}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                />
+                <span className="error-message">
+                  {simpleValidator.current.message('email', formData.email, 'required|email')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-clt">
+                <textarea
+                  name="comentary"
+                  placeholder="Comentarios / Consulta*"
+                  value={formData.comentary}
+                  onChange={handleChange}
+                  style={{ color: '#000' }}
+                ></textarea>
+                <span className="error-message">
+                  {simpleValidator.current.message('comentary', formData.comentary, 'required|min:10|max:500')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12">
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="acceptedPrivacy"
+                  name="acceptedPrivacy"
+                  checked={formData.acceptedPrivacy}
+                  onChange={handleChange}
+                />
+                <label className="form-check-label" htmlFor="acceptedPrivacy">
+                  Acepto el{' '}
+                  <a
+                    href="https://drive.google.com/file/d/1wa8vCbADtDX_1QTV4CGDYam73scUGrQI/view"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#2e9e3b', textDecoration: 'underline' }}
+                  >
+                    Aviso de Privacidad
+                  </a>{' '}
+                </label>
+                <span className="error-message">
+                  {simpleValidator.current.message('acceptedPrivacy', formData.acceptedPrivacy, 'accepted')}
+                </span>
+              </div>
+            </div>
+
+            <div className="col-lg-12 text-center" style={{ marginTop: '2rem' }}>
+              <button
+                type="submit"
+                style={buttonStyle}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
               >
-                Aviso de Privacidad
-              </a>{' '}
-              
-            </label>
-            {simpleValidator.current.message('acceptedPrivacy', formData.acceptedPrivacy, 'accepted')}
+                <i className="fal fa-paper-plane"></i> Enviar Mensaje
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="col-lg-12 text-center" style={{ marginTop: '1.5rem' }}>
-          <button
-            type="submit"
-            style={buttonStyle}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-          >
-            <i className="fal fa-paper-plane"></i> Enviar Mensaje
-          </button>
-        </div>
+        </form>
       </div>
-    </form>
+    </>
   );
 };
 

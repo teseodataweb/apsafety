@@ -57,7 +57,7 @@ const ServiceSinglePage = () => {
             <div className="col-lg-6 mb-4 mb-lg-0">
               <img
                 src={serviceDetails.sSImg}
-                alt="Laboratorio AP Safety"
+                alt="Personal Y equipo de AP SAFETY"
                 style={{ width: '100%', height: 'auto', borderRadius: '12px' }}
               />
             </div>
@@ -94,7 +94,7 @@ const ServiceSinglePage = () => {
               <div>
                 <img
                   src={FiltracionImg}
-                  alt="Filtración"
+                  alt="Personal Y equipo de AP SAFETY"
                   style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
                 />
                 <h4>Pruebas de Eficiencia de Filtración</h4>
@@ -107,7 +107,7 @@ const ServiceSinglePage = () => {
               <div>
                 <img
                   src={AjusteImg}
-                  alt="Ajuste"
+                  alt="Logo de AP SAFETY"
                   style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
                 />
                 <h4>Pruebas de Ajuste Cualitativo y Cuantitativo</h4>
@@ -120,7 +120,7 @@ const ServiceSinglePage = () => {
               <div>
                 <img
                   src={ResistenciaImg}
-                  alt="Resistencia"
+                  alt="Personal Y equipo de AP SAFETY"
                   style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
                 />
                 <h4>Pruebas de Resistencia a la Inhalación y Exhalación</h4>
@@ -133,7 +133,7 @@ const ServiceSinglePage = () => {
               <div>
                 <img
                   src={FlamabilidadImg}
-                  alt="Flamabilidad"
+                  alt="Personal Y equipo de AP SAFETY"
                   style={{ width: '300px', height: '300px', objectFit: 'cover', borderRadius: '8px', margin: '0 auto 1rem' }}
                 />
                 <h4>Pruebas de Flamabilidad</h4>

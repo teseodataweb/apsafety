@@ -7,7 +7,6 @@ import FormularioC2 from '../ContactFrom/FormularioC2';
 import FormularioC3 from '../ContactFrom/FormularioC3';
 import FormularioC4 from '../ContactFrom/FormularioC4';
 import './contacto.css';
-import FooterS4 from '../footerS3/footerS4';
 import Footer from '../../components/footer/Footer';
 
 
@@ -28,7 +27,6 @@ const Contacto = () =>{
                     </Helmet>
                     <Navbar hclass={'header-section'} />
                     
-                                {/* Sección principal de asesoría */}
                                 <section className="about-section section-padding">
                                     <div className="container">
                                         <div className="row">

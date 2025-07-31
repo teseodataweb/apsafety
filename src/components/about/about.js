@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Abimg6 from '../../img/about/descarga-removebg-preview.png';
 import Abimg7 from '../../img/about/descarga__1_-removebg-preview.png';
 import Abimg8 from '../../img/about/E-respirador-desechable-removebg-preview.png';
@@ -25,7 +26,7 @@ const About = () => {
   };
 
   const handleMouseOver = (e) => {
-    e.currentTarget.style.backgroundColor = '#36C848'; 
+    e.currentTarget.style.backgroundColor = '#36C848';
   };
 
   const handleMouseOut = (e) => {
@@ -44,14 +45,32 @@ const About = () => {
                 <div className="circle-shape float-bob-y"></div>
                 <div className="cap-shape float-bob-x"></div>
                 <div className="shape-img"></div>
+
                 <div className="about-image-1 wow fadeInUp" style={{ marginBottom: '20px' }}>
-                  <img src={Abimg6} alt="img" className="about-img-control" style={{ width: '350px' }} />
+                  <img
+                    src={Abimg6}
+                    alt="Mascarilla desechable AP SAFETY "
+                    className="about-img-control"
+                    style={{ width: '350px' }}
+                  />
                 </div>
+
                 <div className="about-image-2" style={{ marginBottom: '20px' }}>
-                  <img src={Abimg7} alt="img" className="about-img-control" style={{ width: '350px' }} />
+                  <img
+                    src={Abimg7}
+                    alt="Mascarilla de AP Safety"
+                    className="about-img-control"
+                    style={{ width: '350px' }}
+                  />
                 </div>
+
                 <div className="about-image-3">
-                  <img src={Abimg8} alt="img" className="about-img-control" style={{ width: '350px' }} />
+                  <img
+                    src={Abimg8}
+                    alt="Respirador desechable certificado AP SAFETY "
+                    className="about-img-control"
+                    style={{ width: '350px' }}
+                  />
                 </div>
               </div>
             </div>

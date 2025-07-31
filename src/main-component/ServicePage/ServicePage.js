@@ -7,11 +7,10 @@ import VisionImg from '../../img/descarga (10).png';
 import ValoresImg from '../../img/descarga (7).png';
 import historiaImg from '../../img/descarga (12).png';
 
-const NosotrosPage = () => {
+const ServicePage= () => {
   return (
     <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: '#000' }}>
       <Navbar />
-
 
       <section
         style={{
@@ -22,7 +21,7 @@ const NosotrosPage = () => {
           color: '#fff',
           textAlign: 'center',
           fontWeight: '500',
-          fontSize: '3rem',
+          fontSize: 'clamp(2rem, 5vw, 3rem)', 
           userSelect: 'none',
         }}
       >
@@ -49,8 +48,8 @@ const NosotrosPage = () => {
         >
           <div
             style={{
-              flex: '0 0 400px',
-              maxWidth: '100%',
+              flex: '1 1 400px',
+              minWidth: '300px',
               borderRadius: '16px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               overflow: 'hidden',
@@ -58,7 +57,7 @@ const NosotrosPage = () => {
           >
             <img
               src={BannerBajoHero}
-              alt="Equipo AP Safety"
+              alt="Equipo de trabajo de AP Mascarillas colaborando"
               style={{
                 width: '100%',
                 height: '100%',
@@ -70,36 +69,34 @@ const NosotrosPage = () => {
 
           <div
             style={{
-              flex: '1 1 0',
-              fontSize: '1.125rem',
+              flex: '2 1 500px',
+              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)', 
               lineHeight: '1.6',
               textAlign: 'justify',
               letterSpacing: '0.02em',
               color: '#000',
               display: 'flex',
               alignItems: 'center',
-              paddingRight: '0.5rem',
-              minWidth: 0,
+              padding: '0 0.5rem',
             }}
           >
             <p style={{ margin: 0 }}>
-                AP MASCARILLAS comenzó sus actividades en el año 1990, como una alternativa para el consumidor mexicano 
-                en lo referente a equipo de protección respiratoria para la industria. Al pasar de los años nuestra 
-                empresa ha evolucionado conforme a las exigencias del mercado, siempre ofreciéndoles a todos la atención
-                que se merecen, ya que por nuestros clientes y consumidores existimos y seguimos adelante cumpliendo
-                nuestros objetivos. La exigencia de la Industria Mexicana al necesitar unificación de proveedores
-                nos obliga a expandirnos y abarcar otro tipo de protección Industrial para comercializar. Es en el 
-                año 2000 cuando entramos de lleno a comercializar todo lo referente a equipo de protección industrial. 
-                Todo lo logrado ha sido posible gracias a los esfuerzos hechos por el señor Arq. Eduardo G. Soto 
-                Barranco a quien le debemos reconocimiento y conocimiento de nuestra organización en el ámbito.
-                AP MASCARILLAS antepone la calidad en todos sus productos y la atención al cliente como su eje 
-                fundamental. Nuestros productos son soluciones para su empresa o negocio y contamos con el equipo 
-                de trabajo calificado y dedicado a atenderlo de la mejor manera.
+              AP MASCARILLAS comenzó sus actividades en el año 1990, como una alternativa para el consumidor mexicano 
+              en lo referente a equipo de protección respiratoria para la industria. Al pasar de los años nuestra 
+              empresa ha evolucionado conforme a las exigencias del mercado, siempre ofreciéndoles a todos la atención
+              que se merecen, ya que por nuestros clientes y consumidores existimos y seguimos adelante cumpliendo
+              nuestros objetivos. La exigencia de la Industria Mexicana al necesitar unificación de proveedores
+              nos obliga a expandirnos y abarcar otro tipo de protección Industrial para comercializar. Es en el 
+              año 2000 cuando entramos de lleno a comercializar todo lo referente a equipo de protección industrial. 
+              Todo lo logrado ha sido posible gracias a los esfuerzos hechos por el señor Arq. Eduardo G. Soto 
+              Barranco a quien le debemos reconocimiento y conocimiento de nuestra organización en el ámbito.
+              AP MASCARILLAS antepone la calidad en todos sus productos y la atención al cliente como su eje 
+              fundamental. Nuestros productos son soluciones para su empresa o negocio y contamos con el equipo 
+              de trabajo calificado y dedicado a atenderlo de la mejor manera.
             </p>
           </div>
         </div>
       </section>
-
 
       <section 
         style={{ 
@@ -109,7 +106,15 @@ const NosotrosPage = () => {
           justifyContent: 'center' 
         }}
       >
-        <div style={{ maxWidth: '1200px', width: '100%', display: 'grid', gap: '4rem' }}>
+        <div style={{ 
+          maxWidth: '1200px', 
+          width: '100%', 
+          display: 'grid', 
+          gap: '4rem',
+          '@media (max-width: 768px)': {
+            gap: '2rem'
+          }
+        }}>
 
           <div 
             style={{ 
@@ -119,11 +124,22 @@ const NosotrosPage = () => {
               alignItems: 'stretch' 
             }}
           >
-            <div style={{ flex: '1 1 300px', maxWidth: '400px' }}>
+            <div style={{ 
+              flex: '1 1 300px', 
+              minWidth: '250px',
+              maxWidth: '100%',
+              order: 1
+            }}>
               <img
                 src={MisionImg}
-                alt="Misión"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
+                alt="Personal de AP SAFETY"
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover', 
+                  borderRadius: '12px',
+                  minHeight: '250px'
+                }}
               />
             </div>
             <div 
@@ -135,13 +151,14 @@ const NosotrosPage = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                minWidth: 0,
+                minWidth: '250px',
                 color: '#000',
+                order: 2
               }}
             >
               <h2 
                 style={{
-                  fontSize: '2rem',
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
                   fontWeight: 'bold',
                   color: '#000',
                   marginBottom: '1rem',
@@ -152,7 +169,11 @@ const NosotrosPage = () => {
                 Misión y Visión
               </h2>
               <hr style={{ border: 'none', borderTop: '1px solid #ccc', margin: '1rem 0' }} />
-              <p style={{ lineHeight: '1.6', color: '#000' }}>
+              <p style={{ 
+                lineHeight: '1.6', 
+                color: '#000',
+                fontSize: 'clamp(0.9rem, 1.1vw, 1rem)'
+              }}>
                 <strong>MISIÓN:</strong><br />
                 Cuidar la salud y seguridad de la población fabricando equipos de protección personal y equipos de seguridad industrial.<br /><br />
                 <strong>VISIÓN:</strong><br />
@@ -166,15 +187,28 @@ const NosotrosPage = () => {
               display: 'flex', 
               flexWrap: 'wrap', 
               gap: '2rem', 
-              alignItems: 'stretch', 
-              flexDirection: 'row-reverse' 
+              alignItems: 'stretch',
             }}
           >
-            <div style={{ flex: '1 1 300px', maxWidth: '400px' }}>
+            <div style={{ 
+              flex: '1 1 300px', 
+              minWidth: '250px',
+              maxWidth: '100%',
+              order: 2,
+              '@media (max-width: 768px)': {
+                order: 1
+              }
+            }}>
               <img
                 src={VisionImg}
-                alt="Política"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
+                alt=""
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover', 
+                  borderRadius: '12px',
+                  minHeight: '250px'
+                }}
               />
             </div>
             <div 
@@ -186,13 +220,17 @@ const NosotrosPage = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                minWidth: 0,
+                minWidth: '250px',
                 color: '#000',
+                order: 1,
+                '@media (max-width: 768px)': {
+                  order: 2
+                }
               }}
             >
               <h2 
                 style={{
-                  fontSize: '2rem',
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
                   fontWeight: 'bold',
                   color: '#000',
                   marginBottom: '1rem',
@@ -203,13 +241,29 @@ const NosotrosPage = () => {
                 Política y Objetivos de Calidad
               </h2>
               <hr style={{ border: 'none', borderTop: '1px solid #ccc', margin: '1rem 0' }} />
-              <p style={{ fontSize: '1rem', color: '#000', lineHeight: '1.6', marginBottom: '1rem' }}>
+              <p style={{ 
+                fontSize: 'clamp(0.9rem, 1.1vw, 1rem)', 
+                color: '#000', 
+                lineHeight: '1.6', 
+                marginBottom: '1rem' 
+              }}>
                 AP Mascarillas S.A de C.V. nos dedicamos a la fabricación de equipos de protección respiratoria y comercialización 
                 de equipo de protección personal, con el desarrollo de nuevos proyectos gracias a nuestras competencias, orientados
                 a la mejora continua para mantener la satisfacción de nuestros clientes, cumpliendo con los requisitos legales aplicables.
               </p>
-              <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Nuestros 5 objetivos de calidad:</p>
-              <ol style={{ paddingLeft: '1.5rem', color: '#000', lineHeight: '1.8' }}>
+              <p style={{ 
+                fontWeight: 'bold', 
+                marginBottom: '0.5rem',
+                fontSize: 'clamp(0.9rem, 1.1vw, 1rem)'
+              }}>
+                Nuestros 5 objetivos de calidad:
+              </p>
+              <ol style={{ 
+                paddingLeft: '1.5rem', 
+                color: '#000', 
+                lineHeight: '1.8',
+                fontSize: 'clamp(0.9rem, 1.1vw, 1rem)'
+              }}>
                 <li>Garantizar la calidad y suficiencia de materiales a los clientes.</li>
                 <li>Garantizar los niveles en stock de materia prima y producto terminado.</li>
                 <li>Mantener Talento Humano.</li>
@@ -219,7 +273,6 @@ const NosotrosPage = () => {
             </div>
           </div>
 
-          {/* Valores */}
           <div 
             style={{ 
               display: 'flex', 
@@ -228,11 +281,21 @@ const NosotrosPage = () => {
               alignItems: 'stretch' 
             }}
           >
-            <div style={{ flex: '1 1 300px', maxWidth: '400px' }}>
+            <div style={{ 
+              flex: '1 1 300px', 
+              minWidth: '250px',
+              maxWidth: '100%'
+            }}>
               <img
                 src={ValoresImg}
-                alt="Valores"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
+                alt="Personal de AP SAFETY"
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover', 
+                  borderRadius: '12px',
+                  minHeight: '250px'
+                }}
               />
             </div>
             <div 
@@ -244,13 +307,13 @@ const NosotrosPage = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                minWidth: 0,
+                minWidth: '250px',
                 color: '#000',
               }}
             >
               <h2 
                 style={{
-                  fontSize: '2rem',
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
                   fontWeight: 'bold',
                   color: '#000',
                   marginBottom: '1rem',
@@ -261,11 +324,17 @@ const NosotrosPage = () => {
                 Valores
               </h2>
               <hr style={{ border: 'none', borderTop: '1px solid #ccc', margin: '1rem 0' }} />
-              <ul style={{ listStyle: 'none', padding: 0, lineHeight: '1.8', fontSize: '1rem', color: '#000' }}>
-                <li>✔ Innovación</li>
-                <li>✔ Integridad</li>
-                <li>✔ Adaptabilidad</li>
-                <li>✔ Trabajo en equipo</li>
+              <ul style={{ 
+                listStyle: 'none', 
+                padding: 0, 
+                lineHeight: '1.8', 
+                fontSize: 'clamp(0.9rem, 1.1vw, 1rem)', 
+                color: '#000' 
+              }}>
+                <li>✔ Innovación - Siempre buscando mejorar nuestros productos y servicios</li>
+                <li>✔ Integridad - Actuando con honestidad y transparencia</li>
+                <li>✔ Adaptabilidad - Respondiendo a las necesidades cambiantes del mercado</li>
+                <li>✔ Trabajo en equipo - Colaborando para lograr objetivos comunes</li>
               </ul>
             </div>
           </div>
@@ -280,7 +349,13 @@ const NosotrosPage = () => {
           textAlign: 'center',
         }}
       >
-        <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+        <div style={{ 
+          maxWidth: '300px', 
+          margin: '0 auto',
+          '@media (max-width: 480px)': {
+            maxWidth: '250px'
+          } 
+        }}>
           <a 
             href="https://drive.google.com/file/d/1wa8vCbADtDX_1QTV4CGDYam73scUGrQI/view"  
             target="_blank" 
@@ -289,7 +364,7 @@ const NosotrosPage = () => {
           >
             <img 
               src={historiaImg} 
-              alt="Nuestra Historia" 
+              alt="Enlace para descargar el Aviso de Privacidad de AP Mascarillas" 
               style={{ 
                 maxWidth: '100%', 
                 height: 'auto', 
@@ -299,7 +374,11 @@ const NosotrosPage = () => {
               }} 
             />
           </a>
-          <p style={{ marginTop: '1rem', fontSize: '1.1rem', color: '#000' }}>
+          <p style={{ 
+            marginTop: '1rem', 
+            fontSize: 'clamp(0.9rem, 1.1vw, 1.1rem)', 
+            color: '#000' 
+          }}>
             Descarga nuestro AVISO DE PRIVACIDAD
           </p>
         </div>
@@ -310,4 +389,4 @@ const NosotrosPage = () => {
   );
 };
 
-export default NosotrosPage;
+export default ServicePage;

@@ -36,6 +36,22 @@ const About2 = (props) => {
           content: none !important;
           background: none !important;
         }
+
+        @media screen and (max-width: 768px) {
+          .about-wrapper-2 .row {
+            flex-direction: column;
+            text-align: center;
+          }
+
+          .about-wrapper-2 .col-lg-6 {
+            width: 100%;
+          }
+
+          .about-content ul {
+            padding-left: 1.5rem;
+            text-align: left;
+          }
+        }
       `}</style>
 
       <section className={"" + props.hclass}>
@@ -50,9 +66,9 @@ const About2 = (props) => {
                   >
                     <img
                       src={abImg}
-                      alt="img"
+                      alt="Persona con equipo de protección de AP SAFETY"
                       style={{
-                        maxWidth: '70%',
+                        maxWidth: '100%',
                         height: 'auto',
                         borderRadius: '12px',
                       }}
@@ -60,6 +76,7 @@ const About2 = (props) => {
                   </div>
                 </div>
               </div>
+
               <div className="col-lg-6">
                 <div className="about-content">
                   <div className="section-title">
@@ -88,6 +105,7 @@ const About2 = (props) => {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

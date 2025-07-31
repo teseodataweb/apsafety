@@ -60,7 +60,11 @@ const ServiceSection = () => {
             onMouseLeave={() => setHover1(false)}
             style={{ textDecoration: 'none', textAlign: 'center' }}
           >
-            <img src={TiendaImg1} alt="Tienda Virtual" style={imageStyle} />
+            <img
+              src={TiendaImg1}
+              alt="Logotipo de la tienda en línea oficial de AP SAFETY"
+              style={imageStyle}
+            />
             <p style={getStyle(hover1)}>Tienda en línea</p>
           </a>
 
@@ -73,7 +77,11 @@ const ServiceSection = () => {
             onMouseLeave={() => setHover2(false)}
             style={{ textDecoration: 'none', textAlign: 'center' }}
           >
-            <img src={TiendaImg2} alt="Amazon" style={imageStyle} />
+            <img
+              src={TiendaImg2}
+              alt="Perfil de AP MASARILLAS en MercadoLibre"
+              style={imageStyle}
+            />
             <p style={getStyle(hover2)}>Compra en Amazon</p>
           </a>
         </div>
