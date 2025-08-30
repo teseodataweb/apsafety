@@ -74,7 +74,7 @@ const ServiceSection = () => {
             style={{ textDecoration: 'none', textAlign: 'center' }}
           >
             <img src={TiendaImg2} alt="Amazon" style={imageStyle} />
-            <p style={getStyle(hover2)}>Compra en Amazon</p>
+            <p style={getStyle(hover2)}>Compra en Mercado Libre</p>
           </a>
         </div>
       </div>

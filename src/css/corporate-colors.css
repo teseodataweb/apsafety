@@ -1,0 +1,158 @@
+/* AP Safety Corporate Color Palette */
+
+:root {
+  /* Primary Corporate Colors */
+  --ap-green-dark: #004434;
+  --ap-green-medium: #54AF48;
+  --ap-green-light: #7FBF6F;
+  --ap-green-extra-light: #E8F5E6;
+  
+  /* Neutral Colors */
+  --ap-white: #FFFFFF;
+  --ap-gray-light: #F8F9FA;
+  --ap-gray-medium: #E9ECEF;
+  --ap-gray: #6C757D;
+  --ap-gray-dark: #495057;
+  --ap-text-primary: #2C3E50;
+  --ap-text-secondary: #5A6C7D;
+  
+  /* Supporting Colors */
+  --ap-success: var(--ap-green-medium);
+  --ap-warning: #E67E22;
+  --ap-danger: #E74C3C;
+  --ap-info: var(--ap-green-dark);
+  
+  /* Shadows and Effects */
+  --ap-shadow-light: 0 2px 4px rgba(0, 68, 52, 0.1);
+  --ap-shadow-medium: 0 4px 15px rgba(0, 68, 52, 0.15);
+  --ap-shadow-strong: 0 8px 25px rgba(0, 68, 52, 0.2);
+  --ap-shadow-green: 0 4px 15px rgba(84, 175, 72, 0.3);
+  
+  /* Gradients */
+  --ap-gradient-primary: linear-gradient(135deg, var(--ap-green-dark), var(--ap-green-medium));
+  --ap-gradient-light: linear-gradient(135deg, var(--ap-gray-light), var(--ap-gray-medium));
+  
+  /* Typography */
+  --ap-font-weight-light: 300;
+  --ap-font-weight-normal: 400;
+  --ap-font-weight-medium: 500;
+  --ap-font-weight-bold: 700;
+  
+  /* Transitions */
+  --ap-transition: all 0.3s ease;
+  --ap-transition-fast: all 0.2s ease;
+  --ap-transition-slow: all 0.4s ease;
+}
+
+/* Global overrides for corporate colors */
+.btn-primary,
+.btn-ap-primary {
+  background: var(--ap-gradient-primary);
+  border: none;
+  color: var(--ap-white);
+  box-shadow: var(--ap-shadow-green);
+  font-weight: var(--ap-font-weight-medium);
+  transition: var(--ap-transition);
+}
+
+.btn-primary:hover,
+.btn-ap-primary:hover {
+  background: var(--ap-green-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--ap-shadow-strong);
+}
+
+.btn-secondary,
+.btn-ap-secondary {
+  background: transparent;
+  border: 2px solid var(--ap-green-medium);
+  color: var(--ap-green-medium);
+  font-weight: var(--ap-font-weight-medium);
+  transition: var(--ap-transition);
+}
+
+.btn-secondary:hover,
+.btn-ap-secondary:hover {
+  background: var(--ap-green-medium);
+  color: var(--ap-white);
+}
+
+.text-primary {
+  color: var(--ap-green-dark) !important;
+}
+
+.text-success {
+  color: var(--ap-green-medium) !important;
+}
+
+.bg-primary {
+  background-color: var(--ap-green-dark) !important;
+}
+
+.bg-success {
+  background-color: var(--ap-green-medium) !important;
+}
+
+/* Corporate card styles */
+.card-ap {
+  background: var(--ap-white);
+  border-radius: 15px;
+  box-shadow: var(--ap-shadow-light);
+  border: 1px solid var(--ap-gray-medium);
+  transition: var(--ap-transition);
+}
+
+.card-ap:hover {
+  box-shadow: var(--ap-shadow-medium);
+  transform: translateY(-3px);
+}
+
+/* Corporate section backgrounds */
+.section-ap-primary {
+  background: var(--ap-green-dark);
+  color: var(--ap-white);
+}
+
+.section-ap-secondary {
+  background: var(--ap-gray-light);
+  color: var(--ap-text-primary);
+}
+
+.section-ap-accent {
+  background: var(--ap-green-extra-light);
+  color: var(--ap-text-primary);
+}
+
+/* Typography adjustments */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ap-text-primary);
+  font-weight: var(--ap-font-weight-medium);
+}
+
+.font-light {
+  font-weight: var(--ap-font-weight-light);
+}
+
+.font-normal {
+  font-weight: var(--ap-font-weight-normal);
+}
+
+.font-medium {
+  font-weight: var(--ap-font-weight-medium);
+}
+
+/* Links */
+a {
+  color: var(--ap-green-medium);
+  transition: var(--ap-transition-fast);
+}
+
+a:hover {
+  color: var(--ap-green-dark);
+}
+
+/* Form elements */
+.form-control:focus {
+  border-color: var(--ap-green-medium);
+  box-shadow: 0 0 0 0.2rem rgba(84, 175, 72, 0.25);
+}
