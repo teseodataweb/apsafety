@@ -42,7 +42,7 @@ const StoreSection = () => {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".2s">
               <div className="feature-box-items-1 text-center">
                 <div className="icon">
-                  <img src={SS1} alt="img" style={iconStyle} />
+                  <img src={SS1} alt="Ícono de casco de seguridad certificado" style={iconStyle} />
                 </div>
                 <div className="content">
                   <h3>Cascos de seguridad certificados</h3>
@@ -53,7 +53,7 @@ const StoreSection = () => {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".4s">
               <div className="feature-box-items-1 text-center">
                 <div className="icon bg-2">
-                  <img src={SS2} alt="img" style={iconStyle} />
+                  <img src={SS2} alt="Ícono de mascarilla N95 y respirador reutilizable" style={iconStyle} />
                 </div>
                 <div className="content">
                   <h3>Mascarillas N95 y respiradores reutilizables</h3>
@@ -64,7 +64,7 @@ const StoreSection = () => {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".6s">
               <div className="feature-box-items-1 text-center">
                 <div className="icon bg-3">
-                  <img src={SS3} alt="img" style={iconStyle} />
+                  <img src={SS3} alt="Ícono de tapones auditivos y barriquejos" style={iconStyle} />
                 </div>
                 <div className="content">
                   <h3>Tapones auditivos y barriquejos</h3>
@@ -75,7 +75,7 @@ const StoreSection = () => {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay=".8s">
               <div className="feature-box-items-1 text-center">
                 <div className="icon bg-4">
-                  <img src={SS4} alt="img" style={iconStyle} />
+                  <img src={SS4} alt="Ícono de guantes anticorte, aluminizados y dieléctricos" style={iconStyle} />
                 </div>
                 <div className="content">
                   <h3>Guantes anticorte, aluminizados y dieléctricos</h3>
@@ -86,7 +86,7 @@ const StoreSection = () => {
             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="1s">
               <div className="feature-box-items-1 text-center">
                 <div className="icon bg-4">
-                  <img src={SS5} alt="img" style={iconStyle} />
+                  <img src={SS5} alt="Ícono de protección visual y facial" style={iconStyle} />
                 </div>
                 <div className="content">
                   <h3>Protección visual y facial</h3>

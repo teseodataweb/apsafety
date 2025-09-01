@@ -57,6 +57,10 @@ const slideIn = keyframes`
   }
 `;
 
+
+
+
+
 const pulse = keyframes`
   0% { transform: scale(1);}
   50% { transform: scale(1.1);}
@@ -85,6 +89,10 @@ const glow = keyframes`
   50% { box-shadow: 0 0 10px rgba(4, 15, 28, 0.8); }
   100% { box-shadow: 0 0 5px rgba(4, 15, 28, 0.5); }
 `;
+
+
+
+
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -686,9 +694,16 @@ const CardsGridContainer = styled.div`
   }
 `;
 
-// ==================== MAIN COMPONENT ====================
+const SectionTitle = styled.h2`
+  color: #333;
+  font-weight: 600;
+  
+  @media (max-width: 768px) {
+    margin-top: 100px;  
+  }
+  `;
+
 const Admin = (props) => {
-  // State
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -705,7 +720,6 @@ const Admin = (props) => {
 
   const navigate = useNavigate();
 
-  // Memoized user type display
   const getUserTypeDisplay = useCallback((userType) => {
     switch(userType) {
       case USER_TYPES.ADMIN:
@@ -717,7 +731,6 @@ const Admin = (props) => {
     }
   }, []);
 
-  // Memoized user icon
   const getUserIcon = useCallback((userType) => {
     switch(userType) {
       case USER_TYPES.ADMIN:
@@ -729,7 +742,6 @@ const Admin = (props) => {
     }
   }, []);
 
-  // Debounced search
   const debouncedSearch = useMemo(() => debounce((term) => {
     if (!term) {
       setFilteredUsers(users);
@@ -746,7 +758,6 @@ const Admin = (props) => {
     setFilteredUsers(filtered);
   }, 300), [users, getUserTypeDisplay]);
 
-  // Load users from Firestore
   const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
@@ -768,13 +779,11 @@ const Admin = (props) => {
     }
   }, [sortBy, sortOrder]);
 
-  // Handle refresh
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
     loadUsers();
   }, [loadUsers]);
 
-  // Handle search term change
   const handleSearchChange = useCallback((e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -974,7 +983,11 @@ const Admin = (props) => {
     <section className={"" + props.hclass} style={{ backgroundImage: `url(${props.Bg})`, padding: '20px 0' }}>
       <div className="container">
         <div className="section-title-area">
-          <h2 className="wow fadeInUp" data-wow-delay=".3s">Administración de Usuarios</h2>
+
+
+        <SectionTitle className="wow fadeInUp" data-wow-delay=".3s">
+  Administración de Usuarios
+</SectionTitle>
         </div>
       </div>
 
@@ -1063,7 +1076,6 @@ const Admin = (props) => {
         </ControlPanel>
       </div>
 
-      {/* Users List */}
       <div className="service-wrapper" style={{ padding: '20px 0', overflow: 'visible' }}>
         {renderUserCards()}
       </div>

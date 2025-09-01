@@ -5,7 +5,7 @@ import { removeFromCart } from "../../store/actions/action";
 import Logo from '../../img/apsafetylogo.png';
 import auth from '../login/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
-import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const Header = (props) => {
     const SubmitHandler = (e) => {
@@ -20,6 +20,7 @@ const Header = (props) => {
     const [isSticky, setIsSticky] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeSubmenu, setActiveSubmenu] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
@@ -45,22 +46,27 @@ const Header = (props) => {
 
     useEffect(() => {
         if (isMobileMenuOpen) {
-            document.body.classList.add('menu-open');
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.classList.remove('menu-open');
+            document.body.style.overflow = '';
+            setActiveSubmenu(null); 
         }
     }, [isMobileMenuOpen]);
 
     useEffect(() => {
         setIsMobileMenuOpen(false);
+        setActiveSubmenu(null);
     }, [location]);
+
+    const toggleSubmenu = (index) => {
+        setActiveSubmenu(activeSubmenu === index ? null : index);
+    };
 
     const isActive = (path) => location.pathname === path;
     const shouldShowLoginButton = !isLoggedIn && location.pathname !== '/login';
 
     return (
         <>
-            {/* Overlay para el menú móvil */}
             <div 
                 className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -76,20 +82,33 @@ const Header = (props) => {
                                 </Link>
                             </div>
 
-                            {/* Menú principal */}
                             <div className={`main-navigation ${isMobileMenuOpen ? 'active' : ''}`}>
                                 <ul className="menu">
-                                    <li>
+                                    <li className="menu-item">
                                         <Link 
                                             to="/home" 
-                                            className={isActive('/home') ? 'active' : ''}
+                                            className={`menu-link ${isActive('/home') ? 'active' : ''}`}
                                             onClick={ClickHandler}
                                         >
                                             Inicio
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Nosotros</Link>
+                                    <li className={`menu-item menu-item-has-children ${activeSubmenu === 0 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger">
+                                            <Link 
+                                                to="#" 
+                                                className={`menu-link ${isActive('/service') ? 'active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    toggleSubmenu(0);
+                                                }}
+                                            >
+                                                Nosotros
+                                            </Link>
+                                            <span className="mobile-only">
+                                                {activeSubmenu === 0 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                            </span>
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -120,17 +139,31 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li className="menu-item">
                                         <Link 
                                             to={isLoggedIn ? "/productos" : "/productosusers"} 
-                                            className={isActive('/productos') || isActive('/productosusers') ? 'active' : ''}
+                                            className={`menu-link ${isActive('/productos') || isActive('/productosusers') ? 'active' : ''}`}
                                             onClick={ClickHandler}
                                         >
                                             Productos
                                         </Link>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Contenido</Link>
+                                    <li className={`menu-item menu-item-has-children ${activeSubmenu === 1 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger">
+                                            <Link 
+                                                to="#" 
+                                                className={`menu-link ${isActive('/checkout') ? 'active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    toggleSubmenu(1);
+                                                }}
+                                            >
+                                                Contenido
+                                            </Link>
+                                            <span className="mobile-only">
+                                                {activeSubmenu === 1 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                            </span>
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link to="/checkout" onClick={ClickHandler}>Videos</Link>
@@ -140,8 +173,22 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
-                                    <li className="menu-item-has-children">
-                                        <Link to="#" onClick={ClickHandler}>Atención al cliente</Link>
+                                    <li className={`menu-item menu-item-has-children ${activeSubmenu === 2 ? 'active' : ''}`}>
+                                        <div className="submenu-trigger">
+                                            <Link 
+                                                to="#" 
+                                                className={`menu-link ${isActive('/contacto') ? 'active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    toggleSubmenu(2);
+                                                }}
+                                            >
+                                                Atención al cliente
+                                            </Link>
+                                            <span className="mobile-only">
+                                                {activeSubmenu === 2 ? <FaChevronUp className="submenu-icon" /> : <FaChevronDown className="submenu-icon" />}
+                                            </span>
+                                        </div>
                                         <ul className="sub-menu">
                                             <li>
                                                 <Link 
@@ -196,6 +243,7 @@ const Header = (props) => {
                                     className="menu-toggle"
                                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                     aria-label="Toggle menu"
+                                    aria-expanded={isMobileMenuOpen}
                                 >
                                     {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                                 </button>
@@ -221,16 +269,22 @@ const Header = (props) => {
 
                 /* Estilos base */
                 * {
-                    box-sizing: border-box;
                     margin: 0;
                     padding: 0;
-                    font-family: 'Montserrat', sans-serif;
+                    box-sizing: border-box;
+                }
+
+                html, body {
+                    width: 100%;
+                    height: 100%;
+                    overflow-x: hidden;
                 }
 
                 .header {
                     position: relative;
                     z-index: 1000;
                     width: 100%;
+                    font-family: 'Montserrat', sans-serif;
                 }
 
                 #header-sticky {
@@ -246,6 +300,7 @@ const Header = (props) => {
                     right: 0;
                     animation: slideDown 0.5s ease;
                     box-shadow: var(--box-shadow);
+                    z-index: 1000;
                 }
 
                 .container {
@@ -261,10 +316,13 @@ const Header = (props) => {
                     align-items: center;
                     padding: 15px 0;
                     position: relative;
+                    height: 80px;
                 }
 
                 .logo img {
                     transition: var(--transition);
+                    height: auto;
+                    max-height: 50px;
                 }
 
                 .logo img:hover {
@@ -275,38 +333,52 @@ const Header = (props) => {
                 .main-navigation {
                     flex: 1;
                     margin: 0 30px;
+                    height: 100%;
                 }
 
                 .menu {
                     display: flex;
                     justify-content: center;
+                    align-items: center;
                     list-style: none;
                     margin: 0;
                     padding: 0;
+                    height: 100%;
                 }
 
-                .menu > li {
+                .menu-item {
                     position: relative;
                     margin: 0 12px;
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
                 }
 
-                .menu > li > a {
+                .menu-link {
                     color: var(--text-color);
                     text-decoration: none;
                     font-weight: 500;
                     font-size: 16px;
                     padding: 10px 15px;
-                    display: block;
+                    display: inline-flex;
+                    align-items: center;
                     transition: var(--transition);
                     position: relative;
+                    height: 100%;
                 }
 
-                .menu > li > a:hover,
-                .menu > li > a.active {
+                .menu-item-has-children .submenu-trigger {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                }
+
+                .menu-link:hover,
+                .menu-link.active {
                     color: var(--primary-color);
                 }
 
-                .menu > li > a.active:after {
+                .menu-link.active:after {
                     content: '';
                     position: absolute;
                     bottom: 0;
@@ -346,6 +418,7 @@ const Header = (props) => {
                     color: var(--text-color);
                     text-decoration: none;
                     transition: var(--transition);
+                    white-space: nowrap;
                 }
 
                 .sub-menu li a:hover {
@@ -415,6 +488,22 @@ const Header = (props) => {
                     visibility: visible;
                 }
 
+                /* Submenu triggers */
+                .submenu-trigger {
+                    position: relative;
+                }
+
+                .submenu-icon {
+                    margin-left: 8px;
+                    font-size: 14px;
+                    transition: var(--transition);
+                }
+
+                /* Mobile only elements */
+                .mobile-only {
+                    display: none;
+                }
+
                 /* Responsive - Tablet y Mobile */
                 @media (max-width: 991px) {
                     .menu-toggle {
@@ -429,8 +518,8 @@ const Header = (props) => {
                         height: 100vh;
                         background: var(--bg-color);
                         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                        transition: var(--transition);
-                        z-index: 1000;
+                        transition: right 0.3s ease;
+                        z-index: 999;
                         margin: 0;
                         padding: 80px 20px 20px;
                         overflow-y: auto;
@@ -443,15 +532,26 @@ const Header = (props) => {
                     .menu {
                         flex-direction: column;
                         padding: 0;
+                        height: auto;
                     }
 
-                    .menu > li {
+                    .menu-item {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        width: 100%;
+                        height: auto;
                         margin: 0;
                         border-bottom: 1px solid #eee;
                     }
 
-                    .menu > li > a {
+                    .menu-item-has-children .submenu-trigger {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
+
+                    .menu-link {
                         padding: 15px 0;
+                        width: 100%;
                     }
 
                     .sub-menu {
@@ -460,15 +560,17 @@ const Header = (props) => {
                         opacity: 1;
                         visibility: visible;
                         transform: none;
-                        display: none;
-                        padding-left: 20px;
+                        max-height: 0;
+                        overflow: hidden;
+                        padding-left: 15px;
                         background: transparent;
                         width: 100%;
-                        animation: none;
+                        transition: max-height 0.3s ease;
                     }
 
                     .menu-item-has-children.active .sub-menu {
-                        display: block;
+                        max-height: 500px;
+                        padding: 0 0 10px 15px;
                     }
 
                     .login-button span {
@@ -484,11 +586,23 @@ const Header = (props) => {
                         padding: 10px 15px;
                         margin-right: 0;
                     }
+
+                    .mobile-only {
+                        display: inline-block;
+                    }
                 }
 
                 @media (max-width: 767px) {
                     .header-actions {
                         gap: 5px;
+                    }
+
+                    .header-content {
+                        height: 70px;
+                    }
+
+                    .logo img {
+                        max-height: 40px;
                     }
                 }
 
@@ -502,12 +616,6 @@ const Header = (props) => {
                 @keyframes slideDown {
                     from { transform: translateY(-100%); }
                     to { transform: translateY(0); }
-                }
-            `}</style>
-
-            <style jsx global>{`
-                body.menu-open {
-                    overflow: hidden;
                 }
             `}</style>
         </>

@@ -15,7 +15,7 @@ const MarqueeSection = (props) => {
       >
         <img
           src={MS1}
-          alt="marquee"
+          alt="Logotipo de AP SAFETY en sección de marcas asociadas"
           style={{
             maxWidth: '100%',
             height: 'auto',
