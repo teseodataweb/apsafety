@@ -3,7 +3,7 @@ import './tienda.css';
 import TiendaImg1 from '../../img/descarga.png'; 
 import TiendaImg2 from '../../img/descarga (1).png';       
 
-const SServiceSection = () => {
+const ServiceSection = () => {
   const [hover1, setHover1] = useState(false);
   const [hover2, setHover2] = useState(false);
 
