@@ -3,7 +3,7 @@ import './tienda.css';
 import TiendaImg1 from '../../img/descarga.png'; 
 import TiendaImg2 from '../../img/descarga (1).png';       
 
-const ServiceSection = () => {
+const SServiceSection = () => {
   const [hover1, setHover1] = useState(false);
   const [hover2, setHover2] = useState(false);
 
@@ -77,17 +77,8 @@ const ServiceSection = () => {
             onMouseLeave={() => setHover2(false)}
             style={{ textDecoration: 'none', textAlign: 'center' }}
           >
-<<<<<<< HEAD
             <img src={TiendaImg2} alt="Amazon" style={imageStyle} />
             <p style={getStyle(hover2)}>Compra en Mercado Libre</p>
-=======
-            <img
-              src={TiendaImg2}
-              alt="Perfil de AP MASARILLAS en MercadoLibre"
-              style={imageStyle}
-            />
-            <p style={getStyle(hover2)}>Compra en Amazon</p>
->>>>>>> 13dd6ac4d04aa584d3ed7f6c1610989f04eeb7ed
           </a>
         </div>
       </div>
